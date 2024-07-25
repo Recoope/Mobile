@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ImageView;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -18,13 +17,13 @@ public class SplashScreen extends AppCompatActivity {
         handle.postDelayed(new Runnable() {
             @Override
             public void run() {
-                proximaTela();}
+                nextScreen();}
         }, 5000);
 
     }
 
-    public void proximaTela(){
-        Intent intent = new Intent(SplashScreen.this, TelaEntrada.class);
+    public void nextScreen(){
+        Intent intent = new Intent(SplashScreen.this, StartScreen.class);
         startActivity(intent);
         finish();
     }
