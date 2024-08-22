@@ -1,31 +1,37 @@
-package com.example.recoope_mobile;
+package com.example.recoope_mobile.models;
 
-import java.time.Instant;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Company {
 
+    @JsonProperty(value = "cnpjEmpresa")
     private String cnpj;
+    @JsonProperty(value = "nomeEmpresa")
     private String name;
+    @JsonProperty(value = "emailEmpresa")
     private String email;
+    @JsonProperty(value = "senhaEmpresa")
+
     private String password;
+    @JsonProperty(value = "telefoneEmpresa")
+
     private String phone;
+    @JsonProperty(value = "registroEmpresa")
+
     private String record;
 
-    public Company(String cnpj, String name, String email, String password, String phone) {
+    @JsonProperty(value = "confirmacaoSenha")
+    private String passwordConfirmation;
+
+    public Company(String cnpj, String name, String email, String password, String phone, String passwordConfirmation) {
         this.cnpj = cnpj;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.passwordConfirmation = passwordConfirmation;
         this.phone = phone;
-        this.record = currentDate();
-    }
-
-    public String currentDate(){
-        LocalDate localDate = LocalDate.now();
-        String formattedDate = localDate.toString();
-        return formattedDate;
     }
 
     public String getCnpj() {
@@ -71,7 +77,4 @@ public class Company {
     public String getRecord() {
         return record;
     }
-
-
-
 }

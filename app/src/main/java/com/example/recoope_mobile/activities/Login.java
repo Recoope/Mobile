@@ -1,11 +1,12 @@
-package com.example.recoope_mobile;
+package com.example.recoope_mobile.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+
+import com.example.recoope_mobile.R;
 
 public class Login extends AppCompatActivity {
 
