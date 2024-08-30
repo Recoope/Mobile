@@ -41,4 +41,8 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
+    implementation("com.squareup.okhttp3:logging-interceptor:3.14.0")
+    implementation("org.projectlombok:lombok:1.18.28")// Verifique se há uma versão mais recente
+    annotationProcessor("org.projectlombok:lombok:1.18.28")
+    compileOnly("org.projectlombok:lombok:1.18.28")
 }

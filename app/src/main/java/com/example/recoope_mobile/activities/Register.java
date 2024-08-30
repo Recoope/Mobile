@@ -1,121 +1,214 @@
 package com.example.recoope_mobile.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
+import com.example.recoope_mobile.enums.InvalidFormatRegister;
 import com.example.recoope_mobile.models.Company;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Register extends AppCompatActivity {
 
-    private final String LOG_TAG = "Register";
+    private static final String LOG_TAG = "Register";
 
-    private ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+    private ApiService apiService;
+    private EditText companyNameEt;
+    private EditText companyCNPJEt;
+    private EditText companyEmailEt;
+    private EditText companyPhoneEt;
+    private EditText companyPasswordEt;
+    private EditText companyConfirmationPasswordEt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        apiService = RetrofitClient.getClient().create(ApiService.class);
+
+        companyNameEt = findViewById(R.id.companyName);
+        companyCNPJEt = findViewById(R.id.companyDocument);
+        companyEmailEt = findViewById(R.id.companyEmail);
+        companyPhoneEt = findViewById(R.id.companyPhone);
+        companyPasswordEt = findViewById(R.id.companyPassword);
+        companyConfirmationPasswordEt = findViewById(R.id.companyPasswordConfirmation);
+
+        addTextWatchers();
     }
 
-    public void returnScreen(View view){
+    private void addTextWatchers() {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                resetTextFieldStyles();
+            }
+        };
+
+        companyNameEt.addTextChangedListener(textWatcher);
+        companyCNPJEt.addTextChangedListener(textWatcher);
+        companyEmailEt.addTextChangedListener(textWatcher);
+        companyPhoneEt.addTextChangedListener(textWatcher);
+        companyPasswordEt.addTextChangedListener(textWatcher);
+        companyConfirmationPasswordEt.addTextChangedListener(textWatcher);
+    }
+
+    private void resetTextFieldStyles() {
+        companyNameEt.setTextColor(Color.BLACK);
+        companyCNPJEt.setTextColor(Color.BLACK);
+        companyEmailEt.setTextColor(Color.BLACK);
+        companyPhoneEt.setTextColor(Color.BLACK);
+        companyPasswordEt.setTextColor(Color.BLACK);
+        companyConfirmationPasswordEt.setTextColor(Color.BLACK);
+
+        companyNameEt.setHintTextColor(Color.GRAY);
+        companyCNPJEt.setHintTextColor(Color.GRAY);
+        companyEmailEt.setHintTextColor(Color.GRAY);
+        companyPhoneEt.setHintTextColor(Color.GRAY);
+        companyPasswordEt.setHintTextColor(Color.GRAY);
+        companyConfirmationPasswordEt.setHintTextColor(Color.GRAY);
+    }
+
+    private void setTextFieldError(EditText editText, String hint) {
+        editText.setTextColor(Color.RED);
+        editText.setHintTextColor(Color.RED);
+        editText.setHint(hint);
+    }
+
+    public void returnScreen(View view) {
         Intent intent = new Intent(Register.this, StartScreen.class);
         startActivity(intent);
         finish();
     }
 
-    public void register(View view){
-        EditText companyNameEt = findViewById(R.id.companyName);
-        EditText companyCNPJEt = findViewById(R.id.companyDocument);
-        EditText companyEmailEt = findViewById(R.id.companyEmail);
-        EditText companyPhoneEt = findViewById(R.id.companyPhone);
-        EditText companyPasswordEt = findViewById(R.id.companyPassword);
-        EditText companyConfirmationPasswordEt = findViewById(R.id.companyPasswordConfirmation);
+    public void nextScreen() {
+        Intent intent = new Intent(Register.this, Login.class);
+        startActivity(intent);
+        finish();
+    }
 
+    private void fillLogin(Company company) {
+        Intent intent = new Intent(this, Login.class);
+        intent.putExtra("cnpj", company.getCnpj());
+        intent.putExtra("password", company.getPassword());
+        startActivity(intent);
+    }
+
+    private InvalidFormatRegister verifyReturn(String message) {
+        try {
+            return InvalidFormatRegister.fromType(message);
+        } catch (IllegalArgumentException e) {
+            Log.e(LOG_TAG, "Invalid format: " + message, e);
+            return null;
+        }
+    }
+
+    private void matchInvalidFormat(InvalidFormatRegister invalidFormat) {
+        switch (invalidFormat) {
+            case NAME_MIN:
+            case NAME_MAX:
+                setTextFieldError(companyNameEt, invalidFormat.getType());
+                break;
+            case CNPJ:
+                setTextFieldError(companyCNPJEt, invalidFormat.getType());
+                break;
+            case EMAIL:
+                setTextFieldError(companyEmailEt, invalidFormat.getType());
+                break;
+            case PHONE:
+                setTextFieldError(companyPhoneEt, invalidFormat.getType());
+                break;
+            case PASSWORD:
+                setTextFieldError(companyPasswordEt, invalidFormat.getType());
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void register(View view) {
         String companyName = companyNameEt.getText().toString();
         String companyCNPJ = companyCNPJEt.getText().toString();
         String companyEmail = companyEmailEt.getText().toString();
         String companyPhone = companyPhoneEt.getText().toString();
         String companyPassword = companyPasswordEt.getText().toString();
-        String companyPasswordConfirmation = companyPasswordEt.getText().toString();
+        String companyPasswordConfirmation = companyConfirmationPasswordEt.getText().toString();
 
-        boolean invalidFormat = false;
-
-        if(companyCNPJ.length() != 14){
-            companyCNPJEt.setError("CNPJ com Formato inválido.");
-            invalidFormat = true;
+        if (!companyPassword.equals(companyPasswordConfirmation)) {
+            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_LONG).show();
+            return;
         }
 
-        if(!(companyName.length() > 0) && !(companyName.length() <= 100)){
-            companyNameEt.setError("Nome com tamanho inválido.");
-            invalidFormat = true;
-        }
+        Company company = new Company(companyCNPJ, companyName, companyEmail, companyPassword, companyPhone, companyPasswordConfirmation);
 
-        if(!(companyEmail.length() > 3) && !(companyEmail.length() < 100)){
-            companyEmailEt.setError("E-mail tamanho inválido.");
-            invalidFormat = true;
-        }
+        Call<ResponseBody> call = apiService.createCompany(company);
 
-        if(!(companyEmail.contains("@")) && !(companyEmail.contains("."))){
-            companyEmailEt.setError("E-mail com formato inválido.");
-            invalidFormat = true;
-        }
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        String responseString = response.body().string();
+                        JsonObject jsonResponse = JsonParser.parseString(responseString).getAsJsonObject();
+                        String message = jsonResponse.get("message").getAsString();
+                        InvalidFormatRegister invalidFormat = verifyReturn(message);
 
-        if(!(companyPassword.length() > 6) && !(companyPassword.length() <= 100)){
-            companyPasswordEt.setError("Senha com tamanho inválida.");
-            invalidFormat = true;
-        }
+                        if (invalidFormat != null) {
+                            matchInvalidFormat(invalidFormat);
+                        } else {
+                            fillLogin(company);
+                            nextScreen();
+                        }
 
-        if(!(companyPasswordConfirmation.length() > 6) && !(companyPasswordConfirmation.length() <= 100) && companyPassword == companyPasswordConfirmation){
-            companyPasswordEt.setError("Senha com tamanho inválida.");
-            invalidFormat = true;
-        }
-
-        if(!(companyPhone.length() > 2) && !(companyPhone.length() <= 10)){
-            companyPhoneEt.setError("Senha com tamanho inválida.");
-            invalidFormat = true;
-        }
-
-        if(!invalidFormat){
-            Call<Company> call = apiService.createCompany(new Company(companyCNPJ, companyName, companyEmail, companyPassword, companyPasswordConfirmation, companyPhone));
-
-            call.enqueue(new Callback<Company>() {
-                @Override
-                public void onResponse(Call<Company> call, Response<Company> response) {
-                    Log.d(LOG_TAG, "Reached this place");
-                    if (response.code() >= 200 && response.code() < 300) {
-                        Company company = response.body();
-                        Log.d(LOG_TAG, "Company created successfully: " + company.getName());
-                        // Do something with the company object
-                    } else {
-                        Log.d(LOG_TAG, "Error creating company: " + response.code());
-                        Log.e(LOG_TAG, String.valueOf(response.body()));
-                        // Handle error response
+                    } catch (Exception e) {
+                        Log.e(LOG_TAG, "Error processing response: " + e.getMessage(), e);
+                        Toast.makeText(Register.this, "Error processing response", Toast.LENGTH_LONG).show();
                     }
+                } else {
+                    handleErrorResponse(response);
                 }
+            }
 
-                @Override
-                public void onFailure(Call<Company> call, Throwable t) {
-                    Log.e(LOG_TAG, "Error creating company: " + t.getMessage());
-                    Log.e(LOG_TAG, t.getMessage());
-
-                }
-            });
-
-        }
-
-
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e(LOG_TAG, "Error creating company: " + t.getMessage(), t);
+                Toast.makeText(Register.this, "Error creating company", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
+    private void handleErrorResponse(Response<ResponseBody> response) {
+        try {
+            String responseString = response.errorBody().string();
+            JsonObject jsonResponse = JsonParser.parseString(responseString).getAsJsonObject();
+            String message = jsonResponse.get("message").getAsString();
+            Log.e(LOG_TAG, "Error response: " + message);
+            Toast.makeText(Register.this, "Error: " + message, Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Error processing error response: " + e.getMessage(), e);
+            Toast.makeText(Register.this, "Error processing error response", Toast.LENGTH_LONG).show();
+        }
+    }
 }
