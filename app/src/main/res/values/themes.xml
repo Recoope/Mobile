@@ -5,5 +5,10 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.RecoopeMobile" parent="Base.Theme.RecoopeMobile" />
+    <style name="Theme.RecoopeMobile" parent="Base.Theme.RecoopeMobile">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    <style name="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 </resources>

@@ -33,6 +33,7 @@ public class Login extends AppCompatActivity {
     private EditText documentLogin;
 
     private EditText passwordLogin;
+    private Company company;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +58,10 @@ public class Login extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String cnpj = documentLogin.getText().toString().trim();
                 String password = passwordLogin.getText().toString().trim();
 
                 boolean invalidFormat = false;
-
 
                 if (documentLogin.length() != 14) {
                     documentLogin.setError("CNPJ com Formato inválido.");
@@ -79,10 +78,6 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
-
-
-
-
     }
 
     public void authenticationLogin(String cnpj, String password){
@@ -98,41 +93,30 @@ public class Login extends AppCompatActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    try {
-                        String responseString = response.body().string();
+                try {
+                    String responseString = response.body().string();
+                    JsonObject jsonResponse = JsonParser.parseString(responseString).getAsJsonObject();
+                    String message = jsonResponse.get("message").getAsString();
+                    String executedAt = jsonResponse.get("executedAt").getAsString();
+                    JsonObject data = jsonResponse.get("data").getAsJsonObject();
+                    Gson gson = new Gson();
+                    Company company = gson.fromJson(data, Company.class);
 
-                        JsonObject jsonResponse = JsonParser.parseString(responseString).getAsJsonObject();
-                        String message = jsonResponse.get("message").getAsString();
-                        String executedAt = jsonResponse.get("executedAt").getAsString();
-                        JsonObject data = jsonResponse.get("data").getAsJsonObject();
+                    if (response.isSuccessful()) {
+                        Intent mainIntent = new Intent(Login.this, Main.class);
+                        startActivity(mainIntent);
+                        finish();
 
-                        Gson gson = new Gson();
-                        Company company = gson.fromJson(data, Company.class);
-
+                        Log.i(LOG_TAG, "Data: " + company);
                         Log.i(LOG_TAG, "Message: " + message);
-                        Log.i(LOG_TAG, "Data: " + data);
                         Log.i(LOG_TAG, "Executed at: " + executedAt);
-
-                    } catch (Exception e) {
-                        Log.e(LOG_TAG, "Error processing response: " + e.getMessage());
-                    }
-                } else {
-                    try {
-                        String responseString = response.body().string();
-                        JsonObject jsonResponse = JsonParser.parseString(responseString).getAsJsonObject();
-                        String message = jsonResponse.get("message").getAsString();
-                        String executedAt = jsonResponse.get("executedAt").getAsString();
-                        JsonObject data = jsonResponse.get("data").getAsJsonObject();
-                        Gson gson = new Gson();
-                        Company company = gson.fromJson(data, Company.class);
-                        Log.e(LOG_TAG, "Data: " + company);
+                    } else {
                         Log.e(LOG_TAG, "Message: " + message);
                         Log.e(LOG_TAG, "Executed at: " + executedAt);
+                    }
 
-                    } catch (Exception e) {
+                } catch (Exception e) {
                     Log.e(LOG_TAG, "Error processing response: " + e.getMessage());
-                }
                 }
             }
 
@@ -154,5 +138,7 @@ public class Login extends AppCompatActivity {
         documentLogin.setText(cnpj);
         passwordLogin.setText(password);
     }
+
+
 
 }

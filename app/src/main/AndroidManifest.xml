@@ -25,7 +25,7 @@
             android:name=".activities.StartScreen"
             android:exported="false" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.Main"
             android:exported="false" />
         <activity
             android:name=".activities.SplashScreen"
