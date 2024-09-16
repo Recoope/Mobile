@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.Login">
+    tools:context=".activities.Login"
+    style="@style/Theme.RecoopeMobile">
 
     <EditText
         android:id="@+id/documentLogin"
@@ -12,7 +13,6 @@
         android:layout_height="63dp"
         android:layout_marginTop="64dp"
         android:ems="10"
-        android:fontFamily="@font/bree_serif"
         android:hint="E-mail ou CNPJ"
         android:inputType="text"
         android:textColorHint="#8F8F8F"
@@ -27,7 +27,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
-        android:fontFamily="@font/bree_serif"
         android:text="Login"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,9 +38,8 @@
         android:layout_width="269dp"
         android:layout_height="63dp"
         android:ems="10"
-        android:fontFamily="@font/bree_serif"
         android:hint="Senha"
-        android:inputType="text"
+        android:inputType="text|textPassword"
         android:textColorHint="#8F8F8F"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -77,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordLogin" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/btnLogin"
         android:layout_width="294dp"
         android:layout_height="58dp"
         android:layout_marginTop="332dp"
@@ -95,10 +93,10 @@
         android:text="Entrar"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton"
-        app:layout_constraintStart_toStartOf="@+id/imageButton"
-        app:layout_constraintTop_toTopOf="@+id/imageButton" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnLogin"
+        app:layout_constraintEnd_toEndOf="@+id/btnLogin"
+        app:layout_constraintStart_toStartOf="@+id/btnLogin"
+        app:layout_constraintTop_toTopOf="@+id/btnLogin" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

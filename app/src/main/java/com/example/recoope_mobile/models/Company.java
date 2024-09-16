@@ -1,28 +1,27 @@
 package com.example.recoope_mobile.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
+
+import org.intellij.lang.annotations.Identifier;
 
 import java.time.LocalDate;
 
 public class Company {
-
-    @JsonProperty(value = "cnpjEmpresa")
+    @SerializedName(value = "cnpj")
     private String cnpj;
-    @JsonProperty(value = "nomeEmpresa")
+    @SerializedName(value = "nome")
     private String name;
-    @JsonProperty(value = "emailEmpresa")
+    @SerializedName(value = "email")
     private String email;
-    @JsonProperty(value = "senhaEmpresa")
+    @SerializedName(value = "senha")
 
     private String password;
-    @JsonProperty(value = "telefoneEmpresa")
+    @SerializedName(value = "telefone")
 
     private String phone;
-    @JsonProperty(value = "registroEmpresa")
 
-    private String record;
-
-    @JsonProperty(value = "confirmacaoSenha")
+    @SerializedName(value = "confirmacaoSenha")
     private String passwordConfirmation;
 
     public Company(String cnpj, String name, String email, String password, String phone, String passwordConfirmation) {
@@ -74,7 +73,23 @@ public class Company {
         this.phone = phone;
     }
 
-    public String getRecord() {
-        return record;
+    public String getPasswordConfirmation() {
+        return passwordConfirmation;
+    }
+
+    public void setPasswordConfirmation(String passwordConfirmation) {
+        this.passwordConfirmation = passwordConfirmation;
+    }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "cnpj='" + cnpj + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", passwordConfirmation='" + passwordConfirmation + '\'' +
+                '}';
     }
 }
