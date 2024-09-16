@@ -1,16 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:maxWidth="50dp"
+    android:maxHeight="50dp"
+    android:minWidth="50dp"
     tools:context=".activities.fragments.FeedFragment"
     style="@style/Theme.RecoopeMobile">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:text="Feed Leilões" />
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="0dp"
+            app:layout_constraintGuide_percent="0.08"/>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:background="@color/recoope_primary_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="35dp"
+                android:src="@drawable/vector_leiloes" />
+
+            <ImageButton
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="35dp"
+                android:layout_marginBottom="50dp"
+                android:background="@drawable/shape_cart_rounded"
+                android:contentDescription="Auction Cart"
+                android:maxWidth="50dp"
+                android:maxHeight="50dp"
+                android:minWidth="50dp"
+                android:minHeight="50dp"
+                android:src="@drawable/vector_cart">
+
+            </ImageButton>
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:id="@+id/filterLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:layout_constraintStart_toEndOf="@id/startGuideLine"
+            app:layout_constraintEnd_toStartOf="@id/endGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <Button
+                android:id="@+id/button2"
+                style="@style/Theme.RecoopeMobile.FilterButton"
+                android:layout_weight="5"
+                android:text="Vidros" />
+
+            <Button
+                android:id="@+id/button3"
+                style="@style/Theme.RecoopeMobile.FilterButton"
+                android:layout_weight="5"
+                android:text="Metais" />
+
+            <Button
+                android:id="@+id/button4"
+                style="@style/Theme.RecoopeMobile.FilterButton"
+                android:layout_weight="5"
+                android:text="Plásticos" />
+
+            <ImageButton
+                android:id="@+id/button5"
+                style="@style/Theme.RecoopeMobile.FilterButton"
+                android:layout_weight="3"
+                android:src="@drawable/vector_feed_filter_menu" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            tools:listitem="@layout/item_auction"
+            app:layout_constraintTop_toBottomOf="@id/filterLayout"
+            app:layout_constraintStart_toEndOf="@id/startGuideLine"
+            app:layout_constraintEnd_toStartOf="@id/endGuideLine"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="0dp"
+            app:layout_constraintGuide_percent="0.92"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>

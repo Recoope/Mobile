@@ -58,6 +58,10 @@ public class Login extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent intent1 = new Intent(Login.this, Main.class);
+                startActivity(intent1);
+
                 String cnpj = documentLogin.getText().toString().trim();
                 String password = passwordLogin.getText().toString().trim();
 

@@ -4,13 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.fragments.PaymentsFragment"
+    android:background="@color/background_color"
     style="@style/Theme.RecoopeMobile">
 
-    <TextView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:text="Recibos" />
+        android:layout_height="wrap_content"
+        android:background="@color/recoope_primary_color">
+
+        <TextView
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:text="Recibos"
+            android:layout_gravity="center"
+            android:id="@+id/topBarText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </androidx.appcompat.widget.Toolbar>
 </FrameLayout>

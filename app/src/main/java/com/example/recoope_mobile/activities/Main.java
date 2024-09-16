@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.activities.fragments.CalendarFragment;
@@ -23,6 +24,7 @@ public class Main extends AppCompatActivity {
     private Fragment paymentsFragment;
     private Fragment userFragment;
     private NavigationBarView navBar;
+    private TextView topBarText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,29 +32,30 @@ public class Main extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         navBar = findViewById(R.id.navbar);
+        topBarText = findViewById(R.id.topBarText);
 
         // navBar.setBackground(null);
         navBar.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
 
             if (itemId == R.id.home_button) {
-                if (feedFragment == null) feedFragment = new FeedFragment();
+                feedFragment = (feedFragment != null) ? feedFragment : new FeedFragment();
                 replaceFragment(feedFragment);
             }
             else if (itemId == R.id.search_button) {
-                if (searchFragment == null) searchFragment = new SearchFragment();
+                searchFragment = (searchFragment != null) ? searchFragment : new SearchFragment();
                 replaceFragment(searchFragment);
             }
             else if (itemId == R.id.calendar_button) {
-                if (calendarFragment == null) calendarFragment = new CalendarFragment();
+                calendarFragment = (calendarFragment != null) ? calendarFragment : new CalendarFragment();
                 replaceFragment(calendarFragment);
             }
             else if (itemId == R.id.payments_button) {
-                if (paymentsFragment == null) paymentsFragment = new PaymentsFragment();
+                paymentsFragment = (paymentsFragment != null) ? paymentsFragment : new PaymentsFragment();
                 replaceFragment(paymentsFragment);
             }
             else if (itemId == R.id.user_button) {
-                if (userFragment == null) userFragment = new CompanyFragment();
+                userFragment = (userFragment != null) ? userFragment : new CompanyFragment();
                 replaceFragment(userFragment);
             }
             else return false;
