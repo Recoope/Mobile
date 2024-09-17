@@ -37,6 +37,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.io.IOException;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,10 +84,6 @@ public class Login extends AppCompatActivity {
     }
 
     public void authenticationLogin(String cnpj, String password){
-        if (cnpj == null || password == null || cnpj.isEmpty() || password.isEmpty()) {
-            Log.e(LOG_TAG, "CNPJ or password not provided.");
-            return;
-        }
 
         LoginParams loginParams = new LoginParams(cnpj, password);
 
@@ -106,16 +104,17 @@ public class Login extends AppCompatActivity {
                         Log.i(LOG_TAG, "Message: " + message);
                         Log.i(LOG_TAG, "Data: " + data);
 
-                        if ("Login realizado com sucesso!!".equals(message)) {
+                        if (response.code() == 200) {
                             Gson gson = new Gson();
                             Company company = gson.fromJson(data, Company.class);
-                            Log.i(LOG_TAG, "Pronto para ir para o feed!!!!!");
+
+                            //Seguir para o feed
                         } else {
                             InvalidFormatLogin invalidFormatLogin = verifyReturn(message);
                             if (invalidFormatLogin != null) {
                                 matchInvalidFormat(invalidFormatLogin);
                             } else {
-                                Toast.makeText(Login.this, "Erro desconhecido.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "Error:", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -124,20 +123,21 @@ public class Login extends AppCompatActivity {
                     }
                 } else {
                     try {
-                        String responseString = response.body().string();
-                        JsonObject jsonResponse = JsonParser.parseString(responseString).getAsJsonObject();
-                        String message = jsonResponse.get("message").getAsString();
-                        String executedAt = jsonResponse.get("executedAt").getAsString();
-                        JsonObject data = jsonResponse.get("data").getAsJsonObject();
-                        Gson gson = new Gson();
-                        Company company = gson.fromJson(data, Company.class);
-                        Log.e(LOG_TAG, "Data: " + company);
-                        Log.e(LOG_TAG, "Message: " + message);
-                        Log.e(LOG_TAG, "Executed at: " + executedAt);
+                        String responseString = response.errorBody() != null ? response.errorBody().string() : "";
+                        Log.d(LOG_TAG, "Error response string: " + responseString);
 
-                    } catch (Exception e) {
-                    Log.e(LOG_TAG, "Error processing response: " + e.getMessage());
-                }
+                        JsonObject jsonResponse = JsonParser.parseString(responseString).getAsJsonObject();
+                        String message = jsonResponse.has("message") ? jsonResponse.get("message").getAsString() : "Unknown message";
+                        InvalidFormatLogin invalidFormatLogin = verifyReturn(message);
+                        if (invalidFormatLogin != null) {
+                            matchInvalidFormat(invalidFormatLogin);
+                        } else {
+                            Toast.makeText(Login.this, "Error.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (IOException e) {
+                        Log.e(LOG_TAG, "Error processing error response: " + e.getMessage(), e);
+                        Toast.makeText(Login.this, "Error processing error response", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
 

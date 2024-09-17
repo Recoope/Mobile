@@ -126,10 +126,6 @@ public class Register extends AppCompatActivity {
         finish();
     }
 
-    private void fillLogin(Company company) {
-        Intent intent = new Intent(this, Login.class);
-        startActivity(intent);
-    }
 
     private InvalidFormatRegister verifyReturn(String message) {
         try {
@@ -203,8 +199,6 @@ public class Register extends AppCompatActivity {
 
         Company company = new Company(companyCNPJ, companyName, companyEmail, companyPassword, companyPhone, companyPasswordConfirmation);
 
-        Log.e(LOG_TAG, company.toString());
-
         Call<ResponseBody> call = apiService.createCompany(company);
 
         call.enqueue(new Callback<ResponseBody>() {
@@ -213,16 +207,14 @@ public class Register extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     try {
                         String responseString = response.body().string();
-                        Log.d(LOG_TAG, "Response string: " + responseString);
 
                         JsonObject jsonResponse = JsonParser.parseString(responseString).getAsJsonObject();
                         String message = jsonResponse.has("message") ? jsonResponse.get("message").getAsString() : "Unknown message";
                         JsonObject data = jsonResponse.has("data") ? jsonResponse.get("data").getAsJsonObject() : new JsonObject();
 
-                        if ("Empresa cadastrada com sucesso!".equals(message)) {
+                        if (response.code() == 200 ) {
                             Gson gson = new Gson();
                             Company company = gson.fromJson(data, Company.class);
-                            fillLogin(company);
                             nextScreen();
                         } else {
                             InvalidFormatRegister invalidFormatRegister = verifyReturn(message);
