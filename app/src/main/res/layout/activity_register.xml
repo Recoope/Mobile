@@ -6,7 +6,9 @@
     xmlns:material="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.Register">
+    android:background="@color/background_color"
+    tools:context=".activities.Register"
+    style="@style/Theme.RecoopeMobile">
 
     <TextView
         android:id="@+id/textView2"

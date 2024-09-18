@@ -55,8 +55,7 @@ public class Login extends AppCompatActivity {
     private TextInputLayout documentLoginLayout;
     private EditText passwordLoginEt;
     private TextInputLayout passwordLoginLayout;
-
-
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +77,6 @@ public class Login extends AppCompatActivity {
                 String password = passwordLoginEt.getText().toString().trim();
 
                 authenticationLogin(cnpj, password);
-
             }
         });
     }
@@ -92,6 +90,7 @@ public class Login extends AppCompatActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
                 if (response.isSuccessful()) {
                     try {
                         String responseString = response.body().string();
@@ -196,7 +195,7 @@ public class Login extends AppCompatActivity {
             return null;
         }
     }
-
+  
     private void matchInvalidFormat(InvalidFormatLogin invalidFormat) {
         switch (invalidFormat) {
             case NO_MATCHING_CNPJ_OR_INCORRECT_PASSWORD:
@@ -217,7 +216,6 @@ public class Login extends AppCompatActivity {
         }
     }
 }
-
 
 
 
