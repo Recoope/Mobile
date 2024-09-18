@@ -1,10 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.RecoopeMobile" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your light theme here. -->
          <item name="colorPrimary">@color/white</item>
          <item name="fontFamily">@font/bree_serif</item>
     </style>
+    <style name="Theme.RecoopeMobile" parent="Base.Theme.RecoopeMobile" />
 
     <style name="Theme.RecoopeMobile" parent="Base.Theme.RecoopeMobile">
         <item name="background">@color/background_color</item>
