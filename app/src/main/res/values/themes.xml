@@ -3,7 +3,6 @@
          <item name="colorPrimary">@color/white</item>
          <item name="fontFamily">@font/bree_serif</item>
     </style>
-    <style name="Theme.RecoopeMobile" parent="Base.Theme.RecoopeMobile" />
 
     <style name="Theme.RecoopeMobile" parent="Base.Theme.RecoopeMobile">
         <item name="background">@color/background_color</item>

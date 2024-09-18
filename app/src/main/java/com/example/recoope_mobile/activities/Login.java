@@ -107,7 +107,8 @@ public class Login extends AppCompatActivity {
                             Gson gson = new Gson();
                             Company company = gson.fromJson(data, Company.class);
 
-                            //Seguir para o feed
+                            nextScreen();
+
                         } else {
                             InvalidFormatLogin invalidFormatLogin = verifyReturn(message);
                             if (invalidFormatLogin != null) {
@@ -215,6 +216,13 @@ public class Login extends AppCompatActivity {
                 break;
         }
     }
+
+    public void nextScreen() {
+        Intent intent = new Intent(Login.this, Main.class);
+        startActivity(intent);
+        finish();
+    }
+
 }
 
 
