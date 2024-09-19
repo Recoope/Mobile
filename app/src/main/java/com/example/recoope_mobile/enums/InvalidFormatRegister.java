@@ -1,13 +1,17 @@
 package com.example.recoope_mobile.enums;
 
 public enum InvalidFormatRegister {
-    NAME_MIN("O nome da empresa deve conter pelo menos 3 caracteres."),
-    NAME_MAX("O nome da empresa deve conter no máximo 255 caracteres."),
-    CNPJ("CNPJ inválido."),
-    EMAIL("Email já existente."),
-    PHONE("Telefone inválido."),
-    PASSWORD("As senhas não correspondem.");
-
+    NULL_PARAMETERS("Não devem ser enviados parametros nulos."),
+    LOGIN_SUCCESS("Login realizado com sucesso!"),
+    PASSWORD_DOES_NOT_MATCH("As senhas não correspondem."),
+    INVALID_CNPJ("CNPJ inválido."),
+    EXISTING_CNPJ("CNPJ já existente."),
+    INVALID_COMPANY_NAME("O nome da empresa deve conter pelo menos 3 caracteres e no máximo 255 caracteres."),
+    EXISTING_EMAIL("Email já existente."),
+    INVALID_EMAIL("Email inválido."),
+    EXISTING_PHONE_NUMBER("Telefone já existente."),
+    INVALID_PHONE_NUMBER("Telefone inválido."),
+    INVALID_PASSWORD("A senha deve ter pelo menos 8 caracteres, um número e um caractere especial.");
 
     private final String type;
 
