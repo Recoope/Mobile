@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.fragments.SearchFragment"
+    tools:context=".activities.company.SearchFragment"
     android:background="@color/background_color"
     style="@style/Theme.RecoopeMobile">
 
@@ -83,7 +83,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-            tools:listitem="@layout/item_search_result" />
+            tools:listitem="@layout/company_item_search_result" />
 
         <TextView
             android:id="@+id/verMais"

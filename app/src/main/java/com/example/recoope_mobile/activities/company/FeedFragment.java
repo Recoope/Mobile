@@ -1,4 +1,4 @@
-package com.example.recoope_mobile.activities.fragments;
+package com.example.recoope_mobile.activities.company;
 
 import android.os.Bundle;
 
@@ -9,10 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.recoope_mobile.R;
-public class CompanyFragment extends Fragment {
+
+public class FeedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_company, container, false);
+        return inflater.inflate(R.layout.company_feed, container, false);
     }
 }

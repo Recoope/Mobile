@@ -1,4 +1,4 @@
-package com.example.recoope_mobile.activities;
+package com.example.recoope_mobile.activities.company;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -6,17 +6,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import com.example.recoope_mobile.R;
-import com.example.recoope_mobile.activities.fragments.CalendarFragment;
-import com.example.recoope_mobile.activities.fragments.FeedFragment;
-import com.example.recoope_mobile.activities.fragments.PaymentsFragment;
-import com.example.recoope_mobile.activities.fragments.SearchFragment;
-import com.example.recoope_mobile.activities.fragments.CompanyFragment;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class Main extends AppCompatActivity {
+public class MainActivityCompany extends AppCompatActivity {
 
     private Fragment feedFragment;
     private Fragment searchFragment;
@@ -24,15 +18,13 @@ public class Main extends AppCompatActivity {
     private Fragment paymentsFragment;
     private Fragment userFragment;
     private NavigationBarView navBar;
-    private TextView topBarText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.company_main);
 
         navBar = findViewById(R.id.navbar);
-        topBarText = findViewById(R.id.topBarText);
 
         // navBar.setBackground(null);
         navBar.setOnItemSelectedListener(item -> {
