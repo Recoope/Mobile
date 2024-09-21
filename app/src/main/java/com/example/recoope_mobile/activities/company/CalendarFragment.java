@@ -18,7 +18,7 @@ import java.util.Calendar;
 
 public class CalendarFragment extends Fragment {
     private GridLayout gridLayout;
-    private TextView monthTextView, yearTextView;
+    private TextView dateTextView, monthTextView, yearTextView;
     private Calendar calendar;
 
     @SuppressLint("MissingInflatedId")
@@ -70,11 +70,11 @@ public class CalendarFragment extends Fragment {
         dayTextView.setText(dayText);
         dayTextView.setGravity(Gravity.CENTER);
         dayTextView.setTextSize(16f);
-        dayTextView.setPadding(0, 16, 0, 16);
 
         GridLayout.LayoutParams params = new GridLayout.LayoutParams();
         params.width = 0;
         params.height = GridLayout.LayoutParams.WRAP_CONTENT;
+        params.rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
         params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
 
         dayTextView.setLayoutParams(params);
