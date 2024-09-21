@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CooperativeFragment">
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.company.CompanyFragment"
+        android:background="@color/background_color"
+        style="@style/Theme.RecoopeMobile">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/startGuideLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="0dp"
+                app:layout_constraintGuide_percent="0.08" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/recoope_primary_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </androidx.appcompat.widget.Toolbar>
+
+            <EditText
+                android:id="@+id/editTextText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Procurar"
+                android:textColorHint="#A4A4A4"
+                android:inputType="text"
+                android:background="@drawable/selector_company_search"
+                android:elevation="10dp"
+                android:padding="10dp"
+                android:drawablePadding="10dp"
+                android:drawableEnd="@drawable/vector_search"
+                app:layout_constraintStart_toEndOf="@id/startGuideLine"
+                app:layout_constraintEnd_toStartOf="@id/endGuideLine"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                app:layout_constraintBottom_toBottomOf="@id/toolbar" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                app:cardCornerRadius="100dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editTextText"
+                app:layout_constraintBottom_toTopOf="@id/cooperativeName">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/cooperativeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Cooperative"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+                app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+            <TextView
+                android:id="@+id/contactText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contato"
+                android:textColor="#000"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+                app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/cooperativeName" />
+
+            <TextView
+                android:id="@+id/cooperativePhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(11) 1234-5678"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+                app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/contactText" />
+
+            <TextView
+                android:id="@+id/cooperativeEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cooperative@email.com.br"
+                android:textColor="@color/recoope_light_blue_color"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+                app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/cooperativePhone" />
+
+            <TextView
+                android:id="@+id/auctionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Leilões Recentes"
+                android:layout_marginTop="20dp"
+                android:textColor="#000"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/cooperativeEmail" />
+
+            <LinearLayout
+                android:id="@+id/filterLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                app:layout_constraintStart_toEndOf="@id/startGuideLine"
+                app:layout_constraintEnd_toStartOf="@id/endGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/auctionText">
+
+                <Button
+                    android:id="@+id/button2"
+                    style="@style/Theme.RecoopeMobile.FilterButton"
+                    android:layout_weight="5"
+                    android:text="Vidros" />
+
+                <Button
+                    android:id="@+id/button3"
+                    style="@style/Theme.RecoopeMobile.FilterButton"
+                    android:layout_weight="5"
+                    android:text="Metais" />
+
+                <Button
+                    android:id="@+id/button4"
+                    style="@style/Theme.RecoopeMobile.FilterButton"
+                    android:layout_weight="5"
+                    android:text="Plásticos" />
+
+                <ImageButton
+                    android:id="@+id/button5"
+                    style="@style/Theme.RecoopeMobile.FilterButton"
+                    android:layout_weight="3"
+                    android:src="@drawable/vector_feed_filter_menu" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                tools:listitem="@layout/company_item_auction"
+                app:layout_constraintTop_toBottomOf="@id/filterLayout"
+                app:layout_constraintStart_toEndOf="@id/startGuideLine"
+                app:layout_constraintEnd_toStartOf="@id/endGuideLine"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/endGuideLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="0dp"
+                app:layout_constraintGuide_percent="0.92" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
+</FrameLayout>
