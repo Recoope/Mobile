@@ -40,6 +40,7 @@
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/calendar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:cardCornerRadius="15dp"
@@ -96,7 +97,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:gravity="center"
-                        android:text="Julho"
+                        android:text="Month"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -148,7 +149,7 @@
                 <GridLayout
                     android:id="@+id/gridLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:columnCount="7"
                     android:orientation="horizontal"
@@ -159,6 +160,28 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/pendingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Em Andamento"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+            app:layout_constraintTop_toBottomOf="@id/calendar"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/calendarAuctions"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/endGuideLine"
+            app:layout_constraintStart_toEndOf="@id/startGuideLine"
+            app:layout_constraintTop_toBottomOf="@id/pendingText"
+            tools:listitem="@layout/company_item_calendar_auction"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/endGuideLine"
