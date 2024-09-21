@@ -38,22 +38,6 @@
                 android:layout_marginStart="35dp"
                 android:src="@drawable/vector_leiloes" />
 
-            <ImageButton
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="35dp"
-                android:layout_marginBottom="50dp"
-                android:background="@drawable/shape_button"
-                android:contentDescription="Auction Cart"
-                android:maxWidth="50dp"
-                android:maxHeight="50dp"
-                android:minWidth="50dp"
-                android:minHeight="50dp"
-                android:src="@drawable/vector_cart">
-
-            </ImageButton>
         </androidx.appcompat.widget.Toolbar>
 
         <LinearLayout
