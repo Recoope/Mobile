@@ -1,11 +1,10 @@
-package com.example.recoope_mobile.activities.fragments;
+package com.example.recoope_mobile.activities.company;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.example.recoope_mobile.R;
-import com.example.recoope_mobile.enums.InvalidFormatLogin;
 
 import java.util.Calendar;
 
@@ -27,7 +25,7 @@ public class CalendarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        View view = inflater.inflate(R.layout.company_calendar, container, false);
 
         gridLayout = view.findViewById(R.id.gridLayout);
         monthTextView = view.findViewById(R.id.textMonth);

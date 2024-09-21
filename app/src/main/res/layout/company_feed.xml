@@ -8,7 +8,7 @@
     android:maxWidth="50dp"
     android:maxHeight="50dp"
     android:minWidth="50dp"
-    tools:context=".activities.fragments.FeedFragment"
+    tools:context=".activities.company.FeedFragment"
     style="@style/Theme.RecoopeMobile">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -94,7 +94,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            tools:listitem="@layout/item_auction"
+            tools:listitem="@layout/company_item_auction"
             app:layout_constraintTop_toBottomOf="@id/filterLayout"
             app:layout_constraintStart_toEndOf="@id/startGuideLine"
             app:layout_constraintEnd_toStartOf="@id/endGuideLine"

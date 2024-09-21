@@ -1,4 +1,4 @@
-package com.example.recoope_mobile.activities.fragments;
+package com.example.recoope_mobile.activities.company;
 
 import android.os.Bundle;
 
@@ -14,6 +14,6 @@ public class PaymentsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_payments, container, false);
+        return inflater.inflate(R.layout.company_payments, container, false);
     }
 }
