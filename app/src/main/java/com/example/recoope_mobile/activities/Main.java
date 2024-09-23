@@ -32,7 +32,6 @@ public class Main extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         navBar = findViewById(R.id.navbar);
-        topBarText = findViewById(R.id.topBarText);
 
         // navBar.setBackground(null);
         navBar.setOnItemSelectedListener(item -> {

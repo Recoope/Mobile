@@ -62,14 +62,14 @@ public class DialogUtils {
     }
 
 
-    public static void showCustomDialog(InvalidFormatLogin invalidFormatLogin, Context context) {
+    public static void showCustomDialog(String message, Context context) {
         if (context == null) {
             Log.e(LOG_TAG, "Context is null");
             return;
         }
 
         Dialog customDialog = new Dialog(context);
-        customDialog.setContentView(R.layout.dialog_register);
+        customDialog.setContentView(R.layout.fragment_feed);
 
         Log.d(LOG_TAG, "Custom Dialog is being set up");
 
@@ -95,7 +95,7 @@ public class DialogUtils {
 
         TextView txtTitulo = customDialog.findViewById(R.id.message);
         if (txtTitulo != null) {
-            txtTitulo.setText(invalidFormatLogin.getType());
+            txtTitulo.setText(message);
         } else {
             Log.e(LOG_TAG, "TextView with ID 'message' not found");
         }

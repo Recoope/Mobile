@@ -92,13 +92,14 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFeed"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            tools:listitem="@layout/item_auction"
-            app:layout_constraintTop_toBottomOf="@id/filterLayout"
-            app:layout_constraintStart_toEndOf="@id/startGuideLine"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/endGuideLine"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toEndOf="@id/startGuideLine"
+            app:layout_constraintTop_toBottomOf="@id/filterLayout"
+            tools:listitem="@layout/item_auction" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/endGuideLine"
