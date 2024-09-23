@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.fragments.BidFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/recoope_primary_color">
+
+        <TextView
+            android:id="@+id/topBarText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Leilão #4243"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.92" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.08" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="111dp"
+            android:text="Cooperativa Coopermape"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintHorizontal_bias="0.500"
+            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="69dp"
+            android:src="@drawable/back_button"
+            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="Encerra em XX dias"
+            android:textColor="@color/recoope_secondary_color"
+            android:textSize="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="442dp"
+            android:text="Sobre o leilão"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintHorizontal_bias="0.007"
+            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="474dp"
+            android:text="Material"
+            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintHorizontal_bias="0.007"
+            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="474dp"
+            android:layout_marginRight="6dp"
+            android:text="Plástico"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="504dp"
+            android:text="Quantia"
+            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintHorizontal_bias="0.007"
+            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="504dp"
+            android:layout_marginRight="6dp"
+            android:text="100kg"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="535dp"
+            android:text="Maior lance"
+            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintHorizontal_bias="0.007"
+            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="535dp"
+            android:layout_marginRight="6dp"
+            android:text="R$3.000,00"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="149dp"
+            android:src="@drawable/glass_image"
+            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="218dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView8"
+            tools:ignore="MissingConstraints"
+            tools:listitem="@layout/company_item_images" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="569dp"
+            android:text="R$ 00,00"
+            android:textColor="#BABABA"
+            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="115dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="23dp"
+            android:background="@drawable/shape_sort_by"
+            android:text="Dar Lance"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="6dp"
+            android:text="<"
+            android:background="@drawable/shape_sort_by"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/recyclerView"
+            app:layout_constraintHorizontal_bias="0.842"
+            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="6dp"
+            android:text=">"
+            android:background="@drawable/shape_sort_by"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintHorizontal_bias="0.131"
+            app:layout_constraintStart_toEndOf="@+id/recyclerView"
+            app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
