@@ -43,8 +43,8 @@ public interface ApiService {
     /////Leilão
 
     // Ler todos recursos (GET)
-    @GET("leilao/")
-    Call<ResponseBody> getAllAuction();
+    @GET("api/auctions")
+    Call<List<Auction>> getAllAuctions();
 
     // Ler um recurso específico (GET)
     @GET("leilao/{id}")

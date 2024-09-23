@@ -22,25 +22,25 @@ public class Auction {
     @JsonProperty("isFinished")
     private String isFinished;
 
-    @JsonProperty("addressId")
-    private int addressId;
+    @JsonProperty("address")
+    private Address adress;
 
-    @JsonProperty("productId")
-    private int productId;
+    @JsonProperty("product")
+    private Product product;
 
-    @JsonProperty("cooperativeCnpj")
-    private String cooperativeCnpj;
+    @JsonProperty("cooperative")
+    private Cooperative cooperative;
 
-    public Auction(int auctionId, String startDate, String endDate, String details, String time, String isFinished, int addressId, int productId, String cooperativeCnpj) {
+    public Auction(int auctionId, String startDate, String endDate, String details, String time, String isFinished, int addressId, int productId, String cooperativeCnpj, Product product, Cooperative cooperative, Address address) {
         this.auctionId = auctionId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.details = details;
         this.time = time;
         this.isFinished = isFinished;
-        this.addressId = addressId;
-        this.productId = productId;
-        this.cooperativeCnpj = cooperativeCnpj;
+        this.adress = address;
+        this.product = product;
+        this.cooperative = cooperative;
     }
 
     public int getAuctionId() {
@@ -91,27 +91,27 @@ public class Auction {
         this.isFinished = isFinished;
     }
 
-    public int getAddressId() {
-        return addressId;
+    public Address getAdress() {
+        return adress;
     }
 
-    public void setAddressId(int addressId) {
-        this.addressId = addressId;
+    public void setAdress(Address adress) {
+        this.adress = adress;
     }
 
-    public int getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public String getCooperativeCnpj() {
-        return cooperativeCnpj;
+    public Cooperative getCooperative() {
+        return cooperative;
     }
 
-    public void setCooperativeCnpj(String cooperativeCnpj) {
-        this.cooperativeCnpj = cooperativeCnpj;
+    public void setCooperative(Cooperative cooperative) {
+        this.cooperative = cooperative;
     }
 }

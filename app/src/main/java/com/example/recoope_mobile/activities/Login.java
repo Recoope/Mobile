@@ -1,14 +1,5 @@
 package com.example.recoope_mobile.activities;
 
-import static com.example.recoope_mobile.enums.InvalidFormatLogin.EMAIL_CNPJ_INVALID;
-import static com.example.recoope_mobile.enums.InvalidFormatLogin.NO_MATCHING_CNPJ_OR_INCORRECT_PASSWORD;
-import static com.example.recoope_mobile.enums.InvalidFormatLogin.NO_MATCHING_EMAIL_OR_INCORRECT_PASSWORD;
-import static com.example.recoope_mobile.enums.InvalidFormatRegister.EXISTING_EMAIL;
-import static com.example.recoope_mobile.enums.InvalidFormatRegister.EXISTING_PHONE_NUMBER;
-import static com.example.recoope_mobile.enums.InvalidFormatRegister.INVALID_EMAIL;
-import static com.example.recoope_mobile.enums.InvalidFormatRegister.INVALID_PASSWORD;
-import static com.example.recoope_mobile.enums.InvalidFormatRegister.INVALID_PHONE_NUMBER;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -26,9 +17,9 @@ import android.widget.Toast;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
+import com.example.recoope_mobile.activities.company.MainActivityCompany;
 import com.example.recoope_mobile.dialogs.DialogUtils;
 import com.example.recoope_mobile.enums.InvalidFormatLogin;
-import com.example.recoope_mobile.enums.InvalidFormatRegister;
 import com.example.recoope_mobile.models.Company;
 import com.example.recoope_mobile.models.LoginParams;
 import com.google.android.material.textfield.TextInputEditText;
@@ -67,6 +58,10 @@ public class Login extends AppCompatActivity {
         passwordLoginLayout = findViewById(R.id.passwordLoginLayout);
 
         ImageButton btnLogin = findViewById(R.id.btnLogin);
+
+        // Preencher a login para teste.
+         documentLoginEt.setText("49779751000147");
+         passwordLoginEt.setText("empresaxyz123");
 
         addTextWatchers();
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -218,7 +213,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void nextScreen() {
-        Intent intent = new Intent(Login.this, Main.class);
+        Intent intent = new Intent(Login.this, MainActivityCompany.class);
         startActivity(intent);
         finish();
     }
