@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="400dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Filtros"
+            android:textColor="#000"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/filterLayout"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:paddingVertical="20dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+            app:layout_constraintStart_toStartOf="@id/startGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/textView6">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Materiais: " />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/button2"
+                        style="@style/Theme.RecoopeMobile.FilterButton"
+                        android:layout_weight="1"
+                        android:text="Vidros" />
+
+                    <Button
+                        android:id="@+id/button3"
+                        style="@style/Theme.RecoopeMobile.FilterButton"
+                        android:layout_weight="1"
+                        android:text="Metais" />
+
+                    <Button
+                        android:id="@+id/button4"
+                        style="@style/Theme.RecoopeMobile.FilterButton"
+                        android:layout_weight="1"
+                        android:text="Plásticos" />
+
+                    <Button
+                        android:id="@+id/button5"
+                        style="@style/Theme.RecoopeMobile.FilterButton"
+                        android:layout_weight="1"
+                        android:text="Papel" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Encerra até: " />
+
+                <EditText
+                    android:id="@+id/untilInput"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:gravity="end|center"
+                    android:paddingHorizontal="10dp"
+                    android:layout_weight="3"
+                    android:drawablePadding="10dp"
+                    android:textColorHint="A4A4A4"
+                    android:drawableEnd="@drawable/vector_calendar"
+                    android:background="@drawable/shape_input"
+                    android:inputType="date"
+                    android:elevation="5dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Peso mínimo: " />
+
+                <EditText
+                    android:id="@+id/minWeightInput"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:gravity="end|center"
+                    android:paddingHorizontal="10dp"
+                    android:layout_weight="3"
+                    android:hint="000kg"
+                    android:textColorHint="#A4A4A4"
+                    android:background="@drawable/shape_input"
+                    android:inputType="number"
+                    android:elevation="5dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Peso máximo: " />
+
+                <EditText
+                    android:id="@+id/maxWeightInput"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:gravity="end|center"
+                    android:paddingHorizontal="10dp"
+                    android:layout_weight="3"
+                    android:hint="000kg"
+                    android:textColorHint="#A4A4A4"
+                    android:background="@drawable/shape_input"
+                    android:inputType="number"
+                    android:elevation="5dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/recoope_secondary_color"
+            android:text="Filtrar"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            app:layout_constraintTop_toBottomOf="@id/filterLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
