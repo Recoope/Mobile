@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="63dp"
+        android:layout_height="39dp"
+        android:layout_marginRight="6dp"
+        android:src="@drawable/glass_image_2" />
+
+</androidx.cardview.widget.CardView>
