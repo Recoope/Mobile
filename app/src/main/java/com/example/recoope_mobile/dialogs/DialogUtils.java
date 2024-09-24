@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.recoope_mobile.R;
+import com.example.recoope_mobile.activities.company.FeedFragment;
 import com.example.recoope_mobile.enums.InvalidFormatLogin;
 import com.example.recoope_mobile.enums.InvalidFormatRegister;
 
@@ -69,7 +70,7 @@ public class DialogUtils {
         }
 
         Dialog customDialog = new Dialog(context);
-        customDialog.setContentView(R.layout.dialog_register);
+        customDialog.setContentView(R.layout.company_feed);
 
         Log.d(LOG_TAG, "Custom Dialog is being set up");
 

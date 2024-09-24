@@ -2,6 +2,7 @@ package com.example.recoope_mobile.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import java.util.List;
 public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> {
     private List<Auction> auctions;
     private Context context;
+    private final String LOG_TAG = "CardFeed";
+
 
     public AuctionAdapter(List<Auction> auctions, Context context) {
         this.auctions = auctions;
@@ -32,7 +35,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
     @NonNull
     @Override
     public AuctionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_auction, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.company_item_auction, parent, false);
         return new AuctionViewHolder(view);
     }
 
@@ -41,21 +44,21 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
         Auction auction = auctions.get(position);
 
         // Defina as informações do card
-        holder.auctionCoopName.setText(auction.getCooperativeName());
+        holder.auctionCoopName.setText(auction.getCooperative().getName());
         holder.auctionDate.setText(auction.getEndDate());
-        holder.auctionMaterial.setText(auction.getProduct().get());
-        holder.auctionWeight.setText(auction.getProduct().getWeight().toString());
-        holder.auctionPrice.setText(auction.getProduct().getInitialValue().toString());
+        holder.auctionMaterial.setText(auction.getProduct().getProductType());
+        holder.auctionWeight.setText(String.valueOf(auction.getProduct().getWeight()));
+        holder.auctionPrice.setText(String.valueOf(auction.getProduct().getInitialValue()));
         holder.idAuction.setText(String.valueOf(auction.getAuctionId()));
 
         // Carregar a imagem do leilão (produto) usando Glide
         Glide.with(context)
-                .load(auction.getProduct().getImageUrl()) // URL da imagem do produto
+                .load(auction.getProduct().getPhoto()) // URL da imagem do produto
                 .into(holder.auctionImg);
 
         // Clique para ver detalhes
         holder.auctionDetailBtn.setOnClickListener(v -> {
-            DialogUtils.showCustomDialog("Boa!", context);
+            Log.e(LOG_TAG, "DETALHES!");
         });
     }
 
