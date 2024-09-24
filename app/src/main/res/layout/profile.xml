@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.company.CompanyFragment"
     android:background="@color/background_color"
+    tools:context=".activities.company.CompanyFragment"
     style="@style/Theme.RecoopeMobile">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,11 +58,11 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/companyName"
+            android:id="@+id/cooperativeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Company"
+            android:text="Cooperative"
             android:textColor="#000"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -71,7 +71,7 @@
             app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
         <TextView
-            android:id="@+id/companyCNPJ"
+            android:id="@+id/cooperativeCNPJ"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00.000.000/0000-00"
@@ -79,10 +79,10 @@
             android:textSize="9sp"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toBottomOf="@+id/companyName" />
+            app:layout_constraintTop_toBottomOf="@+id/cooperativeName" />
 
         <LinearLayout
-            android:id="@+id/companyInfoLayout"
+            android:id="@+id/cooperativeInfoLayout"
             android:layout_width="0dp"
             android:layout_height="350dp"
             android:orientation="vertical"
@@ -90,83 +90,83 @@
             app:layout_constraintEnd_toStartOf="@id/endGuideLine"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/startGuideLine"
-            app:layout_constraintTop_toBottomOf="@id/companyCNPJ">
+            app:layout_constraintTop_toBottomOf="@id/cooperativeCNPJ">
 
-            <androidx.cardview.widget.CardView style="@style/Theme.RecoopeMobile.CompanyCardInfo">
+            <androidx.cardview.widget.CardView style="@style/Theme.RecoopeMobile.ProfileCardInfo">
 
-                <LinearLayout style="@style/Theme.RecoopeMobile.CompanyCardLayout">
+                <LinearLayout style="@style/Theme.RecoopeMobile.ProfileCardLayout">
 
                     <TextView
-                        style="@style/Theme.RecoopeMobile.CompanyCardText"
+                        style="@style/Theme.RecoopeMobile.ProfileCardText"
                         android:text="E-mail"
                         android:textStyle="bold" />
 
                     <TextView
-                        style="@style/Theme.RecoopeMobile.CompanyCardText"
-                        android:text="company@email.com" />
+                        style="@style/Theme.RecoopeMobile.ProfileCardText"
+                        android:text="cooperative@email.com" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView style="@style/Theme.RecoopeMobile.CompanyCardInfo">
+            <androidx.cardview.widget.CardView style="@style/Theme.RecoopeMobile.ProfileCardInfo">
 
-                <LinearLayout style="@style/Theme.RecoopeMobile.CompanyCardLayout">
+                <LinearLayout style="@style/Theme.RecoopeMobile.ProfileCardLayout">
 
                     <TextView
-                        style="@style/Theme.RecoopeMobile.CompanyCardText"
+                        style="@style/Theme.RecoopeMobile.ProfileCardText"
                         android:text="Telefone"
                         android:textStyle="bold" />
 
                     <TextView
-                        style="@style/Theme.RecoopeMobile.CompanyCardText"
+                        style="@style/Theme.RecoopeMobile.ProfileCardText"
                         android:text="(00) 00000-0000" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView style="@style/Theme.RecoopeMobile.CompanyCardInfo">
+            <androidx.cardview.widget.CardView style="@style/Theme.RecoopeMobile.ProfileCardInfo">
 
-                <LinearLayout style="@style/Theme.RecoopeMobile.CompanyCardLayout">
+                <LinearLayout style="@style/Theme.RecoopeMobile.ProfileCardLayout">
 
                     <TextView
-                        style="@style/Theme.RecoopeMobile.CompanyCardText"
+                        style="@style/Theme.RecoopeMobile.ProfileCardText"
                         android:text="Endereço"
                         android:textStyle="bold" />
 
                     <TextView
-                        style="@style/Theme.RecoopeMobile.CompanyCardText"
+                        style="@style/Theme.RecoopeMobile.ProfileCardText"
                         android:text="R. Exemplo da Silva - Parque 007, São Paulo - SP, 05120-060" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView style="@style/Theme.RecoopeMobile.CompanyCardInfo">
+            <androidx.cardview.widget.CardView style="@style/Theme.RecoopeMobile.ProfileCardInfo">
 
-                <LinearLayout style="@style/Theme.RecoopeMobile.CompanyCardLayout">
+                <LinearLayout style="@style/Theme.RecoopeMobile.ProfileCardLayout">
 
                     <TextView
-                        style="@style/Theme.RecoopeMobile.CompanyCardText"
+                        style="@style/Theme.RecoopeMobile.ProfileCardText"
                         android:text="Tempo Conosco"
                         android:textStyle="bold" />
 
                     <TextView
-                        style="@style/Theme.RecoopeMobile.CompanyCardText"
+                        style="@style/Theme.RecoopeMobile.ProfileCardText"
                         android:text="00 anos" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView style="@style/Theme.RecoopeMobile.CompanyCardInfo">
+            <androidx.cardview.widget.CardView style="@style/Theme.RecoopeMobile.ProfileCardInfo">
 
-                <LinearLayout style="@style/Theme.RecoopeMobile.CompanyCardLayout">
+                <LinearLayout style="@style/Theme.RecoopeMobile.ProfileCardLayout">
 
                     <TextView
-                        style="@style/Theme.RecoopeMobile.CompanyCardText"
+                        style="@style/Theme.RecoopeMobile.ProfileCardText"
                         android:text="Leilões Participados"
                         android:textStyle="bold" />
 
                     <TextView
-                        style="@style/Theme.RecoopeMobile.CompanyCardText"
+                        style="@style/Theme.RecoopeMobile.ProfileCardText"
                         android:text="00 Leilões" />
                 </LinearLayout>
 
@@ -186,7 +186,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/endGuideLine"
             app:layout_constraintStart_toEndOf="@id/startGuideLine"
-            app:layout_constraintTop_toBottomOf="@id/companyInfoLayout" />
+            app:layout_constraintTop_toBottomOf="@id/cooperativeInfoLayout" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/endGuideLine"
@@ -195,7 +195,6 @@
             android:orientation="vertical"
             app:layout_constraintGuide_begin="0dp"
             app:layout_constraintGuide_percent="0.92" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

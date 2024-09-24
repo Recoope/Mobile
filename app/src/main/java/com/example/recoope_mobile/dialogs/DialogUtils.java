@@ -22,7 +22,7 @@ public class DialogUtils {
         }
 
         Dialog customDialog = new Dialog(context);
-        customDialog.setContentView(R.layout.company_dialog_register);
+        customDialog.setContentView(R.layout.dialog_register);
 
         Log.d(LOG_TAG, "Custom Dialog is being set up");
 
@@ -69,7 +69,7 @@ public class DialogUtils {
         }
 
         Dialog customDialog = new Dialog(context);
-        customDialog.setContentView(R.layout.company_dialog_register);
+        customDialog.setContentView(R.layout.dialog_register);
 
         Log.d(LOG_TAG, "Custom Dialog is being set up");
 
