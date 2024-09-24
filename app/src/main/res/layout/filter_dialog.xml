@@ -104,7 +104,7 @@
                     android:paddingHorizontal="10dp"
                     android:layout_weight="3"
                     android:drawablePadding="10dp"
-                    android:textColorHint="A4A4A4"
+                    android:drawableTint="#A4A4A4"
                     android:drawableEnd="@drawable/vector_calendar"
                     android:background="@drawable/shape_input"
                     android:inputType="date"
