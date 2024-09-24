@@ -60,7 +60,7 @@
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/company_item_receipt" />
+            tools:listitem="@layout/item_receipt" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/endGuideLine"

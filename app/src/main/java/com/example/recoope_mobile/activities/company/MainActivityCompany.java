@@ -22,7 +22,7 @@ public class MainActivityCompany extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.company_main);
+        setContentView(R.layout.main_activity);
 
         navBar = findViewById(R.id.navbar);
 
@@ -60,7 +60,7 @@ public class MainActivityCompany extends AppCompatActivity {
     private void replaceFragment(Fragment fragment)  {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.replace(R.id.companyContent, fragment);
         fragmentTransaction.commit();
     }
 
