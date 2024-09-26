@@ -14,6 +14,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/imageView12"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="28dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/auctionId"
+            app:srcCompat="@drawable/trash" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"
@@ -168,6 +178,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:text="R$0000"/>
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
