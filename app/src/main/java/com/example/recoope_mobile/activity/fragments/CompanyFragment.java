@@ -1,4 +1,4 @@
-package com.example.recoope_mobile.activities.company;
+package com.example.recoope_mobile.activity.company;
 
 import android.os.Bundle;
 

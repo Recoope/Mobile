@@ -44,7 +44,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.1">
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/auctionImg"
                 android:layout_width="105dp"
                 android:layout_height="140dp"
                 android:scaleType="centerCrop"
@@ -103,8 +103,9 @@
                 android:textSize="13sp" />
 
             <TextView
+                android:id="@+id/auctionMaterial"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Exemplo"
                 android:textSize="13sp" />
         </LinearLayout>
@@ -125,6 +126,7 @@
                 android:text="Peso: "/>
 
             <TextView
+                android:id="@+id/auctionWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
@@ -147,6 +149,7 @@
                 android:text="Lances a partir de "/>
 
             <TextView
+                android:id="@+id/auctionPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
@@ -164,7 +167,7 @@
             app:layout_constraintVertical_bias="0.921">
 
             <Button
-                android:id="@+id/auctionDetailButton"
+                android:id="@+id/auctionDetailBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -176,7 +179,7 @@
                 android:layout_marginEnd="25dp"/>
 
             <Button
-                android:id="@+id/auctionParticipateButton"
+                android:id="@+id/auctionParticipateBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
