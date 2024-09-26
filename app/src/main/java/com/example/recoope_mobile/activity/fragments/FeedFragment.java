@@ -1,4 +1,4 @@
-package com.example.recoope_mobile.activities.company;
+package com.example.recoope_mobile.activity.company;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -15,9 +15,8 @@ import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.adapter.AuctionAdapter;
-import com.example.recoope_mobile.models.Address;
-import com.example.recoope_mobile.models.Auction;
-import com.example.recoope_mobile.models.Product;
+import com.example.recoope_mobile.model.Auction;
+import com.example.recoope_mobile.response.ApiDataResponseAuction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,7 @@ public class FeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate layout
-        View view = inflater.inflate(R.layout.company_feed, container, false);
+        View view = inflater.inflate(R.layout.feed, container, false);
 
         // Initialize RecyclerView
         recyclerView = view.findViewById(R.id.recyclerViewFeed);
@@ -56,16 +55,19 @@ public class FeedFragment extends Fragment {
     }
 
     private void fetchAuctionData() {
-        Call<List<Auction>> call = apiService.getAllAuctions();
+        Call<ApiDataResponseAuction<List<Auction>>> call = apiService.getAllAuctions();
 
-        call.enqueue(new Callback<List<Auction>>() {
+        call.enqueue(new Callback<ApiDataResponseAuction<List<Auction>>>() {
             @Override
-            public void onResponse(Call<List<Auction>> call, Response<List<Auction>> response) {
+            public void onResponse(Call<ApiDataResponseAuction<List<Auction>>> call, Response<ApiDataResponseAuction<List<Auction>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    auctionList.clear();
-                    auctionList.addAll(response.body());
+                    ApiDataResponseAuction<List<Auction>> apiResponse = response.body();
 
-                    // Notify adapter that data has changed
+                    // Limpar a lista e adicionar os leilões retornados
+                    auctionList.clear();
+                    auctionList.addAll(apiResponse.getData());
+
+                    // Notificar o adaptador que os dados mudaram
                     auctionAdapter.notifyDataSetChanged();
                 } else {
                     Log.e(LOG_TAG, "Response failed: " + response.message());
@@ -74,10 +76,11 @@ public class FeedFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Auction>> call, Throwable t) {
+            public void onFailure(Call<ApiDataResponseAuction<List<Auction>>> call, Throwable t) {
                 Log.e(LOG_TAG, "API call failed: " + t.getMessage());
                 Toast.makeText(getContext(), "Failed to fetch data.", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 }

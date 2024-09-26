@@ -1,4 +1,4 @@
-package com.example.recoope_mobile.activities.company;
+package com.example.recoope_mobile.activity.company;
 
 import android.os.Bundle;
 
@@ -10,11 +10,12 @@ import android.view.ViewGroup;
 
 import com.example.recoope_mobile.R;
 
-public class SearchFragment extends Fragment {
+public class FullPaymentFragment extends Fragment {
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.search, container, false);
+        return inflater.inflate(R.layout.full_payments, container, false);
     }
 }
