@@ -69,14 +69,13 @@
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
             android:text="Encerra em XX dias"
             android:textColor="@color/recoope_secondary_color"
             android:textSize="16dp"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+            tools:layout_editor_absoluteY="399dp" />
 
         <TextView
             android:id="@+id/textView9"
@@ -166,28 +165,25 @@
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/imageView8"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/CardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="149dp"
-            android:src="@drawable/glass_image"
+            android:layout_marginTop="168dp"
+            app:cardCornerRadius="15dp"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintHorizontal_bias="0.500"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="218dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="6dp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView8"
-            tools:ignore="MissingConstraints"
-            tools:listitem="@layout/item_images" />
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/glass_image"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.cardview.widget.CardView>
 
         <EditText
             android:id="@+id/textView16"
@@ -245,7 +241,6 @@
             app:layout_constraintHorizontal_bias="0.131"
             app:layout_constraintStart_toEndOf="@+id/recyclerView"
             app:layout_constraintTop_toBottomOf="@+id/imageView8" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
