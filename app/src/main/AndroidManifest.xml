@@ -16,6 +16,9 @@
         android:theme="@style/Theme.RecoopeMobile"
         tools:targetApi="31">
         <activity
+            android:name=".SuccessBid"
+            android:exported="false" />
+        <activity
             android:name=".activities.cooperative.MainActivityCooperative"
             android:exported="false" />
         <activity
