@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="0dp"
+            app:layout_constraintGuide_percent="0.08" />
+
+        <LinearLayout
+            android:id="@+id/topLayout"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:background="@color/recoope_primary_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textView35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2024"
+                android:textColor="@color/white"
+                android:paddingLeft="16dp"
+                android:paddingTop="5dp"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView36"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Qui, 18 de julho"
+                android:textColor="@color/white"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="16dp"
+                android:textSize="16dp"
+                android:paddingBottom="14dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView35" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/startGuideLine"
+            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintTop_toBottomOf="@id/topLayout"
+            tools:listitem="@layout/item_calendar_auction" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="0dp"
+            app:layout_constraintGuide_percent="0.92" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
