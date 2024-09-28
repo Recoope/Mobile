@@ -1,7 +1,10 @@
 package com.example.recoope_mobile.Retrofit;
 
+import com.example.recoope_mobile.models.Auction;
 import com.example.recoope_mobile.models.Company;
 import com.example.recoope_mobile.models.LoginParams;
+
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -13,6 +16,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface ApiService {
+
+    /////Empresa
     // Criar um novo recurso (POST)
     @POST("empresa/cadastrar")
     Call<ResponseBody> createCompany(@Body Company company);
@@ -31,4 +36,29 @@ public interface ApiService {
     // Excluir um recurso (DELETE)
     @DELETE("empresa/remover/{id}")
     Call<Void> deleteCompany(@Path("id") String id);
+
+    /////Empresa
+
+
+    /////Leilão
+
+    // Ler todos recursos (GET)
+    @GET("api/auctions")
+    Call<List<Auction>> getAllAuctions();
+
+    // Ler um recurso específico (GET)
+    @GET("leilao/{id}")
+    Call<Auction> getByIdAuction(@Path("id") String id);
+
+    // Ler um recurso filtrado por material (GET)
+    @GET("leilao/material/{material}")
+    Call<List<Auction>> getFiltredAuction(@Path("id") String id);
+
+    // Ler um recurso por data (GET)
+    @GET("leilao/fim/material")
+    Call<Auction> getFiltredByDateAuction(@Path("id") String id);
+
+
+    /////Leilão
+
 }

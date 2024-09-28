@@ -60,8 +60,8 @@ public class Login extends AppCompatActivity {
         ImageButton btnLogin = findViewById(R.id.btnLogin);
 
         // Preencher a login para teste.
-         documentLoginEt.setText("49779751000147");
-         passwordLoginEt.setText("empresaxyz123");
+         documentLoginEt.setText("51206525000119");
+         passwordLoginEt.setText("Senha12345!");
 
         addTextWatchers();
         btnLogin.setOnClickListener(new View.OnClickListener() {

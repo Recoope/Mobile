@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.recoope_mobile.R;
+import com.example.recoope_mobile.activities.company.FeedFragment;
 import com.example.recoope_mobile.enums.InvalidFormatLogin;
 import com.example.recoope_mobile.enums.InvalidFormatRegister;
 
