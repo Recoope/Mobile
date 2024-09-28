@@ -6,26 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".activities.fragments.BidFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/recoope_primary_color">
-
-        <TextView
-            android:id="@+id/topBarText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Leilão #4243"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-
-    </androidx.appcompat.widget.Toolbar>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/recoope_primary_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/topBarText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Leilão #4243"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/endGuideLine"
@@ -45,13 +48,13 @@
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="111dp"
+            android:layout_marginTop="50dp"
             android:text="Cooperativa Coopermape"
             android:textColor="@color/black"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
             app:layout_constraintHorizontal_bias="0.500"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <ImageView
             android:id="@+id/imageView7"
@@ -69,131 +72,125 @@
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
             android:text="Encerra em XX dias"
+            android:layout_marginTop="20dp"
             android:textColor="@color/recoope_secondary_color"
             android:textSize="16dp"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView8" />
 
         <TextView
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="442dp"
+            android:layout_marginTop="40dp"
             android:text="Sobre o leilão"
             android:textColor="@color/black"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
             app:layout_constraintHorizontal_bias="0.007"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/textView8" />
 
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="474dp"
-            android:text="Material"
-            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
-            app:layout_constraintHorizontal_bias="0.007"
-            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/linearInfo"
+            android:layout_marginTop="10dp"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/textView9"
+            app:layout_constraintStart_toEndOf="@id/startGuideLine"
+            app:layout_constraintEnd_toStartOf="@id/endGuideLine">
 
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="474dp"
-            android:layout_marginRight="6dp"
-            android:text="Plástico"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toTopOf="parent" />
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="504dp"
-            android:text="Quantia"
-            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
-            app:layout_constraintHorizontal_bias="0.007"
-            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Material" />
 
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="504dp"
-            android:layout_marginRight="6dp"
-            android:text="100kg"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/auctionMaterial"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:text="Exemplo"
+                    android:textColor="@color/black" />
 
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="535dp"
-            android:text="Maior lance"
-            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
-            app:layout_constraintHorizontal_bias="0.007"
-            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="535dp"
-            android:layout_marginRight="6dp"
-            android:text="R$3.000,00"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quantia" />
 
-        <ImageView
+                <TextView
+                    android:id="@+id/auctionWeight"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:text="000kg"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Maior lance" />
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:text="R$0.000,00"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+        
+        <androidx.cardview.widget.CardView
             android:id="@+id/imageView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="149dp"
-            android:src="@drawable/glass_image"
+            android:layout_width="0dp"
+            android:layout_height="220dp"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="15dp"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/textView6">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/glass_image" />
+        </androidx.cardview.widget.CardView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="218dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="6dp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView8"
-            tools:ignore="MissingConstraints"
-            tools:listitem="@layout/item_images" />
 
         <EditText
             android:id="@+id/textView16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="569dp"
             android:inputType="numberDecimal"
             android:hint="R$ 00,00"
             android:textColorHint="#BABABA"
@@ -203,7 +200,7 @@
             android:backgroundTint="#DFDFDF"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/linearInfo" />
 
         <Button
             android:id="@+id/button7"
@@ -217,34 +214,6 @@
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
             app:layout_constraintTop_toBottomOf="@+id/textView16" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="30dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginLeft="6dp"
-            android:text="<"
-            android:background="@drawable/shape_sort_by"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toStartOf="@+id/recyclerView"
-            app:layout_constraintHorizontal_bias="0.842"
-            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toBottomOf="@+id/imageView8" />
-
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="30dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginRight="6dp"
-            android:text=">"
-            android:background="@drawable/shape_sort_by"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
-            app:layout_constraintHorizontal_bias="0.131"
-            app:layout_constraintStart_toEndOf="@+id/recyclerView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView8" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
