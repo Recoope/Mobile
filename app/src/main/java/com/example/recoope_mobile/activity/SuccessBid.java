@@ -1,8 +1,10 @@
-package com.example.recoope_mobile;
+package com.example.recoope_mobile.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.recoope_mobile.R;
 
 public class SuccessBid extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.recoope_mobile.activity.company;
+package com.example.recoope_mobile.activity.fragments;
 
 import android.annotation.SuppressLint;
 import android.graphics.Typeface;

@@ -1,7 +1,6 @@
 package com.example.recoope_mobile.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.recoope_mobile.R;
-import com.example.recoope_mobile.activities.Login;
-import com.example.recoope_mobile.dialogs.DialogUtils;
-import com.example.recoope_mobile.models.Auction;
+import com.example.recoope_mobile.model.Auction;
 
 import java.util.List;
 
@@ -35,7 +31,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
     @NonNull
     @Override
     public AuctionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.company_item_auction, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_auction, parent, false);
         return new AuctionViewHolder(view);
     }
 

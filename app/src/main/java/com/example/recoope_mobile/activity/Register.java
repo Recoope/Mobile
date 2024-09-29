@@ -1,4 +1,4 @@
-package com.example.recoope_mobile.activities;
+package com.example.recoope_mobile.activity;
 
 import static com.example.recoope_mobile.enums.InvalidFormatRegister.*;
 
@@ -16,9 +16,9 @@ import android.widget.Toast;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
-import com.example.recoope_mobile.dialogs.DialogUtils;
+import com.example.recoope_mobile.dialog.DialogUtils;
 import com.example.recoope_mobile.enums.InvalidFormatRegister;
-import com.example.recoope_mobile.models.Company;
+import com.example.recoope_mobile.model.Company;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

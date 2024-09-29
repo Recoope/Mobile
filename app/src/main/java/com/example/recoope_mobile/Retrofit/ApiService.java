@@ -1,8 +1,8 @@
 package com.example.recoope_mobile.Retrofit;
 
-import com.example.recoope_mobile.models.Auction;
-import com.example.recoope_mobile.models.Company;
-import com.example.recoope_mobile.models.LoginParams;
+import com.example.recoope_mobile.model.Auction;
+import com.example.recoope_mobile.model.Company;
+import com.example.recoope_mobile.model.LoginParams;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.recoope_mobile.activities.fragments;
+package com.example.recoope_mobile.activity.fragments;
 
 import android.os.Bundle;
 

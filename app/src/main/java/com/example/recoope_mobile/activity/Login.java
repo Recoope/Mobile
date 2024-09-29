@@ -1,4 +1,4 @@
-package com.example.recoope_mobile.activities;
+package com.example.recoope_mobile.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,11 +17,11 @@ import android.widget.Toast;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
-import com.example.recoope_mobile.activities.company.MainActivityCompany;
-import com.example.recoope_mobile.dialogs.DialogUtils;
+import com.example.recoope_mobile.activity.fragments.MainActivity;
+import com.example.recoope_mobile.dialog.DialogUtils;
 import com.example.recoope_mobile.enums.InvalidFormatLogin;
-import com.example.recoope_mobile.models.Company;
-import com.example.recoope_mobile.models.LoginParams;
+import com.example.recoope_mobile.model.Company;
+import com.example.recoope_mobile.model.LoginParams;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
@@ -213,7 +213,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void nextScreen() {
-        Intent intent = new Intent(Login.this, MainActivityCompany.class);
+        Intent intent = new Intent(Login.this, MainActivity.class);
         startActivity(intent);
         finish();
     }
