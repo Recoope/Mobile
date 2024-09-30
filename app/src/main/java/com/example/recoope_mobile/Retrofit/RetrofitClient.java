@@ -1,7 +1,10 @@
 package com.example.recoope_mobile.Retrofit;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+
+import com.example.recoope_mobile.activity.Login;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -11,6 +14,7 @@ import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -38,6 +42,17 @@ public class RetrofitClient {
                                 .header("Authorization", token);
                         Request request = requestBuilder.build();
                         return chain.proceed(request);
+                    })
+                    .addInterceptor(chain -> {
+                        Response response = chain.proceed(chain.request());
+
+                        if (response.code() == 401) {
+                            Intent intent = new Intent(context, Login.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        }
+
+                        return response;
                     })
                     .build();
 
