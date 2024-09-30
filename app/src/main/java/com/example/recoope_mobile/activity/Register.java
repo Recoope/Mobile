@@ -55,7 +55,7 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        apiService = RetrofitClient.getClient().create(ApiService.class);
+        apiService = RetrofitClient.getClient(this).create(ApiService.class);
 
         companyNameLayout = findViewById(R.id.companyNameLayout);
         companyNameEt = findViewById(R.id.companyName);

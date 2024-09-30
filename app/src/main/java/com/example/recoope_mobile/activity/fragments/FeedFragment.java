@@ -31,7 +31,7 @@ public class FeedFragment extends Fragment {
     private RecyclerView recyclerView;
     private AuctionAdapter auctionAdapter;
     private List<Auction> auctionList;
-    private ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+    private ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(LOG_TAG, "onCreateView called");

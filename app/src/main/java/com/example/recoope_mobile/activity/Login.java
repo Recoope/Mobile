@@ -3,6 +3,7 @@ package com.example.recoope_mobile.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.example.recoope_mobile.dialog.DialogUtils;
 import com.example.recoope_mobile.enums.InvalidFormatLogin;
 import com.example.recoope_mobile.model.Company;
 import com.example.recoope_mobile.model.LoginParams;
+import com.example.recoope_mobile.model.LoginResponse;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
@@ -40,7 +42,7 @@ public class Login extends AppCompatActivity {
 
     private final String LOG_TAG = "Login";
 
-    private ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+    private ApiService apiService = RetrofitClient.getClient(this).create(ApiService.class);
 
     private TextInputEditText documentLoginEt;
     private TextInputLayout documentLoginLayout;
@@ -60,8 +62,8 @@ public class Login extends AppCompatActivity {
         ImageButton btnLogin = findViewById(R.id.btnLogin);
 
         // Preencher a login para teste.
-         documentLoginEt.setText("51206525000119");
-         passwordLoginEt.setText("Senha12345!");
+         documentLoginEt.setText("49779751000147");
+         passwordLoginEt.setText("empresaxyz123");
 
         addTextWatchers();
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +102,9 @@ public class Login extends AppCompatActivity {
 
                         if (response.code() == 200) {
                             Gson gson = new Gson();
-                            Company company = gson.fromJson(data, Company.class);
+                            LoginResponse loginResponse = gson.fromJson(data, LoginResponse.class);
+
+                            saveToken(loginResponse.getToken());
 
                             nextScreen();
 
@@ -216,6 +220,13 @@ public class Login extends AppCompatActivity {
         Intent intent = new Intent(Login.this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void saveToken(String token) {
+        SharedPreferences preferences = getSharedPreferences("auth", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("token", token);
+        editor.apply();
     }
 
 }

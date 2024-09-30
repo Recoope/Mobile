@@ -18,6 +18,10 @@ import retrofit2.http.Path;
 
 public interface ApiService {
 
+    /////Autenticação
+    @POST("login")
+    Call<ResponseBody> authenticationCompany(@Body LoginParams loginParams);
+
     /////Empresa
     // Criar um novo recurso (POST)
     @POST("empresa/cadastrar")
@@ -26,9 +30,6 @@ public interface ApiService {
     // Ler um recurso específico (GET)
     @GET("empresa/{id}")
     Call<Company> getCompanyById(@Path("id") String id);
-
-    @POST("empresa/login")
-    Call<ResponseBody> authenticationCompany(@Body LoginParams loginParams);
 
     // Atualizar um recurso existente (PUT)
     @PATCH("empresa/alterar/{id}")

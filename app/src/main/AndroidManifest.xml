@@ -16,7 +16,7 @@
         android:theme="@style/Theme.RecoopeMobile"
         tools:targetApi="31">
         <activity
-            android:name=".activity.cooperative.MainActivityCooperative"
+            android:name=".activity.fragments.MainActivity"
             android:exported="false" />
         <activity
             android:name=".activity.Register"
@@ -26,9 +26,6 @@
             android:exported="false" />
         <activity
             android:name=".activity.StartScreen"
-            android:exported="false" />
-        <activity
-            android:name=".activity.fragments.MainActivityCompany"
             android:exported="false" />
         <activity
             android:name=".activity.SplashScreen"
