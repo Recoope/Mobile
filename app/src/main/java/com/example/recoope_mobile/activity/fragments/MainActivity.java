@@ -10,7 +10,7 @@ import android.os.Bundle;
 import com.example.recoope_mobile.R;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class MainActivityCompany extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private Fragment feedFragment;
     private Fragment searchFragment;

@@ -16,14 +16,9 @@ import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.adapter.AuctionAdapter;
 import com.example.recoope_mobile.model.Auction;
-import com.example.recoope_mobile.response.ApiDataResponseAuction;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class FeedFragment extends Fragment {
 
