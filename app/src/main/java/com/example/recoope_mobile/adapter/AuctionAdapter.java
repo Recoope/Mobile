@@ -1,7 +1,6 @@
 package com.example.recoope_mobile.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.recoope_mobile.R;
-import com.example.recoope_mobile.activities.Login;
-import com.example.recoope_mobile.dialogs.DialogUtils;
-import com.example.recoope_mobile.models.Auction;
+import com.example.recoope_mobile.model.Auction;
 
 import java.util.List;
 
@@ -35,7 +32,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
     @NonNull
     @Override
     public AuctionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.company_item_auction, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_auction, parent, false);
         return new AuctionViewHolder(view);
     }
 
@@ -43,24 +40,51 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
     public void onBindViewHolder(@NonNull AuctionViewHolder holder, int position) {
         Auction auction = auctions.get(position);
 
-        // Defina as informações do card
-        holder.auctionCoopName.setText(auction.getCooperative().getName());
-        holder.auctionDate.setText(auction.getEndDate());
-        holder.auctionMaterial.setText(auction.getProduct().getProductType());
-        holder.auctionWeight.setText(String.valueOf(auction.getProduct().getWeight()));
-        holder.auctionPrice.setText(String.valueOf(auction.getProduct().getInitialValue()));
-        holder.idAuction.setText(String.valueOf(auction.getAuctionId()));
+        Log.e(LOG_TAG, auction.toString());
 
-        // Carregar a imagem do leilão (produto) usando Glide
-        Glide.with(context)
-                .load(auction.getProduct().getPhoto()) // URL da imagem do produto
-                .into(holder.auctionImg);
+        // Verificar se a cooperativa não é nula antes de acessar seus atributos
+        if (auction.getCooperative() != null) {
+            holder.auctionCoopName.setText(auction.getCooperative().getName());
+        } else {
+            holder.auctionCoopName.setText("Cooperativa não disponível");
+        }
+
+        // Verificar se o produto não é nulo antes de acessar seus atributos
+        if (auction.getProduct() != null) {
+            holder.auctionMaterial.setText(auction.getProduct().getProductType());
+            holder.auctionWeight.setText(auction.getProduct().getWeight() > 0 ? String.valueOf(auction.getProduct().getWeight()) : "Peso não disponível");
+            holder.auctionPrice.setText(String.valueOf(auction.getProduct().getInitialValue()));
+
+            // Carregar a imagem do leilão (produto) usando Glide, se a URL não for nula
+            if (auction.getProduct().getPhoto() != null) {
+                Glide.with(context)
+                        .load(auction.getProduct().getPhoto())
+                        .into(holder.auctionImg);
+            } else {
+                holder.auctionImg.setImageResource(R.drawable.glass_image); // Exemplo de imagem padrão
+            }
+        } else {
+            holder.auctionMaterial.setText("Material não disponível");
+            holder.auctionWeight.setText("Peso não disponível");
+            holder.auctionPrice.setText("Preço não disponível");
+            holder.auctionImg.setImageResource(R.drawable.glass_image_2); // Imagem padrão
+        }
+
+        // Preencher outras informações que não dependem de nulos
+        holder.auctionDate.setText(auction.getEndDate());
+        holder.idAuction.setText(String.valueOf(auction.getAuctionId()));
 
         // Clique para ver detalhes
         holder.auctionDetailBtn.setOnClickListener(v -> {
-            Log.e(LOG_TAG, "DETALHES!");
+            Log.e(LOG_TAG, "Clicado no botão detalhes (Implementar fluxo) leilao:" + auction.getAuctionId());
+        });
+
+        // Clique para participar
+        holder.auctionParticipateBtn.setOnClickListener(v -> {
+            Log.e(LOG_TAG, "Clicado no botão detalhes (Implementar fluxo) leilao:" + auction.getAuctionId());
         });
     }
+
 
     @Override
     public int getItemCount() {

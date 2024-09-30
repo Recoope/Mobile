@@ -1,4 +1,4 @@
-package com.example.recoope_mobile.activities;
+package com.example.recoope_mobile.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 

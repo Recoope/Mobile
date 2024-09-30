@@ -16,22 +16,22 @@
         android:theme="@style/Theme.RecoopeMobile"
         tools:targetApi="31">
         <activity
-            android:name=".activities.cooperative.MainActivityCooperative"
+            android:name=".activity.cooperative.MainActivityCooperative"
             android:exported="false" />
         <activity
-            android:name=".activities.Register"
+            android:name=".activity.Register"
             android:exported="false" />
         <activity
-            android:name=".activities.Login"
+            android:name=".activity.Login"
             android:exported="false" />
         <activity
-            android:name=".activities.StartScreen"
+            android:name=".activity.StartScreen"
             android:exported="false" />
         <activity
-            android:name=".activities.company.MainActivityCompany"
+            android:name=".activity.fragments.MainActivityCompany"
             android:exported="false" />
         <activity
-            android:name=".activities.SplashScreen"
+            android:name=".activity.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,25 +1,24 @@
-package com.example.recoope_mobile.models;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+package com.example.recoope_mobile.model;
+import com.google.gson.annotations.SerializedName;
 
 public class Product {
 
-    @JsonProperty("productId")
+    @SerializedName(value="idProduto")
     private int productId;
 
-    @JsonProperty("productType")
+    @SerializedName(value="tipoProduto")
     private String productType;
 
-    @JsonProperty("initialValue")
+    @SerializedName(value="valorInicialProduto")
     private double initialValue;
 
-    @JsonProperty("finalValue")
+    @SerializedName(value="valorFinalProduto")
     private double finalValue;
 
-    @JsonProperty("weight")
-    private double weight;
+    @SerializedName(value="peso")
+    private Double weight;
 
-    @JsonProperty("photo")
+    @SerializedName(value="fotoLeilao")
     private String photo;
 
     public Product(int productId, String productType, double initialValue, double finalValue, double weight, String photo) {

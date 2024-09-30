@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.company.CompanyFragment"
+    tools:context=".activity.fragments.CompanyFragment"
     android:background="@color/background_color"
     style="@style/Theme.RecoopeMobile">
 
@@ -132,25 +132,25 @@
             app:layout_constraintTop_toBottomOf="@+id/auctionText">
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btGlassFilter"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="5"
                 android:text="Vidros" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/btMetalFIlter"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="5"
                 android:text="Metais" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/btPlasticFilter"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="5"
                 android:text="Plásticos" />
 
             <ImageButton
-                android:id="@+id/button5"
+                android:id="@+id/btOtherFilter"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="3"
                 android:src="@drawable/vector_feed_filter_menu" />

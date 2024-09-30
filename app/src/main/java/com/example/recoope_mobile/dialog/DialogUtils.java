@@ -1,4 +1,4 @@
-package com.example.recoope_mobile.dialogs;
+package com.example.recoope_mobile.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
@@ -8,7 +8,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.recoope_mobile.R;
-import com.example.recoope_mobile.activities.company.FeedFragment;
 import com.example.recoope_mobile.enums.InvalidFormatLogin;
 import com.example.recoope_mobile.enums.InvalidFormatRegister;
 

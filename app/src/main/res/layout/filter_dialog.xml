@@ -59,25 +59,25 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/button2"
+                        android:id="@+id/btGlassFilter"
                         style="@style/Theme.RecoopeMobile.FilterButton"
                         android:layout_weight="1"
                         android:text="Vidros" />
 
                     <Button
-                        android:id="@+id/button3"
+                        android:id="@+id/btMetalFIlter"
                         style="@style/Theme.RecoopeMobile.FilterButton"
                         android:layout_weight="1"
                         android:text="Metais" />
 
                     <Button
-                        android:id="@+id/button4"
+                        android:id="@+id/btPlasticFilter"
                         style="@style/Theme.RecoopeMobile.FilterButton"
                         android:layout_weight="1"
                         android:text="Plásticos" />
 
                     <Button
-                        android:id="@+id/button5"
+                        android:id="@+id/btOtherFilter"
                         style="@style/Theme.RecoopeMobile.FilterButton"
                         android:layout_weight="1"
                         android:text="Papel" />

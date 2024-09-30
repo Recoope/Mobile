@@ -1,4 +1,4 @@
-package com.example.recoope_mobile.activity.company;
+package com.example.recoope_mobile.activity.fragments;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -32,27 +32,33 @@ public class FeedFragment extends Fragment {
     private AuctionAdapter auctionAdapter;
     private List<Auction> auctionList;
     private ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d(LOG_TAG, "onCreateView called");
 
-        // Inflate layout
-        View view = inflater.inflate(R.layout.feed, container, false);
+        View view = null;
+        try {
+            view = inflater.inflate(R.layout.feed, container, false);
+            Log.d(LOG_TAG, "View inflated");
 
-        // Initialize RecyclerView
-        recyclerView = view.findViewById(R.id.recyclerViewFeed);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView = view.findViewById(R.id.recyclerViewFeed);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            Log.d(LOG_TAG, "RecyclerView initialized");
 
-        // Initialize auction list
-        auctionList = new ArrayList<>();
-        fetchAuctionData(); // Call API to get auctions
+            auctionList = new ArrayList<>();
+            auctionAdapter = new AuctionAdapter(auctionList, getContext());
+            recyclerView.setAdapter(auctionAdapter);
+            Log.d(LOG_TAG, "Adapter set");
 
-        // Set up adapter with auction list
-        auctionAdapter = new AuctionAdapter(auctionList, getContext());
-        recyclerView.setAdapter(auctionAdapter);
+            fetchAuctionData();
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Exception in onCreateView: " + e.getMessage());
+            e.printStackTrace();
+        }
 
         return view;
     }
+
 
     private void fetchAuctionData() {
         Call<ApiDataResponseAuction<List<Auction>>> call = apiService.getAllAuctions();
@@ -62,11 +68,11 @@ public class FeedFragment extends Fragment {
             public void onResponse(Call<ApiDataResponseAuction<List<Auction>>> call, Response<ApiDataResponseAuction<List<Auction>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     ApiDataResponseAuction<List<Auction>> apiResponse = response.body();
-
-                    // Limpar a lista e adicionar os leilões retornados
+                    // Limpar a lista existente e adicionar os novos leilões da resposta
                     auctionList.clear();
-                    auctionList.addAll(apiResponse.getData());
-
+                    if (apiResponse.getData() != null) {
+                        auctionList.addAll(apiResponse.getData());
+                    }
                     // Notificar o adaptador que os dados mudaram
                     auctionAdapter.notifyDataSetChanged();
                 } else {
@@ -74,6 +80,7 @@ public class FeedFragment extends Fragment {
                     Toast.makeText(getContext(), "Failed to load auctions.", Toast.LENGTH_SHORT).show();
                 }
             }
+
 
             @Override
             public void onFailure(Call<ApiDataResponseAuction<List<Auction>>> call, Throwable t) {

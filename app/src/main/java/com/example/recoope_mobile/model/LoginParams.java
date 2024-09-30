@@ -1,8 +1,6 @@
-package com.example.recoope_mobile.models;
+package com.example.recoope_mobile.model;
 
 import com.google.gson.annotations.SerializedName;
-
-import org.jetbrains.annotations.NotNull;
 
 public class LoginParams {
 

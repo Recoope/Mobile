@@ -1,8 +1,9 @@
 package com.example.recoope_mobile.Retrofit;
 
-import com.example.recoope_mobile.models.Auction;
-import com.example.recoope_mobile.models.Company;
-import com.example.recoope_mobile.models.LoginParams;
+import com.example.recoope_mobile.model.Auction;
+import com.example.recoope_mobile.model.Company;
+import com.example.recoope_mobile.model.LoginParams;
+import com.example.recoope_mobile.response.ApiDataResponseAuction;
 
 import java.util.List;
 
@@ -43,8 +44,8 @@ public interface ApiService {
     /////Leilão
 
     // Ler todos recursos (GET)
-    @GET("api/auctions")
-    Call<List<Auction>> getAllAuctions();
+    @GET("leilao")
+    Call<ApiDataResponseAuction<List<Auction>>> getAllAuctions();
 
     // Ler um recurso específico (GET)
     @GET("leilao/{id}")
@@ -52,7 +53,7 @@ public interface ApiService {
 
     // Ler um recurso filtrado por material (GET)
     @GET("leilao/material/{material}")
-    Call<List<Auction>> getFiltredAuction(@Path("id") String id);
+    Call<ApiDataResponseAuction<List<Auction>>> getFiltredAuction(@Path("id") String id);
 
     // Ler um recurso por data (GET)
     @GET("leilao/fim/material")

@@ -1,4 +1,4 @@
-package com.example.recoope_mobile.activity.company;
+package com.example.recoope_mobile.activity.fragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;

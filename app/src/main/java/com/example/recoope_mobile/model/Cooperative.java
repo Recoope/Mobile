@@ -1,26 +1,27 @@
-package com.example.recoope_mobile.models;
+package com.example.recoope_mobile.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 public class Cooperative {
 
-    @JsonProperty("cnpj_cooperativa")
+    @SerializedName(value="cnpjCooperativa")
     private String cnpj;
 
-    @JsonProperty("nome_cooperativa")
+    @SerializedName(value="nomeCooperativa")
     private String name;
 
-    @JsonProperty("email_cooperativa")
+    @SerializedName(value="emailCooperativa")
     private String email;
 
-    @JsonProperty("senha_cooperativa")
-    private String password;
+    @SerializedName(value="registroCooperativa")
+    private String registration;
 
-    public Cooperative(String cnpj, String name, String email, String password) {
+    public Cooperative(String cnpj, String name, String email, String registation) {
         this.cnpj = cnpj;
         this.name = name;
         this.email = email;
-        this.password = password;
+        this.registration = registation;
     }
 
     public String getCnpj() {
@@ -47,11 +48,11 @@ public class Cooperative {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getRegistration() {
+        return registration;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRegistration(String password) {
+        this.registration = registration;
     }
 }

@@ -1,34 +1,32 @@
-package com.example.recoope_mobile.models;
+package com.example.recoope_mobile.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 public class Auction {
 
-    @JsonProperty("auctionId")
+    @SerializedName(value="idLeilao")
     private int auctionId;
 
-    @JsonProperty("startDate")
+    @SerializedName(value="dataInicioLeilao")
     private String startDate;
 
-    @JsonProperty("endDate")
+    @SerializedName(value="dataFimLeilao")
     private String endDate;
 
-    @JsonProperty("details")
+    @SerializedName(value="detalhesLeilao")
     private String details;
 
-    @JsonProperty("time")
+    @SerializedName(value="horaLeilao   ")
     private String time;
 
-    @JsonProperty("isFinished")
-    private String isFinished;
+    @SerializedName(value="endereco")
+    private Address address;
 
-    @JsonProperty("address")
-    private Address adress;
-
-    @JsonProperty("product")
+    @SerializedName(value="produto")
     private Product product;
 
-    @JsonProperty("cooperative")
+    @SerializedName(value="cooperativa")
     private Cooperative cooperative;
 
     public Auction(int auctionId, String startDate, String endDate, String details, String time, String isFinished, int addressId, int productId, String cooperativeCnpj, Product product, Cooperative cooperative, Address address) {
@@ -37,8 +35,7 @@ public class Auction {
         this.endDate = endDate;
         this.details = details;
         this.time = time;
-        this.isFinished = isFinished;
-        this.adress = address;
+        this.address = address;
         this.product = product;
         this.cooperative = cooperative;
     }
@@ -82,21 +79,12 @@ public class Auction {
     public void setTime(String time) {
         this.time = time;
     }
-
-    public String getIsFinished() {
-        return isFinished;
-    }
-
-    public void setIsFinished(String isFinished) {
-        this.isFinished = isFinished;
-    }
-
     public Address getAdress() {
-        return adress;
+        return address;
     }
 
     public void setAdress(Address adress) {
-        this.adress = adress;
+        this.address = adress;
     }
 
     public Product getProduct() {
@@ -113,5 +101,19 @@ public class Auction {
 
     public void setCooperative(Cooperative cooperative) {
         this.cooperative = cooperative;
+    }
+
+    @Override
+    public String toString() {
+        return "Auction{" +
+                "auctionId=" + auctionId +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", details='" + details + '\'' +
+                ", time='" + time + '\'' +
+                ", adress=" + address +
+                ", product=" + product +
+                ", cooperative=" + cooperative +
+                '}';
     }
 }

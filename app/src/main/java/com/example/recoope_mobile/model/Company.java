@@ -1,11 +1,6 @@
-package com.example.recoope_mobile.models;
+package com.example.recoope_mobile.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
-
-import org.intellij.lang.annotations.Identifier;
-
-import java.time.LocalDate;
 
 public class Company {
     @SerializedName(value = "cnpj")

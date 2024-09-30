@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    tools:context=".activities.company.CompanyFragment"
+    tools:context=".activity.fragments.CompanyFragment"
     style="@style/Theme.RecoopeMobile">
 
     <androidx.constraintlayout.widget.ConstraintLayout

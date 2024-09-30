@@ -1,24 +1,27 @@
-package com.example.recoope_mobile.models;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+package com.example.recoope_mobile.model;
+import com.google.gson.annotations.SerializedName;
 
 public class Address {
 
-    @JsonProperty("addressId")
+    @SerializedName(value="idEndereco")
     private int addressId;
 
-    @JsonProperty("city")
+    @SerializedName(value="cidade")
     private String city;
 
-    @JsonProperty("street")
+    @SerializedName(value="bairro")
+    private String neighborhood;
+
+    @SerializedName(value="rua")
     private String street;
 
-    @JsonProperty("number")
+    @SerializedName(value="numero")
     private int number;
 
-    public Address(int addressId, String city, String street, int number) {
+    public Address(int addressId, String city, String neighborhood, String street, int number) {
         this.addressId = addressId;
         this.city = city;
+        this.neighborhood = neighborhood;
         this.street = street;
         this.number = number;
     }
@@ -37,6 +40,14 @@ public class Address {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getNeighborhood() {
+        return neighborhood;
+    }
+
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
     }
 
     public String getStreet() {
