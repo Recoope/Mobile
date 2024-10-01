@@ -44,12 +44,17 @@ public class RetrofitClient {
                         return chain.proceed(request);
                     })
                     .addInterceptor(chain -> {
+                        SharedPreferences preferences = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
+                        String token = preferences.getString("token", null);
                         Response response = chain.proceed(chain.request());
 
-                        if (response.code() == 401) {
-                            Intent intent = new Intent(context, Login.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
+                        if (token != null) {
+
+                            if (response.code() == 401) {
+                                Intent intent = new Intent(context, Login.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            }
                         }
 
                         return response;
