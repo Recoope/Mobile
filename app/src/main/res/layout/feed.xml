@@ -5,9 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    android:maxWidth="50dp"
-    android:maxHeight="50dp"
-    android:minWidth="50dp"
     tools:context=".activity.fragments.FeedFragment"
     style="@style/Theme.RecoopeMobile">
 
@@ -20,8 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="0dp"
-            app:layout_constraintGuide_percent="0.08"/>
+            app:layout_constraintGuide_percent="0.08" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -49,31 +45,35 @@
             android:gravity="center"
             app:layout_constraintStart_toEndOf="@id/startGuideLine"
             app:layout_constraintEnd_toStartOf="@id/endGuideLine"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <Button
                 android:id="@+id/btGlassFilter"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="5"
-                android:text="Vidros" />
+                android:text="Vidros"
+                android:textColor="@color/button_filter_text_color"/>
 
             <Button
-                android:id="@+id/btMetalFIlter"
+                android:id="@+id/btMetalFilter"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="5"
-                android:text="Metais" />
+                android:text="Metais"
+                android:textColor="@color/button_filter_text_color"/>
 
             <Button
                 android:id="@+id/btPlasticFilter"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="5"
-                android:text="Plásticos" />
+                android:text="Plásticos"
+                android:textColor="@color/button_filter_text_color"/>
 
             <ImageButton
                 android:id="@+id/btOtherFilter"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="3"
-                android:src="@drawable/vector_feed_filter_menu" />
+                android:src="@drawable/vector_feed_filter_menu"
+                android:textColor="@color/button_filter_text_color"/>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -84,16 +84,13 @@
             app:layout_constraintTop_toBottomOf="@id/filterLayout"
             app:layout_constraintStart_toEndOf="@id/startGuideLine"
             app:layout_constraintEnd_toStartOf="@id/endGuideLine"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/endGuideLine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="0dp"
-            app:layout_constraintGuide_percent="0.92"/>
-
+            app:layout_constraintGuide_percent="0.92" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </FrameLayout>

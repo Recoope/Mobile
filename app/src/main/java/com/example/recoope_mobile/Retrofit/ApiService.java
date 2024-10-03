@@ -54,7 +54,7 @@ public interface ApiService {
 
     // Ler um recurso filtrado por material (GET)
     @GET("leilao/material/{material}")
-    Call<ApiDataResponseAuction<List<Auction>>> getFiltredAuction(@Path("id") String id);
+    Call<ApiDataResponseAuction<List<Auction>>> getFiltredAuction(@Path("material") String material);
 
     // Ler um recurso por data (GET)
     @GET("leilao/fim/material")
