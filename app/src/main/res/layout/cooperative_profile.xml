@@ -138,7 +138,7 @@
                 android:text="Vidros" />
 
             <Button
-                android:id="@+id/btMetalFIlter"
+                android:id="@+id/btMetalFilterD"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="5"
                 android:text="Metais" />

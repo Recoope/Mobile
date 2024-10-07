@@ -2,20 +2,15 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="400dp">
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/startGuideLine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.05" />
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/textView6"
@@ -31,54 +26,60 @@
 
         <LinearLayout
             android:id="@+id/filterLayout"
-            android:layout_width="0dp"
-            android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:paddingVertical="20dp"
             android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-            app:layout_constraintStart_toStartOf="@id/startGuideLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6">
 
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="Materiais: " />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btGlassFilter"
+                        android:id="@+id/btGlassFilterD"
                         style="@style/Theme.RecoopeMobile.FilterButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Vidros" />
 
                     <Button
-                        android:id="@+id/btMetalFIlter"
+                        android:id="@+id/btMetalFilterD"
                         style="@style/Theme.RecoopeMobile.FilterButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Metais" />
 
                     <Button
-                        android:id="@+id/btPlasticFilter"
+                        android:id="@+id/btPlasticFilterD"
                         style="@style/Theme.RecoopeMobile.FilterButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Plásticos" />
 
                     <Button
-                        android:id="@+id/btOtherFilter"
+                        android:id="@+id/btPaperFilterD"
                         style="@style/Theme.RecoopeMobile.FilterButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Papel" />
                 </LinearLayout>
@@ -87,7 +88,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -97,7 +97,7 @@
                     android:text="Encerra até: " />
 
                 <EditText
-                    android:id="@+id/untilInput"
+                    android:id="@+id/untilInputD"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:gravity="end|center"
@@ -114,7 +114,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -124,7 +123,7 @@
                     android:text="Peso mínimo: " />
 
                 <EditText
-                    android:id="@+id/minWeightInput"
+                    android:id="@+id/minWeightInputD"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:gravity="end|center"
@@ -140,7 +139,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -150,7 +148,7 @@
                     android:text="Peso máximo: " />
 
                 <EditText
-                    android:id="@+id/maxWeightInput"
+                    android:id="@+id/maxWeightInputD"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:gravity="end|center"
@@ -165,22 +163,17 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/btFilterMaterialD"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:background="@color/recoope_secondary_color"
             android:text="Filtrar"
-            android:textColor="@color/white"
             android:textAllCaps="false"
-            app:layout_constraintTop_toBottomOf="@id/filterLayout"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filterLayout" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/endGuideLine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.95" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

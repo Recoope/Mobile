@@ -5,16 +5,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class Cooperative {
 
-    @SerializedName(value="cnpjCooperativa")
+    @SerializedName(value="cnpj")
     private String cnpj;
 
-    @SerializedName(value="nomeCooperativa")
+    @SerializedName(value="nome")
     private String name;
 
-    @SerializedName(value="emailCooperativa")
+    @SerializedName(value="email")
     private String email;
 
-    @SerializedName(value="registroCooperativa")
+    @SerializedName(value="registro")
     private String registration;
 
     public Cooperative(String cnpj, String name, String email, String registation) {
