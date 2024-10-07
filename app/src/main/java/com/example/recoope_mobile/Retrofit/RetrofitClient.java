@@ -23,6 +23,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class RetrofitClient {
         private static final String BASE_URL = "http://10.0.2.2:8080/";
 
+//    private static final String BASE_URL = "ec2-44-194-250-226.compute-1.amazonaws.com/";
+
     //    private static final String BASE_URL = "https://recoopeapi.onrender.com/";
     private static Retrofit retrofit = null;
 
