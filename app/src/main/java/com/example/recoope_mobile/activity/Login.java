@@ -59,11 +59,10 @@ public class Login extends AppCompatActivity {
         passwordLoginEt = findViewById(R.id.passwordLogin);
         passwordLoginLayout = findViewById(R.id.passwordLoginLayout);
 
-        ImageButton btnLogin = findViewById(R.id.btnLogin);
+        documentLoginEt.setText("49779751000147");
+        passwordLoginEt.setText("empresaxyz123");
 
-        // Preencher a login para teste.
-         documentLoginEt.setText("49779751000147");
-         passwordLoginEt.setText("empresaxyz123");
+        ImageButton btnLogin = findViewById(R.id.btnLogin);
 
         addTextWatchers();
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +103,7 @@ public class Login extends AppCompatActivity {
                             Gson gson = new Gson();
                             LoginResponse loginResponse = gson.fromJson(data, LoginResponse.class);
 
-                            saveToken(loginResponse.getToken());
+                            saveToken(loginParams.getCnpjOrEmail(), loginResponse.getToken());
 
                             nextScreen();
 
@@ -222,14 +221,12 @@ public class Login extends AppCompatActivity {
         finish();
     }
 
-    private void saveToken(String token) {
+    private void saveToken(String cnpj, String token) {
         SharedPreferences preferences = getSharedPreferences("auth", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("cnpj", cnpj);
         editor.putString("token", token);
         editor.apply();
     }
 
 }
-
-
-

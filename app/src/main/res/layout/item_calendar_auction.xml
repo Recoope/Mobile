@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_marginHorizontal="10dp"
-    android:layout_marginBottom="20dp"
+    android:layout_marginHorizontal="5dp"
+    android:layout_marginVertical="10dp"
     android:layout_height="180dp"
     android:elevation="10dp"
     android:stateListAnimator="@null"
@@ -19,8 +19,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="28dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
             app:layout_constraintTop_toBottomOf="@+id/auctionId"
             app:srcCompat="@drawable/trash" />
 
@@ -29,20 +28,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="135dp" />
+            app:layout_constraintGuide_percent="0.35" />
 
         <TextView
             android:id="@+id/auctionId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Leilão #0000"
+            android:textAlignment="textEnd"
             android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.944"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/endGuideLine"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.03" />
+            app:layout_constraintVertical_bias="0.05" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -53,7 +51,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/auctionImg"
                 android:layout_width="110dp"
                 android:layout_height="140dp"
                 android:scaleType="centerCrop"
@@ -130,6 +128,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/auctionMaterial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Exemplo"
@@ -152,6 +151,7 @@
                 android:text="Peso: "/>
 
             <TextView
+                android:id="@+id/auctionWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -174,12 +174,20 @@
                 android:text="Lances a partir de "/>
 
             <TextView
+                android:id="@+id/auctionPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:text="R$0000"/>
 
         </LinearLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

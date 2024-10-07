@@ -5,6 +5,7 @@ import com.example.recoope_mobile.model.Company;
 import com.example.recoope_mobile.model.LoginParams;
 import com.example.recoope_mobile.response.ApiDataResponseAuction;
 
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -15,6 +16,7 @@ import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -57,10 +59,11 @@ public interface ApiService {
     Call<ApiDataResponseAuction<List<Auction>>> getFiltredAuction(@Path("id") String id);
 
     // Ler um recurso por data (GET)
-    @GET("leilao/fim/material")
-    Call<Auction> getFiltredByDateAuction(@Path("id") String id);
+    @GET("leilao/fim")
+    Call<ApiDataResponseAuction<List<Auction>>> getParticipations(@Query("cnpj") String cnpj);
+    @GET("leilao/fim")
+    Call<ApiDataResponseAuction<List<Auction>>> getParticipationsByExpiringDate(@Query("cnpj") String cnpj, @Query("date") String date);
 
-
-    /////Leilão
-
+    @GET("leilao/vencimentos/{cnpj}")
+    Call<ApiDataResponseAuction<List<Date>>> getExpiringDates(@Path("cnpj") String cnpj);
 }

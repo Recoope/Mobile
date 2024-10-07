@@ -3,6 +3,7 @@ package com.example.recoope_mobile.Retrofit;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.recoope_mobile.activity.Login;
 
@@ -37,6 +38,7 @@ public class RetrofitClient {
                     .addInterceptor(chain -> {
                         SharedPreferences preferences = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
                         String token = preferences.getString("token", "");
+                        Log.i("TOKEN", token);
                         Request original = chain.request();
                         Request.Builder requestBuilder = original.newBuilder()
                                 .header("Authorization", token);
