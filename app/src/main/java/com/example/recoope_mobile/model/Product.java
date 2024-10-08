@@ -3,22 +3,22 @@ import com.google.gson.annotations.SerializedName;
 
 public class Product {
 
-    @SerializedName(value="idProduto")
+    @SerializedName(value="id")
     private int productId;
 
-    @SerializedName(value="tipoProduto")
+    @SerializedName(value="tipo")
     private String productType;
 
-    @SerializedName(value="valorInicialProduto")
+    @SerializedName(value="valorInicial")
     private double initialValue;
 
-    @SerializedName(value="valorFinalProduto")
+    @SerializedName(value="valorFinal")
     private double finalValue;
 
     @SerializedName(value="peso")
     private Double weight;
 
-    @SerializedName(value="fotoLeilao")
+    @SerializedName(value="foto")
     private String photo;
 
     public Product(int productId, String productType, double initialValue, double finalValue, double weight, String photo) {

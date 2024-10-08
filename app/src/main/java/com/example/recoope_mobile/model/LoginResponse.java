@@ -16,6 +16,7 @@ public class LoginResponse {
     public String getCnpj() {
         return cnpj;
     }
+
     public void setToken(String token) {
         this.token = token;
     }
