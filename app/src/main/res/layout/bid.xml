@@ -45,7 +45,7 @@
             app:layout_constraintGuide_percent="0.08" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/cooperativeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
@@ -68,7 +68,7 @@
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/auctionEndMsg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Encerra em XX dias"
@@ -90,7 +90,7 @@
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
             app:layout_constraintHorizontal_bias="0.007"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toBottomOf="@id/textView8" />
+            app:layout_constraintTop_toBottomOf="@id/auctionEndMsg" />
 
         <LinearLayout
             android:id="@+id/linearInfo"
@@ -157,7 +157,7 @@
                     android:text="Maior lance" />
 
                 <TextView
-                    android:id="@+id/textView13"
+                    android:id="@+id/auctionPrice"
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -177,8 +177,9 @@
             app:cardCornerRadius="15dp"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toBottomOf="@id/textView6">
+            app:layout_constraintTop_toBottomOf="@id/cooperativeName">
             <ImageView
+                android:id="@+id/auctionImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -187,7 +188,7 @@
 
 
         <EditText
-            android:id="@+id/textView16"
+            android:id="@+id/bidPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
@@ -202,7 +203,7 @@
             app:layout_constraintTop_toBottomOf="@id/linearInfo" />
 
         <Button
-            android:id="@+id/button7"
+            android:id="@+id/bidButton"
             android:layout_width="115dp"
             android:layout_height="34dp"
             android:layout_marginTop="23dp"
@@ -212,7 +213,7 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toBottomOf="@+id/textView16" />
+            app:layout_constraintTop_toBottomOf="@+id/bidPrice" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
