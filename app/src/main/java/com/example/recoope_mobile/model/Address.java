@@ -3,7 +3,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Address {
 
-    @SerializedName(value="idEndereco")
+    @SerializedName(value="id")
     private int addressId;
 
     @SerializedName(value="cidade")

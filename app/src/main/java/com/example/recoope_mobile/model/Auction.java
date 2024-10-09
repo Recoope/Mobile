@@ -5,19 +5,19 @@ import com.google.gson.annotations.SerializedName;
 
 public class Auction {
 
-    @SerializedName(value="idLeilao")
+    @SerializedName(value="id")
     private int auctionId;
 
-    @SerializedName(value="dataInicioLeilao")
+    @SerializedName(value="dataInicio")
     private String startDate;
 
-    @SerializedName(value="dataFimLeilao")
+    @SerializedName(value="dataFim")
     private String endDate;
 
-    @SerializedName(value="detalhesLeilao")
+    @SerializedName(value="detalhes")
     private String details;
 
-    @SerializedName(value="horaLeilao   ")
+    @SerializedName(value="hora")
     private String time;
 
     @SerializedName(value="endereco")

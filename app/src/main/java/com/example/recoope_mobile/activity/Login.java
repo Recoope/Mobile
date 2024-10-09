@@ -48,7 +48,7 @@ public class Login extends AppCompatActivity {
     private TextInputLayout documentLoginLayout;
     private EditText passwordLoginEt;
     private TextInputLayout passwordLoginLayout;
-  
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +59,8 @@ public class Login extends AppCompatActivity {
         passwordLoginEt = findViewById(R.id.passwordLogin);
         passwordLoginLayout = findViewById(R.id.passwordLoginLayout);
 
-        documentLoginEt.setText("49779751000147");
-        passwordLoginEt.setText("empresaxyz123");
+        documentLoginEt.setText("18347306000184");
+        passwordLoginEt.setText("pass123");
 
         ImageButton btnLogin = findViewById(R.id.btnLogin);
 
