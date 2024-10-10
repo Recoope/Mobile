@@ -130,12 +130,25 @@ public class DialogUtils {
         Button btMetalFilter = dialogView.findViewById(R.id.btMetalFilterD);
         Button btPlasticFilter = dialogView.findViewById(R.id.btPlasticFilterD);
         Button btPaperFilter = dialogView.findViewById(R.id.btPaperFilterD);
+        EditText etCloseAtFilter = dialogView.findViewById(R.id.etCloseAtD);
+        EditText etMinWeight = dialogView.findViewById(R.id.etMinWeightInputD);
+        EditText etMaxWeight = dialogView.findViewById(R.id.etMaxWeightInputD);
+
+
+        // Definir evento de clique para o campo de data e abrir o DatePickerDialog
+        etCloseAtFilter.setOnClickListener(v -> {
+            CalendarUtils.openDatePickerDialog(context.getActivity(), selectedDate -> {
+                etCloseAtFilter.setText(selectedDate);
+            });
+        });
+
 
         Map<Button, String> filterMap = new HashMap<>();
         filterMap.put(btGlassFilter, "VIDRO");
         filterMap.put(btMetalFilter, "METAL");
         filterMap.put(btPlasticFilter, "PLASTICO");
         filterMap.put(btPaperFilter, "PAPEL");
+
 
         // Sincronizar estado inicial dos filtros com base nos filtros ativos
         for (Map.Entry<Button, String> entry : filterMap.entrySet()) {
@@ -157,9 +170,19 @@ public class DialogUtils {
                 }
             }
 
+            String closeAt = etCloseAtFilter.getText().toString();
+            String minWeight = etMinWeight.getText().toString();
+            String maxWeight = etMaxWeight.getText().toString();
+
             // Chamando o callback para retornar os filtros selecionados
-            filterDialogCallback.onFilterSelected(filters, null, null, null);
-            customDialog.dismiss();
+            if (context.validateFilters(closeAt, minWeight, maxWeight)) {
+                context.applyAdditionalFilters(closeAt, minWeight, maxWeight);
+                filterDialogCallback.onFilterSelected(filters, closeAt, minWeight, maxWeight);
+                customDialog.dismiss();
+            } else {
+                DialogUtils.showCustomFeedDialog(context);  // Mostrar diálogo de erro de filtro
+            }
+
         });
 
         customDialog.show();

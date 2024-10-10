@@ -52,7 +52,7 @@ public class FeedFragment extends Fragment {
         recyclerView.setAdapter(auctionAdapter);
 
         apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
-        buttonToggleManager = new ButtonToggleManager(getContext(), R.color.recoope_primary_color, R.color.background_color);
+        buttonToggleManager = new ButtonToggleManager(getActivity(), R.color.recoope_primary_color, R.color.background_color);
 
         // Configurar botões de filtro
         setupFilterButtons(view);
@@ -70,6 +70,7 @@ public class FeedFragment extends Fragment {
         ImageButton btOtherFilter = view.findViewById(R.id.btOtherFilter);
         Button btClearFilters = view.findViewById(R.id.btClearFilters);
 
+        // A lógica de filtro deve refletir a lista ativa de filtros (que é a mesma no feed e no diálogo)
         btGlassFilter.setOnClickListener(v -> {
             buttonToggleManager.toggleButton(btGlassFilter);
             updateFilterList(btGlassFilter.isSelected(), "VIDRO");
@@ -88,11 +89,11 @@ public class FeedFragment extends Fragment {
         btOtherFilter.setOnClickListener(v -> DialogUtils.showFilterDialog(FeedFragment.this, new FilterDialogCallback() {
             @Override
             public void onFilterSelected(List<String> filters, String closeAt, String minWeight, String maxWeight) {
-                // Limpar e adicionar novos filtros
+                // Atualiza a lista de filtros compartilhada
                 activeFilters.clear();
                 activeFilters.addAll(filters);
 
-                // Sincronizar os botões do feed com os filtros do diálogo
+                // Sincronizar os botões entre o feed e o diálogo
                 syncFiltersBetweenFeedAndDialog(btGlassFilter, btMetalFilter, btPlasticFilter);
 
                 if (validateFilters(closeAt, minWeight, maxWeight)) {
@@ -104,23 +105,21 @@ public class FeedFragment extends Fragment {
             }
         }, activeFilters));
 
-
         btClearFilters.setOnClickListener(v -> clearFilters(btClearFilters));
     }
 
-    // Sincronizar estado dos botões de filtro entre o diálogo e o feed
+
+    // Sincronizar estado dos botões entre o feed e o diálogo
     public void syncFiltersBetweenFeedAndDialog(Button btGlassFilter, Button btMetalFilter, Button btPlasticFilter) {
-        // Atualizar estado selecionado para os botões com base nos filtros ativos
         btGlassFilter.setSelected(activeFilters.contains("VIDRO"));
         btMetalFilter.setSelected(activeFilters.contains("METAL"));
         btPlasticFilter.setSelected(activeFilters.contains("PLASTICO"));
 
-        // Aplicar a cor de fundo correta aos botões com base na seleção usando o método correto da ButtonToggleManager
+        // Ajuste a aparência dos botões com base no estado da lista ativa
         buttonToggleManager.setButtonState(btGlassFilter, btGlassFilter.isSelected());
         buttonToggleManager.setButtonState(btMetalFilter, btMetalFilter.isSelected());
         buttonToggleManager.setButtonState(btPlasticFilter, btPlasticFilter.isSelected());
     }
-
 
 
     // Atualizar lista de filtros com base no estado do botão
@@ -132,14 +131,25 @@ public class FeedFragment extends Fragment {
         } else {
             activeFilters.remove(filter);
         }
+
+        // Sincronizar os botões com o estado atual da lista de filtros
+        syncFiltersBetweenFeedAndDialog(
+                getView().findViewById(R.id.btGlassFilter),
+                getView().findViewById(R.id.btMetalFilter),
+                getView().findViewById(R.id.btPlasticFilter)
+        );
+
         applyFilterOrReset();  // Aplicar ou remover filtros conforme o estado
     }
+
+
 
     // Aplicar filtros adicionais (data e peso)
     public void applyAdditionalFilters(String closeAt, String minWeight, String maxWeight) {
         this.closeAt = closeAt;
         this.minWeight = minWeight;
         this.maxWeight = maxWeight;
+        Log.d(LOG_TAG, "CloseAt: " + closeAt + ", MinWeight: " + minWeight + ", MaxWeight: " + maxWeight);
         applyFilterOrReset();
     }
 
@@ -159,6 +169,11 @@ public class FeedFragment extends Fragment {
         minWeight = null;
         maxWeight = null;
         btClearFilters.setVisibility(View.INVISIBLE);
+        syncFiltersBetweenFeedAndDialog(
+                getView().findViewById(R.id.btGlassFilter),
+                getView().findViewById(R.id.btMetalFilter),
+                getView().findViewById(R.id.btPlasticFilter)
+        );
         fetchAuctionData();  // Recarregar todos os leilões
     }
 
