@@ -1,32 +1,24 @@
 package com.example.recoope_mobile.activity.fragments;
 
-import static androidx.core.content.PackageManagerCompat.LOG_TAG;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
-import com.example.recoope_mobile.adapter.AuctionAdapter;
-import com.example.recoope_mobile.model.Auction;
-import com.example.recoope_mobile.model.Company;
 import com.example.recoope_mobile.model.CompanyProfile;
 import com.example.recoope_mobile.response.ApiDataResponseAuction;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,6 +33,7 @@ public class CompanyFragment extends Fragment {
     private String email;
     private String phone;
     private String participatedAuctions;
+    private Button exit;
 
     private TextView textViewName;
     private TextView textViewCnpj;
@@ -51,6 +44,7 @@ public class CompanyFragment extends Fragment {
 
     private ApiService apiService;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(LOG_TAG, "onCreateView called");
@@ -61,6 +55,7 @@ public class CompanyFragment extends Fragment {
         textViewEmail = view.findViewById(R.id.cooperativeEmail);
         textViewPhone = view.findViewById(R.id.cooperativePhone);
         textViewParticipatedAuctions = view.findViewById(R.id.cooperativeParticipatedAuctions);
+        exit = view.findViewById(R.id.exitButton);
 
         apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
 
@@ -90,6 +85,11 @@ public class CompanyFragment extends Fragment {
                     textViewEmail.setText(email);
                     textViewPhone.setText(phone);
                     textViewParticipatedAuctions.setText(String.valueOf(participatedAuctions));
+
+                    //Botao de sair
+                    exit.setOnClickListener(v -> {
+                        getActivity().finish();
+                    });
 
                     Log.d(LOG_TAG, "Company fetched successfully");
                 } else {

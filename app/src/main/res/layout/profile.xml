@@ -75,7 +75,7 @@
             android:layout_width="0dp"
             android:layout_height="300dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@id/sair"
+            app:layout_constraintBottom_toTopOf="@id/exitButton"
             app:layout_constraintEnd_toStartOf="@id/endGuideLine"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/startGuideLine"
@@ -156,7 +156,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/sair"
+            android:id="@+id/exitButton"
             android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:textAllCaps="false"

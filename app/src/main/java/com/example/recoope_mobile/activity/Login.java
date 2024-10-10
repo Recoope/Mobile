@@ -218,7 +218,6 @@ public class Login extends AppCompatActivity {
     public void nextScreen() {
         Intent intent = new Intent(Login.this, MainActivity.class);
         startActivity(intent);
-        finish();
     }
 
     private void saveToken(String cnpj, String token) {
