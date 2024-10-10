@@ -18,7 +18,9 @@ import com.example.recoope_mobile.enums.InvalidFormatLogin;
 import com.example.recoope_mobile.enums.InvalidFormatRegister;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DialogUtils {
 
@@ -96,7 +98,7 @@ public class DialogUtils {
         }
     }
 
-    public static void showFilterDialog(FeedFragment context, FilterDialogCallback filterDialogCallback) {
+    public static void showFilterDialog(FeedFragment context, FilterDialogCallback filterDialogCallback, ArrayList<String> activeFilters) {
         if (context.getActivity() == null) {
             Log.e("CardFeed", "Context is null");
             return;
@@ -120,7 +122,6 @@ public class DialogUtils {
             window.setAttributes(layoutParams);
         }
 
-        // Inicializar o ButtonToggleManager para gerenciar os botões de filtro
         ButtonToggleManager buttonToggleManager = new ButtonToggleManager(context.getContext(), R.color.recoope_primary_color, R.color.background_color);
 
         // Elementos de filtro do diálogo
@@ -129,51 +130,45 @@ public class DialogUtils {
         Button btMetalFilter = dialogView.findViewById(R.id.btMetalFilterD);
         Button btPlasticFilter = dialogView.findViewById(R.id.btPlasticFilterD);
         Button btPaperFilter = dialogView.findViewById(R.id.btPaperFilterD);
-        EditText etCloseAtFilter = dialogView.findViewById(R.id.etCloseAtD);
-        EditText etMinWeight = dialogView.findViewById(R.id.etMinWeightInputD);
-        EditText etMaxWeight = dialogView.findViewById(R.id.etMaxWeightInputD);
+
+        Map<Button, String> filterMap = new HashMap<>();
+        filterMap.put(btGlassFilter, "VIDRO");
+        filterMap.put(btMetalFilter, "METAL");
+        filterMap.put(btPlasticFilter, "PLASTICO");
+        filterMap.put(btPaperFilter, "PAPEL");
+
+        // Sincronizar estado inicial dos filtros com base nos filtros ativos
+        for (Map.Entry<Button, String> entry : filterMap.entrySet()) {
+            if (activeFilters.contains(entry.getValue())) {
+                entry.getKey().setSelected(true);
+            }
+        }
 
         // Configurar a alternância de seleção e cores nos botões de filtro
-        btGlassFilter.setOnClickListener(v -> buttonToggleManager.toggleButton(btGlassFilter));
-        btMetalFilter.setOnClickListener(v -> buttonToggleManager.toggleButton(btMetalFilter));
-        btPlasticFilter.setOnClickListener(v -> buttonToggleManager.toggleButton(btPlasticFilter));
-        btPaperFilter.setOnClickListener(v -> buttonToggleManager.toggleButton(btPaperFilter));
+        for (Button button : filterMap.keySet()) {
+            button.setOnClickListener(v -> buttonToggleManager.toggleButton(button));
+        }
 
-        // Definir evento de clique para o campo de data e abrir o DatePickerDialog
-        etCloseAtFilter.setOnClickListener(v -> {
-            CalendarUtils.openDatePickerDialog(context.getActivity(), selectedDate -> {
-                etCloseAtFilter.setText(selectedDate);
-            });
-        });
-
-        // Aplicar os filtros ao clicar no botão 'Aplicar Filtros'
         applyFilterButton.setOnClickListener(v -> {
             List<String> filters = new ArrayList<>();
-            if (btGlassFilter.isSelected()) filters.add("VIDRO");
-            if (btMetalFilter.isSelected()) filters.add("METAL");
-            if (btPlasticFilter.isSelected()) filters.add("PLASTICO");
-            if (btPaperFilter.isSelected()) filters.add("PAPEL");
-
-            String closeAt = etCloseAtFilter.getText().toString();
-            String minWeight = etMinWeight.getText().toString();
-            String maxWeight = etMaxWeight.getText().toString();
-
-            // Validação e chamada de retorno
-            if (context.validateFilters(closeAt, minWeight, maxWeight)) {
-                context.applyAdditionalFilters(closeAt, minWeight, maxWeight);
-                filterDialogCallback.onFilterSelected(filters, closeAt, minWeight, maxWeight);
-                customDialog.dismiss();
-            } else {
-                DialogUtils.showCustomFeedDialog(context);  // Mostrar diálogo de erro de filtro
+            for (Map.Entry<Button, String> entry : filterMap.entrySet()) {
+                if (entry.getKey().isSelected()) {
+                    filters.add(entry.getValue());
+                }
             }
+
+            // Chamando o callback para retornar os filtros selecionados
+            filterDialogCallback.onFilterSelected(filters, null, null, null);
+            customDialog.dismiss();
         });
 
         customDialog.show();
     }
 
+
     public static void showCustomFeedDialog(FeedFragment context) {
         if (context == null) {
-            Log.e(LOG_TAG, "Context is null");
+            Log.e("CardFeed", "Context is null");
             return;
         }
 
@@ -198,11 +193,11 @@ public class DialogUtils {
         TextView txtTitulo = customDialog.findViewById(R.id.message);
         txtTitulo.setText("Filtros inválidos.");
 
-
         try {
             customDialog.show();
         } catch (Exception e) {
-            Log.e(LOG_TAG, "Error showing dialog: " + e.getMessage(), e);
+            Log.e("CardFeed", "Error showing dialog: " + e.getMessage(), e);
         }
-        }
+    }
+
 }
