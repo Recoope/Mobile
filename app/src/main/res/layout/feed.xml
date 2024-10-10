@@ -12,6 +12,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/txtAlert"
+            android:layout_width="20px"
+            android:layout_height="20px"
+            android:text=""
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/toolbar" />
+
+        <Button
+            android:id="@+id/btClearFilters"
+            style="@style/Theme.RecoopeMobile.FilterButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:drawableRight="@drawable/clear_filters"
+            android:onClick="clearFilters"
+            android:text="Limpar"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.567" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/startGuideLine"
             android:layout_width="wrap_content"
@@ -75,6 +101,7 @@
                 android:src="@drawable/vector_feed_filter_menu"
                 android:textColor="@color/button_filter_text_color"/>
         </LinearLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewFeed"
