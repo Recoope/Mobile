@@ -1,6 +1,7 @@
 package com.example.recoope_mobile.Retrofit;
 
 import com.example.recoope_mobile.model.Auction;
+import com.example.recoope_mobile.model.AuctionDetails;
 import com.example.recoope_mobile.model.Company;
 import com.example.recoope_mobile.model.LoginParams;
 import com.example.recoope_mobile.response.ApiDataResponseAuction;
@@ -63,7 +64,8 @@ public interface ApiService {
     Call<ApiDataResponseAuction<List<Auction>>> getParticipations(@Query("cnpj") String cnpj);
     @GET("leilao/fim")
     Call<ApiDataResponseAuction<List<Auction>>> getParticipationsByExpiringDate(@Query("cnpj") String cnpj, @Query("date") String date);
-
+    @GET("leilao/{id}")
+    Call<ApiDataResponseAuction<AuctionDetails>> getAuctionDetails(@Path("id") int id);
     @GET("leilao/vencimentos/{cnpj}")
     Call<ApiDataResponseAuction<List<Date>>> getExpiringDates(@Path("cnpj") String cnpj);
 }

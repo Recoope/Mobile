@@ -1,6 +1,7 @@
 package com.example.recoope_mobile.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.recoope_mobile.R;
+import com.example.recoope_mobile.activity.fragments.BidFragment;
 import com.example.recoope_mobile.model.Auction;
 
 import java.util.List;
@@ -81,7 +84,22 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
         // Clique para participar
         holder.auctionParticipateBtn.setOnClickListener(v -> {
-            Log.e(LOG_TAG, "Clicado no botão detalhes (Implementar fluxo) leilao:" + auction.getAuctionId());
+            // Criar um bundle para passar o auctionId
+            Bundle bundle = new Bundle();
+            bundle.putInt("AUCTION_ID", auction.getAuctionId());
+
+            // Instanciar o fragmento de detalhes e passar o bundle
+            BidFragment auctionDetailFragment = new BidFragment();
+            auctionDetailFragment.setArguments(bundle);
+
+            // Navegar para o fragmento de detalhes usando FragmentManager
+            ((FragmentActivity) context).getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.mainContent, auctionDetailFragment) // substitui pelo ID do container do fragment
+                    .addToBackStack(null) // Adiciona à pilha para voltar
+                    .commit();
+
+            Log.e(LOG_TAG, "Clicado no botão detalhes leilao:" + auction.getAuctionId());
         });
     }
 
