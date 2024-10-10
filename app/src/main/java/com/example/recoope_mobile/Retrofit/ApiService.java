@@ -3,6 +3,7 @@ package com.example.recoope_mobile.Retrofit;
 import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.model.AuctionDetails;
 import com.example.recoope_mobile.model.Company;
+import com.example.recoope_mobile.model.CompanyProfile;
 import com.example.recoope_mobile.model.LoginParams;
 import com.example.recoope_mobile.response.ApiDataResponseAuction;
 
@@ -32,7 +33,7 @@ public interface ApiService {
 
     // Ler um recurso específico (GET)
     @GET("empresa/{id}")
-    Call<Company> getCompanyById(@Path("id") String id);
+    Call<ApiDataResponseAuction<CompanyProfile>> getCompanyById(@Path("id") String id);
 
     // Atualizar um recurso existente (PUT)
     @PATCH("empresa/alterar/{id}")
