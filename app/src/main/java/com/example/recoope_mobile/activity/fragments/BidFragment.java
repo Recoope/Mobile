@@ -58,7 +58,7 @@ public class BidFragment extends Fragment {
         auctionWeight = view.findViewById(R.id.auctionWeight);
         auctionPrice = view.findViewById(R.id.auctionPrice);
 
-        backButton.setOnClickListener((x) -> getParentFragmentManager().popBackStack());
+        backButton.setOnClickListener((v) -> getParentFragmentManager().popBackStack());
 
         Call<ApiDataResponseAuction<AuctionDetails>> call = apiService.getAuctionDetails(auctionId);
         call.enqueue(new Callback<ApiDataResponseAuction<AuctionDetails>>() {

@@ -61,10 +61,10 @@ public interface ApiService {
     Call<ApiDataResponseAuction<List<Auction>>> getFiltredAuction(@Path("material") String material);
 
     // Ler um recurso por data (GET)
-    @GET("leilao/fim")
-    Call<ApiDataResponseAuction<List<Auction>>> getParticipations(@Query("cnpj") String cnpj);
-    @GET("leilao/fim")
-    Call<ApiDataResponseAuction<List<Auction>>> getParticipationsByExpiringDate(@Query("cnpj") String cnpj, @Query("date") String date);
+    @GET("leilao/participados/{cnpj}")
+    Call<ApiDataResponseAuction<List<Auction>>> getParticipations(@Path("cnpj") String cnpj);
+    @GET("leilao/participados/{cnpj}")
+    Call<ApiDataResponseAuction<List<Auction>>> getParticipationsByExpiringDate(@Path("cnpj") String cnpj, @Query("fim") String date);
     @GET("leilao/{id}")
     Call<ApiDataResponseAuction<AuctionDetails>> getAuctionDetails(@Path("id") int id);
     @GET("leilao/vencimentos/{cnpj}")

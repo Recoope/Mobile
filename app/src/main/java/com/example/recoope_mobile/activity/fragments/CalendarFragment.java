@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
+import com.example.recoope_mobile.adapter.AuctionAdapter;
 import com.example.recoope_mobile.adapter.ExpiringAuctionAdapter;
 import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.response.ApiDataResponseAuction;
@@ -52,6 +53,7 @@ public class CalendarFragment extends Fragment {
     private ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
     private final List<Date> expiringDates = new ArrayList<>();
     ExpiringAuctionAdapter expiringAuctionAdapter;
+    AuctionAdapter auctionParticipationsAdapter;
     RecyclerView inProgressRecycler;
 
     @Override
@@ -83,8 +85,8 @@ public class CalendarFragment extends Fragment {
 
                     if (apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
                         Log.d("AuctionData", "Data fetched: " + apiResponse.getData().size());
-                        expiringAuctionAdapter = new ExpiringAuctionAdapter(apiResponse.getData(), getContext());
-                        inProgressRecycler.setAdapter(expiringAuctionAdapter);
+                        auctionParticipationsAdapter = new AuctionAdapter(apiResponse.getData(), getContext());
+                        inProgressRecycler.setAdapter(auctionParticipationsAdapter);
                     } else {
                         Log.d("AuctionData", "No auctions found for this date.");
                         Toast.makeText(getContext(), "No auctions found.", Toast.LENGTH_SHORT).show();
