@@ -48,7 +48,6 @@ public class Login extends AppCompatActivity {
     private TextInputLayout documentLoginLayout;
     private EditText passwordLoginEt;
     private TextInputLayout passwordLoginLayout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

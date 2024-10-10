@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
@@ -31,6 +32,7 @@ public class BidFragment extends Fragment {
 
     private int auctionId;
 
+    private ImageView backButton;
     private TextView cooperativeName;
     private ImageView auctionImage;
     private TextView auctionEndMsg;
@@ -48,12 +50,15 @@ public class BidFragment extends Fragment {
 
         auctionId = getArguments().getInt("AUCTION_ID");
 
+        backButton = view.findViewById(R.id.backButton);
         cooperativeName = view.findViewById(R.id.cooperativeName);
         auctionImage = view.findViewById(R.id.auctionImage);
         auctionEndMsg = view.findViewById(R.id.auctionEndMsg);
         auctionMaterial = view.findViewById(R.id.auctionMaterial);
         auctionWeight = view.findViewById(R.id.auctionWeight);
         auctionPrice = view.findViewById(R.id.auctionPrice);
+
+        backButton.setOnClickListener((x) -> getParentFragmentManager().popBackStack());
 
         Call<ApiDataResponseAuction<AuctionDetails>> call = apiService.getAuctionDetails(auctionId);
         call.enqueue(new Callback<ApiDataResponseAuction<AuctionDetails>>() {
@@ -62,8 +67,10 @@ public class BidFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     AuctionDetails details = response.body().getData();
                     cooperativeName.setText(details.getCooperative().getName());
-                    auctionImage.setImageURI(Uri.parse(details.getProduct().getPhoto()));
-                    auctionEndMsg.setText(details.getRemainingTime());
+                    Glide.with(getContext())
+                            .load(details.getProduct().getPhoto())
+                            .into(auctionImage);
+                    auctionEndMsg.setText("Restam " + details.getRemainingTime());
                     auctionMaterial.setText(details.getProduct().getProductType());
                     auctionWeight.setText(String.valueOf(details.getProduct().getWeight()));
                     auctionPrice.setText(String.valueOf(details.getProduct().getInitialValue()));
