@@ -24,7 +24,7 @@ public class PtBrUtils {
             long remainingMinutes = minutes % 60;
             long remainingSeconds = seconds % 60;
 
-            return remainingHours + "h" + remainingMinutes + "m" + remainingSeconds + "s.";
+            return String.format("%02dh %02dm %02ds", remainingHours, remainingMinutes, remainingSeconds);
         }
     }
 
