@@ -3,16 +3,18 @@ package com.example.recoope_mobile.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class Auction {
 
     @SerializedName(value="id")
     private int auctionId;
 
     @SerializedName(value="dataInicio")
-    private String startDate;
+    private Date startDate;
 
     @SerializedName(value="dataFim")
-    private String endDate;
+    private Date endDate;
 
     @SerializedName(value="detalhes")
     private String details;
@@ -29,7 +31,7 @@ public class Auction {
     @SerializedName(value="cooperativa")
     private Cooperative cooperative;
 
-    public Auction(int auctionId, String startDate, String endDate, String details, String time, String isFinished, int addressId, int productId, String cooperativeCnpj, Product product, Cooperative cooperative, Address address) {
+    public Auction(int auctionId, Date startDate, Date endDate, String details, String time, String isFinished, int addressId, int productId, String cooperativeCnpj, Product product, Cooperative cooperative, Address address) {
         this.auctionId = auctionId;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -48,19 +50,19 @@ public class Auction {
         this.auctionId = auctionId;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 

@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.35" />
+            app:layout_constraintGuide_percent="0.4" />
 
         <TextView
             android:id="@+id/auctionId"
@@ -108,7 +108,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00/00/0000"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -132,7 +133,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Exemplo"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -154,8 +156,9 @@
                 android:id="@+id/auctionWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="000kg"
                 android:textSize="14sp"
-                android:text="000kg" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -177,8 +180,9 @@
                 android:id="@+id/auctionPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="R$0000"
                 android:textSize="14sp"
-                android:text="R$0000"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 

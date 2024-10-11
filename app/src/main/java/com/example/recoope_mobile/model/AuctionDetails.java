@@ -1,7 +1,8 @@
 package com.example.recoope_mobile.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Date;
 
 public class AuctionDetails {
 
@@ -9,19 +10,16 @@ public class AuctionDetails {
     private int auctionId;
 
     @SerializedName(value="dataInicio")
-    private String startDate;
+    private Date startDate;
 
     @SerializedName(value="dataFim")
-    private String endDate;
+    private Date endDate;
 
     @SerializedName(value="detalhes")
     private String details;
 
     @SerializedName(value="hora")
     private String time;
-
-    @SerializedName(value = "tempoRestante")
-    private String remainingTime;
 
     @SerializedName(value = "maiorLance")
     private Bid bestBid;
@@ -35,13 +33,12 @@ public class AuctionDetails {
     @SerializedName(value="cooperativa")
     private Cooperative cooperative;
 
-    public AuctionDetails(int auctionId, String startDate, String endDate, String details, String time, String isFinished, int addressId, int productId, String cooperativeCnpj, String remainingTime, Bid bestBid, Product product, Cooperative cooperative, Address address) {
+    public AuctionDetails(int auctionId, Date startDate, Date endDate, String details, String time, Bid bestBid, Product product, Cooperative cooperative, Address address) {
         this.auctionId = auctionId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.details = details;
         this.time = time;
-        this.remainingTime = remainingTime;
         this.bestBid = bestBid;
         this.address = address;
         this.product = product;
@@ -56,19 +53,19 @@ public class AuctionDetails {
         this.auctionId = auctionId;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -86,14 +83,6 @@ public class AuctionDetails {
 
     public void setTime(String time) {
         this.time = time;
-    }
-
-    public String getRemainingTime() {
-        return remainingTime;
-    }
-
-    public void setRemainingTime(String remainingTime) {
-        this.remainingTime = remainingTime;
     }
 
     public Bid getBestBid() {

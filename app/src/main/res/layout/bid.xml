@@ -48,11 +48,12 @@
             android:id="@+id/cooperativeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="20dp"
             android:layout_marginTop="50dp"
             android:text="Cooperativa Coopermape"
             android:textColor="@color/black"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
-            app:layout_constraintHorizontal_bias="0.500"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
@@ -74,7 +75,7 @@
             android:text="Encerra em XX dias"
             android:layout_marginTop="20dp"
             android:textColor="@color/recoope_secondary_color"
-            android:textSize="16dp"
+            android:textSize="18dp"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
@@ -87,6 +88,7 @@
             android:layout_marginTop="40dp"
             android:text="Sobre o leilão"
             android:textColor="@color/black"
+            android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
             app:layout_constraintHorizontal_bias="0.007"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
@@ -108,19 +110,22 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Material" />
+                    android:layout_weight="1"
+                    android:text="Material"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/auctionMaterial"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
                     android:text="Exemplo"
-                    android:textColor="@color/black" />
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
             </LinearLayout>
             <LinearLayout
@@ -129,19 +134,22 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Quantia" />
+                    android:layout_weight="1"
+                    android:text="Quantia"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/auctionWeight"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
+                    android:layout_weight="1"
                     android:text="000kg"
-                    android:textColor="@color/black" />
+                    android:textStyle="bold"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
             </LinearLayout>
             <LinearLayout
@@ -151,19 +159,22 @@
 
                 <TextView
                     android:id="@+id/textView10"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Maior lance" />
+                    android:layout_weight="1"
+                    android:text="Maior lance"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/auctionPrice"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
+                    android:layout_weight="1"
                     android:text="R$0.000,00"
-                    android:textColor="@color/black" />
+                    android:textStyle="bold"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -171,6 +182,7 @@
         
         <androidx.cardview.widget.CardView
             android:id="@+id/imageView8"
+            android:layout_marginHorizontal="20dp"
             android:layout_width="0dp"
             android:layout_height="220dp"
             android:layout_marginTop="10dp"
@@ -191,29 +203,35 @@
             android:id="@+id/bidPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:hint="R$ 00,00"
-            android:textColorHint="#BABABA"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="10dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/shape_button"
             android:backgroundTint="#DFDFDF"
+            android:hint="R$ 00,00"
+            android:inputType="numberDecimal"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp"
+            android:textColorHint="#BABABA"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
             app:layout_constraintTop_toBottomOf="@id/linearInfo" />
 
         <Button
             android:id="@+id/bidButton"
             android:layout_width="115dp"
-            android:layout_height="34dp"
+            android:layout_height="40dp"
             android:layout_marginTop="23dp"
             android:background="@drawable/shape_sort_by"
             android:text="Dar Lance"
             android:textAllCaps="false"
             android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toBottomOf="@+id/bidPrice" />
+            app:layout_constraintTop_toBottomOf="@+id/bidPrice"
+            app:layout_constraintVertical_bias="0.01" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

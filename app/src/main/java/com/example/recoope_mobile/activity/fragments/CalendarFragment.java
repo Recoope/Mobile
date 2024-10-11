@@ -15,7 +15,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,15 +22,12 @@ import android.widget.Toast;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
-import com.example.recoope_mobile.adapter.AuctionAdapter;
-import com.example.recoope_mobile.adapter.ExpiringAuctionAdapter;
+import com.example.recoope_mobile.adapter.ParticipateAuctionAdapter;
 import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.response.ApiDataResponseAuction;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -52,8 +48,8 @@ public class CalendarFragment extends Fragment {
     private Calendar calendar;
     private ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
     private final List<Date> expiringDates = new ArrayList<>();
-    ExpiringAuctionAdapter expiringAuctionAdapter;
-    AuctionAdapter auctionParticipationsAdapter;
+    ParticipateAuctionAdapter expiringAuctionAdapter;
+    ParticipateAuctionAdapter auctionParticipationsAdapter;
     RecyclerView inProgressRecycler;
 
     @Override
@@ -62,6 +58,8 @@ public class CalendarFragment extends Fragment {
         View view = inflater.inflate(R.layout.calendar, container, false);
 
         inProgressRecycler = view.findViewById(R.id.calendarAuctions);
+        inProgressRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
         gridLayout = view.findViewById(R.id.gridLayout);
         monthTextView = view.findViewById(R.id.textMonth);
         yearTextView = view.findViewById(R.id.textYear);
@@ -85,7 +83,7 @@ public class CalendarFragment extends Fragment {
 
                     if (apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
                         Log.d("AuctionData", "Data fetched: " + apiResponse.getData().size());
-                        auctionParticipationsAdapter = new AuctionAdapter(apiResponse.getData(), getContext());
+                        auctionParticipationsAdapter = new ParticipateAuctionAdapter(apiResponse.getData(), getContext());
                         inProgressRecycler.setAdapter(auctionParticipationsAdapter);
                     } else {
                         Log.d("AuctionData", "No auctions found for this date.");
@@ -170,12 +168,15 @@ public class CalendarFragment extends Fragment {
 
         // Verificar se o dia está na lista expiringDates e mudar o background para verde
         if (day != 0) {
+            boolean isExpiringDay = false;
             Calendar currentCalendar = (Calendar) calendar.clone();
             currentCalendar.set(Calendar.DAY_OF_MONTH, day);
+
 
             for (Date expiringDate : expiringDates) {
                 Calendar expiringCalendar = Calendar.getInstance();
                 expiringCalendar.setTime(expiringDate);
+
 
                 if (currentCalendar.get(Calendar.YEAR) == expiringCalendar.get(Calendar.YEAR) &&
                         currentCalendar.get(Calendar.MONTH) == expiringCalendar.get(Calendar.MONTH) &&
@@ -184,16 +185,16 @@ public class CalendarFragment extends Fragment {
                     dayTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                     dayTextView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_rounded_calendar));
                     dayTextView.setOnClickListener((view) -> openAuctionsExpiriredOn(getDayOfWeekPtBr(), dayText));
+                    isExpiringDay = true;
                     break;
                 }
             }
-        }
-
-        // Mudando a cor do dia atual.
-        if (day == todayDay &&
-                getMonthPtBr().equalsIgnoreCase(todayMonth) &&
-                getYear() == todayYear) {
-            dayTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.recoope_light_blue_color));
+            // Mudando a cor do dia atual.
+            if (day == todayDay &&
+                    getMonthPtBr().equalsIgnoreCase(todayMonth) &&
+                    getYear() == todayYear && !isExpiringDay) {
+                dayTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.recoope_light_blue_color));
+            }
         }
 
         GridLayout.LayoutParams params = new GridLayout.LayoutParams();
@@ -242,7 +243,7 @@ public class CalendarFragment extends Fragment {
 
                     if (apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
                         Log.d("AuctionData", "Data fetched: " + apiResponse.getData().size());
-                        expiringAuctionAdapter = new ExpiringAuctionAdapter(apiResponse.getData(), getContext());
+                        expiringAuctionAdapter = new ParticipateAuctionAdapter(apiResponse.getData(), getContext());
                         recycler.setAdapter(expiringAuctionAdapter);
                     } else {
                         Log.d("AuctionData", "No auctions found for this date.");
