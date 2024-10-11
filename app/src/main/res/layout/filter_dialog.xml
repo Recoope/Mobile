@@ -97,7 +97,7 @@
                     android:text="Encerra até: " />
 
                 <EditText
-                    android:id="@+id/untilInputD"
+                    android:id="@+id/etCloseAtD"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:gravity="end|center"
@@ -123,7 +123,7 @@
                     android:text="Peso mínimo: " />
 
                 <EditText
-                    android:id="@+id/minWeightInputD"
+                    android:id="@+id/etMinWeightInputD"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:gravity="end|center"
@@ -148,7 +148,7 @@
                     android:text="Peso máximo: " />
 
                 <EditText
-                    android:id="@+id/maxWeightInputD"
+                    android:id="@+id/etMaxWeightInputD"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:gravity="end|center"

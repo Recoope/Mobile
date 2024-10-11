@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
-import com.example.recoope_mobile.dialog.DialogUtils;
+import com.example.recoope_mobile.utils.DialogUtils;
 import com.example.recoope_mobile.enums.InvalidFormatRegister;
 import com.example.recoope_mobile.model.Company;
 import com.google.gson.Gson;

@@ -19,9 +19,8 @@ import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.activity.fragments.MainActivity;
-import com.example.recoope_mobile.dialog.DialogUtils;
+import com.example.recoope_mobile.utils.DialogUtils;
 import com.example.recoope_mobile.enums.InvalidFormatLogin;
-import com.example.recoope_mobile.model.Company;
 import com.example.recoope_mobile.model.LoginParams;
 import com.example.recoope_mobile.model.LoginResponse;
 import com.google.android.material.textfield.TextInputEditText;
@@ -59,7 +58,7 @@ public class Login extends AppCompatActivity {
         passwordLoginLayout = findViewById(R.id.passwordLoginLayout);
 
         documentLoginEt.setText("18347306000184");
-        passwordLoginEt.setText("pass123");
+        passwordLoginEt.setText("Senha12345");
 
         ImageButton btnLogin = findViewById(R.id.btnLogin);
 
