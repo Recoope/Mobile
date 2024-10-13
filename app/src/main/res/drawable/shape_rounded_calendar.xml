@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/recoope_secondary_color"/>
-    <corners android:radius="100dp"/>
+    <corners android:radius="1000dp"/>
     <stroke android:color="@android:color/transparent" android:width="5dp"/>
 </shape>

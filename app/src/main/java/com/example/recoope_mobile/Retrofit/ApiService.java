@@ -1,11 +1,12 @@
 package com.example.recoope_mobile.Retrofit;
 
 import com.example.recoope_mobile.model.Auction;
+import com.example.recoope_mobile.model.AuctionDetails;
 import com.example.recoope_mobile.model.Company;
+import com.example.recoope_mobile.model.CompanyProfile;
 import com.example.recoope_mobile.model.LoginParams;
 import com.example.recoope_mobile.response.ApiDataResponseAuction;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public interface ApiService {
 
     // Ler um recurso específico (GET)
     @GET("empresa/{id}")
-    Call<Company> getCompanyById(@Path("id") String id);
+    Call<ApiDataResponseAuction<CompanyProfile>> getCompanyById(@Path("id") String id);
 
     // Atualizar um recurso existente (PUT)
     @PATCH("empresa/alterar/{id}")
@@ -65,17 +66,12 @@ public interface ApiService {
     );
 
     // Ler um recurso por data (GET)
-    @GET("leilao/fim/material")
-    Call<Auction> getFiltredByDateAuction(@Path("id") String id);
-
-
-    /////Leilão
-
-    @GET("leilao/fim")
-    Call<ApiDataResponseAuction<List<Auction>>> getParticipations(@Query("cnpj") String cnpj);
-    @GET("leilao/fim")
-    Call<ApiDataResponseAuction<List<Auction>>> getParticipationsByExpiringDate(@Query("cnpj") String cnpj, @Query("date") String date);
+    @GET("leilao/participados/{cnpj}")
+    Call<ApiDataResponseAuction<List<Auction>>> getParticipations(@Path("cnpj") String cnpj);
+    @GET("leilao/participados/{cnpj}")
+    Call<ApiDataResponseAuction<List<Auction>>> getParticipationsByExpiringDate(@Path("cnpj") String cnpj, @Query("fim") String date);
+    @GET("leilao/{id}")
+    Call<ApiDataResponseAuction<AuctionDetails>> getAuctionDetails(@Path("id") int id);
     @GET("leilao/vencimentos/{cnpj}")
     Call<ApiDataResponseAuction<List<Date>>> getExpiringDates(@Path("cnpj") String cnpj);
-
 }

@@ -15,16 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.model.Auction;
+import com.example.recoope_mobile.utils.PtBrUtils;
 
 import java.util.List;
 
-public class ExpiringAuctionAdapter extends RecyclerView.Adapter<ExpiringAuctionAdapter.AuctionViewHolder> {
+public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateAuctionAdapter.AuctionViewHolder> {
     private List<Auction> auctions;
     private Context context;
     private final String LOG_TAG = "CardFeed";
 
 
-    public ExpiringAuctionAdapter(List<Auction> auctions, Context context) {
+    public ParticipateAuctionAdapter(List<Auction> auctions, Context context) {
         this.auctions = auctions;
         this.context = context;
     }
@@ -52,8 +53,8 @@ public class ExpiringAuctionAdapter extends RecyclerView.Adapter<ExpiringAuction
         // Verificar se o produto não é nulo antes de acessar seus atributos
         if (auction.getProduct() != null) {
             holder.auctionMaterial.setText(auction.getProduct().getProductType());
-            holder.auctionWeight.setText(auction.getProduct().getWeight() > 0 ? String.valueOf(auction.getProduct().getWeight()) : "Peso não disponível");
-            holder.auctionPrice.setText(String.valueOf(auction.getProduct().getInitialValue()));
+            holder.auctionWeight.setText(PtBrUtils.formatWeight(auction.getProduct().getWeight()));
+            holder.auctionPrice.setText(PtBrUtils.formatReal(auction.getProduct().getInitialValue()));
 
             // Carregar a imagem do leilão (produto) usando Glide, se a URL não for nula
             if (auction.getProduct().getPhoto() != null) {
@@ -71,8 +72,8 @@ public class ExpiringAuctionAdapter extends RecyclerView.Adapter<ExpiringAuction
         }
 
         // Preencher outras informações que não dependem de nulos
-        holder.auctionDate.setText(auction.getEndDate());
-        holder.idAuction.setText(String.valueOf(auction.getAuctionId()));
+        holder.auctionDate.setText(PtBrUtils.formatDate(auction.getEndDate()));
+        holder.idAuction.setText(PtBrUtils.formatId(auction.getAuctionId()));
     }
 
 

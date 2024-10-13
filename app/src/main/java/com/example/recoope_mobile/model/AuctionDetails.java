@@ -1,11 +1,10 @@
 package com.example.recoope_mobile.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class Auction {
+public class AuctionDetails {
 
     @SerializedName(value="id")
     private int auctionId;
@@ -22,6 +21,9 @@ public class Auction {
     @SerializedName(value="hora")
     private String time;
 
+    @SerializedName(value = "maiorLance")
+    private Bid bestBid;
+
     @SerializedName(value="endereco")
     private Address address;
 
@@ -31,12 +33,13 @@ public class Auction {
     @SerializedName(value="cooperativa")
     private Cooperative cooperative;
 
-    public Auction(int auctionId, Date startDate, Date endDate, String details, String time, String isFinished, int addressId, int productId, String cooperativeCnpj, Product product, Cooperative cooperative, Address address) {
+    public AuctionDetails(int auctionId, Date startDate, Date endDate, String details, String time, Bid bestBid, Product product, Cooperative cooperative, Address address) {
         this.auctionId = auctionId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.details = details;
         this.time = time;
+        this.bestBid = bestBid;
         this.address = address;
         this.product = product;
         this.cooperative = cooperative;
@@ -81,6 +84,23 @@ public class Auction {
     public void setTime(String time) {
         this.time = time;
     }
+
+    public Bid getBestBid() {
+        return bestBid;
+    }
+
+    public void setBestBid(Bid bestBid) {
+        this.bestBid = bestBid;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     public Address getAdress() {
         return address;
     }

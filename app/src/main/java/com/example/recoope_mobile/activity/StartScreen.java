@@ -8,11 +8,14 @@ import android.view.View;
 
 import com.example.recoope_mobile.R;
 
+import java.util.TimeZone;
+
 public class StartScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));
         setContentView(R.layout.activity_start_screen);
     }
 
