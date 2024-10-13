@@ -47,18 +47,23 @@ public class CalendarFragment extends Fragment {
     private TextView monthTextView, yearTextView;
     private Calendar calendar;
     private ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
-    private final List<Date> expiringDates = new ArrayList<>();
+    private List<Date> expiringDates;
     ParticipateAuctionAdapter expiringAuctionAdapter;
     ParticipateAuctionAdapter auctionParticipationsAdapter;
     RecyclerView inProgressRecycler;
+    private TextView pendingText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.calendar, container, false);
 
+        expiringDates = new ArrayList<>();
         inProgressRecycler = view.findViewById(R.id.calendarAuctions);
         inProgressRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        pendingText = view.findViewById(R.id.pendingText);
+        pendingText.setVisibility(View.INVISIBLE);
+
 
         gridLayout = view.findViewById(R.id.gridLayout);
         monthTextView = view.findViewById(R.id.textMonth);
@@ -73,6 +78,19 @@ public class CalendarFragment extends Fragment {
         cnpj = getContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
                 .getString("cnpj", "");
 
+        // Criando calendario.
+        updateCalendar();
+
+        view.findViewById(R.id.prevMonth).setOnClickListener(v -> {
+            calendar.add(Calendar.MONTH, -1);
+            updateCalendar();
+        });
+
+        view.findViewById(R.id.nextMonth).setOnClickListener(v -> {
+            calendar.add(Calendar.MONTH, 1);
+            updateCalendar();
+        });
+
         // Preenchendo leilões em andamento.
         Call c = apiService.getParticipations(cnpj);
         c.enqueue(new Callback<ApiDataResponseAuction<List<Auction>>>() {
@@ -84,6 +102,7 @@ public class CalendarFragment extends Fragment {
                     if (apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
                         Log.d("AuctionData", "Data fetched: " + apiResponse.getData().size());
                         auctionParticipationsAdapter = new ParticipateAuctionAdapter(apiResponse.getData(), getContext());
+                        pendingText.setVisibility(View.VISIBLE);
                         inProgressRecycler.setAdapter(auctionParticipationsAdapter);
                     } else {
                         Log.d("AuctionData", "No auctions found for this date.");
@@ -118,16 +137,6 @@ public class CalendarFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ApiDataResponseAuction<List<Date>>> call, Throwable t) {}
-        });
-
-        view.findViewById(R.id.prevMonth).setOnClickListener(v -> {
-            calendar.add(Calendar.MONTH, -1);
-            updateCalendar();
-        });
-
-        view.findViewById(R.id.nextMonth).setOnClickListener(v -> {
-            calendar.add(Calendar.MONTH, 1);
-            updateCalendar();
         });
 
         return view;
