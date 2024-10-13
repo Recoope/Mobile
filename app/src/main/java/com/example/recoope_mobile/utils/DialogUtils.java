@@ -134,7 +134,6 @@ public class DialogUtils {
         EditText etMinWeight = dialogView.findViewById(R.id.etMinWeightInputD);
         EditText etMaxWeight = dialogView.findViewById(R.id.etMaxWeightInputD);
 
-
         // Definir evento de clique para o campo de data e abrir o DatePickerDialog
         etCloseAtFilter.setOnClickListener(v -> {
             CalendarUtils.openDatePickerDialog(context.getActivity(), selectedDate -> {
@@ -142,26 +141,26 @@ public class DialogUtils {
             });
         });
 
-
+        // Mapear os botões com seus respectivos filtros
         Map<Button, String> filterMap = new HashMap<>();
         filterMap.put(btGlassFilter, "VIDRO");
         filterMap.put(btMetalFilter, "METAL");
         filterMap.put(btPlasticFilter, "PLASTICO");
         filterMap.put(btPaperFilter, "PAPEL");
 
-
-        // Sincronizar estado inicial dos filtros com base nos filtros ativos
+        // Sincronizar o estado inicial dos filtros com base nos filtros ativos
         for (Map.Entry<Button, String> entry : filterMap.entrySet()) {
             if (activeFilters.contains(entry.getValue())) {
                 entry.getKey().setSelected(true);
             }
         }
 
-        // Configurar a alternância de seleção e cores nos botões de filtro
+        // Configurar alternância de seleção e cores nos botões de filtro
         for (Button button : filterMap.keySet()) {
             button.setOnClickListener(v -> buttonToggleManager.toggleButton(button));
         }
 
+        // Evento do botão de aplicar filtro
         applyFilterButton.setOnClickListener(v -> {
             List<String> filters = new ArrayList<>();
             for (Map.Entry<Button, String> entry : filterMap.entrySet()) {
@@ -180,13 +179,13 @@ public class DialogUtils {
                 filterDialogCallback.onFilterSelected(filters, closeAt, minWeight, maxWeight);
                 customDialog.dismiss();
             } else {
-                DialogUtils.showCustomFeedDialog(context);  // Mostrar diálogo de erro de filtro
+                DialogUtils.showCustomFeedDialog(context);
             }
-
         });
 
         customDialog.show();
     }
+
 
 
     public static void showCustomFeedDialog(FeedFragment context) {

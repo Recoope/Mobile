@@ -22,14 +22,14 @@ public class ButtonToggleManager {
 
     // Método para alternar o estado do botão
     public void toggleButton(Button button) {
-        boolean isSelected = !button.isSelected();  // Alternar o estado do botão
+        boolean isSelected = !button.isSelected();
         setButtonState(button, isSelected);
     }
 
     // Método para definir o estado visual do botão diretamente
     public void setButtonState(Button button, boolean isSelected) {
-        button.setSelected(isSelected);  // Definir o estado do botão
-        updateButtonColors(button, isSelected);  // Atualizar as cores de fundo e texto com base no estado
+        button.setSelected(isSelected);
+        updateButtonColors(button, isSelected);
     }
 
     // Método para aplicar a cor de fundo e cor do texto com base no estado

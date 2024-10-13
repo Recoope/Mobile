@@ -25,15 +25,16 @@
 
         <Button
             android:id="@+id/btClearFilters"
-            style="@style/Theme.RecoopeMobile.FilterButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:drawableRight="@drawable/clear_filters"
+            android:background="@drawable/shape_button_basic"
+            android:textSize="12sp"
+        android:drawableRight="@drawable/clear_filters"
             android:onClick="clearFilters"
             android:text="Limpar"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.567" />
@@ -77,29 +78,25 @@
                 android:id="@+id/btGlassFilter"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="5"
-                android:text="Vidros"
-                android:textColor="@color/button_filter_text_color"/>
+                android:text="Vidros" />
 
             <Button
                 android:id="@+id/btMetalFilter"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="5"
-                android:text="Metais"
-                android:textColor="@color/button_filter_text_color"/>
+                android:text="Metais" />
 
             <Button
                 android:id="@+id/btPlasticFilter"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="5"
-                android:text="Plásticos"
-                android:textColor="@color/button_filter_text_color"/>
+                android:text="Plásticos"/>
 
             <ImageButton
                 android:id="@+id/btOtherFilter"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="3"
-                android:src="@drawable/vector_feed_filter_menu"
-                android:textColor="@color/button_filter_text_color"/>
+                android:src="@drawable/vector_feed_filter_menu"/>
         </LinearLayout>
 
 

@@ -1,5 +1,8 @@
 package com.example.recoope_mobile.activity.fragments;
 
+import static com.example.recoope_mobile.utils.ValidationUtils.isValidDate;
+import static com.example.recoope_mobile.utils.ValidationUtils.isValidWeight;
+
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +23,8 @@ import com.example.recoope_mobile.utils.FilterDialogCallback;
 import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.response.ApiDataResponseAuction;
 import com.example.recoope_mobile.utils.ButtonToggleManager;
+import com.example.recoope_mobile.utils.ValidationUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -36,9 +41,9 @@ public class FeedFragment extends Fragment {
     private ApiService apiService;
     private ButtonToggleManager buttonToggleManager;
     private ArrayList<String> activeFilters = new ArrayList<>();
-    private String closeAt = null;  // Data de fechamento
-    private String minWeight = null;  // Peso mínimo
-    private String maxWeight = null;  // Peso máximo
+    private String closeAt = null;
+    private String minWeight = null;
+    private String maxWeight = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,14 +59,11 @@ public class FeedFragment extends Fragment {
         apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
         buttonToggleManager = new ButtonToggleManager(getActivity(), R.color.recoope_primary_color, R.color.background_color);
 
-        // Configurar botões de filtro
         setupFilterButtons(view);
 
-        fetchAuctionData();  // Carregar leilões inicialmente
+        fetchAuctionData();
         return view;
     }
-
-
 
     private void setupFilterButtons(View view) {
         Button btGlassFilter = view.findViewById(R.id.btGlassFilter);
@@ -70,7 +72,6 @@ public class FeedFragment extends Fragment {
         ImageButton btOtherFilter = view.findViewById(R.id.btOtherFilter);
         Button btClearFilters = view.findViewById(R.id.btClearFilters);
 
-        // A lógica de filtro deve refletir a lista ativa de filtros (que é a mesma no feed e no diálogo)
         btGlassFilter.setOnClickListener(v -> {
             buttonToggleManager.toggleButton(btGlassFilter);
             updateFilterList(btGlassFilter.isSelected(), "VIDRO");
@@ -89,18 +90,15 @@ public class FeedFragment extends Fragment {
         btOtherFilter.setOnClickListener(v -> DialogUtils.showFilterDialog(FeedFragment.this, new FilterDialogCallback() {
             @Override
             public void onFilterSelected(List<String> filters, String closeAt, String minWeight, String maxWeight) {
-                // Atualiza a lista de filtros compartilhada
                 activeFilters.clear();
                 activeFilters.addAll(filters);
-
-                // Sincronizar os botões entre o feed e o diálogo
                 syncFiltersBetweenFeedAndDialog(btGlassFilter, btMetalFilter, btPlasticFilter);
 
                 if (validateFilters(closeAt, minWeight, maxWeight)) {
                     applyAdditionalFilters(closeAt, minWeight, maxWeight);
                     btClearFilters.setVisibility(View.VISIBLE);
                 } else {
-                    Toast.makeText(getContext(), "Filtros inválidos.", Toast.LENGTH_SHORT).show();
+                    DialogUtils.showCustomFeedDialog(FeedFragment.this);
                 }
             }
         }, activeFilters));
@@ -108,21 +106,16 @@ public class FeedFragment extends Fragment {
         btClearFilters.setOnClickListener(v -> clearFilters(btClearFilters));
     }
 
-
-    // Sincronizar estado dos botões entre o feed e o diálogo
     public void syncFiltersBetweenFeedAndDialog(Button btGlassFilter, Button btMetalFilter, Button btPlasticFilter) {
         btGlassFilter.setSelected(activeFilters.contains("VIDRO"));
         btMetalFilter.setSelected(activeFilters.contains("METAL"));
         btPlasticFilter.setSelected(activeFilters.contains("PLASTICO"));
 
-        // Ajuste a aparência dos botões com base no estado da lista ativa
         buttonToggleManager.setButtonState(btGlassFilter, btGlassFilter.isSelected());
         buttonToggleManager.setButtonState(btMetalFilter, btMetalFilter.isSelected());
         buttonToggleManager.setButtonState(btPlasticFilter, btPlasticFilter.isSelected());
     }
 
-
-    // Atualizar lista de filtros com base no estado do botão
     private void updateFilterList(boolean isSelected, String filter) {
         if (isSelected) {
             if (!activeFilters.contains(filter)) {
@@ -131,20 +124,14 @@ public class FeedFragment extends Fragment {
         } else {
             activeFilters.remove(filter);
         }
-
-        // Sincronizar os botões com o estado atual da lista de filtros
         syncFiltersBetweenFeedAndDialog(
                 getView().findViewById(R.id.btGlassFilter),
                 getView().findViewById(R.id.btMetalFilter),
                 getView().findViewById(R.id.btPlasticFilter)
         );
-
-        applyFilterOrReset();  // Aplicar ou remover filtros conforme o estado
+        applyFilterOrReset();
     }
 
-
-
-    // Aplicar filtros adicionais (data e peso)
     public void applyAdditionalFilters(String closeAt, String minWeight, String maxWeight) {
         this.closeAt = closeAt;
         this.minWeight = minWeight;
@@ -153,16 +140,14 @@ public class FeedFragment extends Fragment {
         applyFilterOrReset();
     }
 
-    // Centralizar a lógica de aplicação ou reset de filtros
     private void applyFilterOrReset() {
         if (activeFilters.isEmpty() && closeAt == null && minWeight == null && maxWeight == null) {
-            fetchAuctionData();  // Carregar leilões sem filtro
+            fetchAuctionData();
         } else {
-            fetchAuctionDataWithFilter(activeFilters, closeAt, minWeight, maxWeight);  // Carregar leilões filtrados
+            fetchAuctionDataWithFilter(activeFilters, closeAt, minWeight, maxWeight);
         }
     }
 
-    // Limpar todos os filtros e recarregar os dados
     public void clearFilters(Button btClearFilters) {
         activeFilters.clear();
         closeAt = null;
@@ -174,26 +159,14 @@ public class FeedFragment extends Fragment {
                 getView().findViewById(R.id.btMetalFilter),
                 getView().findViewById(R.id.btPlasticFilter)
         );
-        fetchAuctionData();  // Recarregar todos os leilões
+        fetchAuctionData();
     }
 
-    // Método para validar se os filtros de data e peso são corretos
     public boolean validateFilters(String closeAt, String minWeight, String maxWeight) {
         return isValidDate(closeAt) && isValidWeight(minWeight) && isValidWeight(maxWeight);
     }
 
-    // Validações
-    private boolean isValidDate(String dateStr) {
-        // Implementação de validação de data aqui
-        return true;  // Exemplo simples
-    }
 
-    private boolean isValidWeight(String weightStr) {
-        // Implementação de validação de peso aqui
-        return true;  // Exemplo simples
-    }
-
-    // Métodos para buscar dados com ou sem filtros
     private void fetchAuctionData() {
         Call<ApiDataResponseAuction<List<Auction>>> call = apiService.getAllAuctions();
         call.enqueue(new Callback<ApiDataResponseAuction<List<Auction>>>() {
