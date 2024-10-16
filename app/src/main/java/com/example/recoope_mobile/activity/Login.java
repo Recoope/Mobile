@@ -58,6 +58,9 @@ public class Login extends AppCompatActivity {
         passwordLoginEt = findViewById(R.id.passwordLogin);
         passwordLoginLayout = findViewById(R.id.passwordLoginLayout);
 
+        documentLoginEt.setText("18347306000184");
+        passwordLoginEt.setText("pass123");
+
         ImageButton btnLogin = findViewById(R.id.btnLogin);
 
         addTextWatchers();
@@ -179,7 +182,6 @@ public class Login extends AppCompatActivity {
     public void returnScreen(View view){
         Intent intent = new Intent(Login.this, StartScreen.class);
         startActivity(intent);
-        finish();
     }
 
     private InvalidFormatLogin verifyReturn(String message) {
