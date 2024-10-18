@@ -19,7 +19,7 @@ import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.model.AuctionDetails;
-import com.example.recoope_mobile.response.ApiDataResponseAuction;
+import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.PtBrUtils;
 
 import java.sql.Time;
@@ -56,7 +56,7 @@ public class BidFragment extends Fragment {
 
         auctionIdView = view.findViewById(R.id.topBarText);
         backButton = view.findViewById(R.id.backButton);
-        cooperativeName = view.findViewById(R.id.cooperativeName);
+        cooperativeName = view.findViewById(R.id.txtCooperativeName);
         auctionImage = view.findViewById(R.id.auctionImage);
         auctionEndMsg = view.findViewById(R.id.auctionEndMsg);
         auctionMaterial = view.findViewById(R.id.auctionMaterial);
@@ -66,10 +66,10 @@ public class BidFragment extends Fragment {
         auctionIdView.setText("Leilão " + PtBrUtils.formatId(auctionId));
         backButton.setOnClickListener((v) -> getParentFragmentManager().popBackStack());
 
-        Call<ApiDataResponseAuction<AuctionDetails>> call = apiService.getAuctionDetails(auctionId);
-        call.enqueue(new Callback<ApiDataResponseAuction<AuctionDetails>>() {
+        Call<ApiDataResponse<AuctionDetails>> call = apiService.getAuctionDetails(auctionId);
+        call.enqueue(new Callback<ApiDataResponse<AuctionDetails>>() {
             @Override
-            public void onResponse(Call<ApiDataResponseAuction<AuctionDetails>> call, Response<ApiDataResponseAuction<AuctionDetails>> response) {
+            public void onResponse(Call<ApiDataResponse<AuctionDetails>> call, Response<ApiDataResponse<AuctionDetails>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     AuctionDetails details = response.body().getData();
                     cooperativeName.setText(details.getCooperative().getName());
@@ -87,7 +87,7 @@ public class BidFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ApiDataResponseAuction<AuctionDetails>> call, Throwable t) {
+            public void onFailure(Call<ApiDataResponse<AuctionDetails>> call, Throwable t) {
                 Log.e("BID", "Request Failed: " + t.getMessage());
             }
         });

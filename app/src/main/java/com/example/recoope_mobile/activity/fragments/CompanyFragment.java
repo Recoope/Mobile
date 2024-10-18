@@ -18,7 +18,7 @@ import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.model.CompanyProfile;
-import com.example.recoope_mobile.response.ApiDataResponseAuction;
+import com.example.recoope_mobile.response.ApiDataResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,13 +67,13 @@ public class CompanyFragment extends Fragment {
     private void fetchCompany() {
         String cnpj = getContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
                 .getString("cnpj", "");
-        Call<ApiDataResponseAuction<CompanyProfile>> call = apiService.getCompanyById(cnpj);
+        Call<ApiDataResponse<CompanyProfile>> call = apiService.getCompanyById(cnpj);
 
-        call.enqueue(new Callback<ApiDataResponseAuction<CompanyProfile>>() {
+        call.enqueue(new Callback<ApiDataResponse<CompanyProfile>>() {
             @Override
-            public void onResponse(Call<ApiDataResponseAuction<CompanyProfile>> call, Response<ApiDataResponseAuction<CompanyProfile>> response) {
+            public void onResponse(Call<ApiDataResponse<CompanyProfile>> call, Response<ApiDataResponse<CompanyProfile>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ApiDataResponseAuction<CompanyProfile> apiResponse = response.body();
+                    ApiDataResponse<CompanyProfile> apiResponse = response.body();
                     // Pegar informações e colocar no perfil da empresa
                     name = apiResponse.getData().getName();
                     email = apiResponse.getData().getEmail();
@@ -99,7 +99,7 @@ public class CompanyFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ApiDataResponseAuction<CompanyProfile>> call, Throwable t) {
+            public void onFailure(Call<ApiDataResponse<CompanyProfile>> call, Throwable t) {
                 Log.e(LOG_TAG, "API call failed: " + t.getMessage());
                 Toast.makeText(getContext(), "Failed to fetch data.", Toast.LENGTH_SHORT).show();
             }

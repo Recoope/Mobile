@@ -21,16 +21,14 @@ import com.example.recoope_mobile.adapter.AuctionAdapter;
 import com.example.recoope_mobile.utils.DialogUtils;
 import com.example.recoope_mobile.utils.FilterDialogCallback;
 import com.example.recoope_mobile.model.Auction;
-import com.example.recoope_mobile.response.ApiDataResponseAuction;
+import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.ButtonToggleManager;
-import com.example.recoope_mobile.utils.ValidationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import java.util.Calendar;
 
 public class FeedFragment extends Fragment {
 
@@ -168,36 +166,36 @@ public class FeedFragment extends Fragment {
 
 
     private void fetchAuctionData() {
-        Call<ApiDataResponseAuction<List<Auction>>> call = apiService.getAllAuctions();
-        call.enqueue(new Callback<ApiDataResponseAuction<List<Auction>>>() {
+        Call<ApiDataResponse<List<Auction>>> call = apiService.getAllAuctions();
+        call.enqueue(new Callback<ApiDataResponse<List<Auction>>>() {
             @Override
-            public void onResponse(Call<ApiDataResponseAuction<List<Auction>>> call, Response<ApiDataResponseAuction<List<Auction>>> response) {
+            public void onResponse(Call<ApiDataResponse<List<Auction>>> call, Response<ApiDataResponse<List<Auction>>> response) {
                 handleAuctionResponse(response);
             }
 
             @Override
-            public void onFailure(Call<ApiDataResponseAuction<List<Auction>>> call, Throwable t) {
+            public void onFailure(Call<ApiDataResponse<List<Auction>>> call, Throwable t) {
                 handleAuctionFailure(t);
             }
         });
     }
 
     private void fetchAuctionDataWithFilter(List<String> filters, String closeAt, String weightMin, String weightMax) {
-        Call<ApiDataResponseAuction<List<Auction>>> call = apiService.getFilteredAuctions(filters, closeAt, weightMin, weightMax);
-        call.enqueue(new Callback<ApiDataResponseAuction<List<Auction>>>() {
+        Call<ApiDataResponse<List<Auction>>> call = apiService.getFilteredAuctions(filters, closeAt, weightMin, weightMax);
+        call.enqueue(new Callback<ApiDataResponse<List<Auction>>>() {
             @Override
-            public void onResponse(Call<ApiDataResponseAuction<List<Auction>>> call, Response<ApiDataResponseAuction<List<Auction>>> response) {
+            public void onResponse(Call<ApiDataResponse<List<Auction>>> call, Response<ApiDataResponse<List<Auction>>> response) {
                 handleAuctionResponse(response);
             }
 
             @Override
-            public void onFailure(Call<ApiDataResponseAuction<List<Auction>>> call, Throwable t) {
+            public void onFailure(Call<ApiDataResponse<List<Auction>>> call, Throwable t) {
                 handleAuctionFailure(t);
             }
         });
     }
 
-    private void handleAuctionResponse(Response<ApiDataResponseAuction<List<Auction>>> response) {
+    private void handleAuctionResponse(Response<ApiDataResponse<List<Auction>>> response) {
         if (response.isSuccessful() && response.body() != null) {
             auctionList.clear();
             auctionList.addAll(response.body().getData());
