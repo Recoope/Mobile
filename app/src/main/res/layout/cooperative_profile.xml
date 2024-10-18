@@ -31,7 +31,7 @@
         </androidx.appcompat.widget.Toolbar>
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/nameSearching"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Procurar"
@@ -55,8 +55,8 @@
             android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editTextText"
-            app:layout_constraintBottom_toTopOf="@id/cooperativeName">
+            app:layout_constraintTop_toBottomOf="@id/nameSearching"
+            app:layout_constraintBottom_toTopOf="@id/txtCooperativeName">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -66,7 +66,7 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/cooperativeName"
+            android:id="@+id/txtCooperativeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -87,7 +87,7 @@
             android:textSize="13sp"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toBottomOf="@+id/cooperativeName" />
+            app:layout_constraintTop_toBottomOf="@+id/txtCooperativeName" />
 
         <TextView
             android:id="@+id/cooperativePhone"

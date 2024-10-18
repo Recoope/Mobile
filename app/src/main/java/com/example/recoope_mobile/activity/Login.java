@@ -52,6 +52,8 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getIntent().addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
 
         documentLoginEt = findViewById(R.id.documentLogin);
         documentLoginLayout = findViewById(R.id.documentLoginLayout);
@@ -59,7 +61,7 @@ public class Login extends AppCompatActivity {
         passwordLoginLayout = findViewById(R.id.passwordLoginLayout);
 
         documentLoginEt.setText("18347306000184");
-        passwordLoginEt.setText("pass123");
+        passwordLoginEt.setText("Senha12345!");
 
         ImageButton btnLogin = findViewById(R.id.btnLogin);
 
@@ -70,6 +72,10 @@ public class Login extends AppCompatActivity {
 
                 String cnpj = documentLoginEt.getText().toString().trim();
                 String password = passwordLoginEt.getText().toString().trim();
+//
+//                cnpj = "18347306000184";
+//
+//                password = "Senha12345!";
 
                 authenticationLogin(cnpj, password);
             }
@@ -106,13 +112,6 @@ public class Login extends AppCompatActivity {
 
                             nextScreen();
 
-                        } else {
-                            InvalidFormatLogin invalidFormatLogin = verifyReturn(message);
-                            if (invalidFormatLogin != null) {
-                                matchInvalidFormat(invalidFormatLogin);
-                            } else {
-                                Toast.makeText(Login.this, "Error:", Toast.LENGTH_SHORT).show();
-                            }
                         }
 
                     } catch (Exception e) {
@@ -128,6 +127,7 @@ public class Login extends AppCompatActivity {
                         InvalidFormatLogin invalidFormatLogin = verifyReturn(message);
                         if (invalidFormatLogin != null) {
                             matchInvalidFormat(invalidFormatLogin);
+                            Log.e(LOG_TAG, "CHAMARIA O DIALOG");
                         } else {
                             Toast.makeText(Login.this, "Error.", Toast.LENGTH_SHORT).show();
                         }

@@ -14,15 +14,17 @@ public class Cooperative {
     @SerializedName(value="email")
     private String email;
 
-    @SerializedName(value="registro")
-    private String registration;
+    @SerializedName(value="status")
+    private String status;
 
-    public Cooperative(String cnpj, String name, String email, String registation) {
+    public Cooperative(String cnpj, String name, String email, String status) {
         this.cnpj = cnpj;
         this.name = name;
         this.email = email;
-        this.registration = registation;
+        this.status = status;
     }
+
+    public Cooperative(){}
 
     public String getCnpj() {
         return cnpj;
@@ -48,11 +50,11 @@ public class Cooperative {
         this.email = email;
     }
 
-    public String getRegistration() {
-        return registration;
+    public String getStatus() {
+        return status;
     }
 
-    public void setRegistration(String password) {
-        this.registration = registration;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
