@@ -1,5 +1,8 @@
 package com.example.recoope_mobile.adapter;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,10 +10,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recoope_mobile.Firebase;
 import com.example.recoope_mobile.R;
+import com.example.recoope_mobile.activity.fragments.CooperativeFragment;
+import com.example.recoope_mobile.activity.fragments.MainActivity;
 import com.example.recoope_mobile.model.Cooperative;
 
 import java.util.List;
@@ -62,6 +70,13 @@ public class CooperativeAdapter extends RecyclerView.Adapter<CooperativeAdapter.
                     firebase.saveCooperativeSearchHistory(cooperative);
                     Log.d(LOG_TAG, "Cooperative " + cooperative.getName() + " saved to Firebase history.");
                     Toast.makeText(v.getContext(), "Cooperative saved to search history", Toast.LENGTH_SHORT).show();
+                    //Abrir a tela
+                    FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.mainContent, new CooperativeFragment()); // Certifique-se de usar o ID correto do container
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+
                 } else {
                     // Se estamos no modo histórico, mostramos os detalhes ou outra ação
                     showHistoryItemDetails(cooperative);

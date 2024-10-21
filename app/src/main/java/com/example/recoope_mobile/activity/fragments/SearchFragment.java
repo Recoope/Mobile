@@ -87,6 +87,7 @@ public class SearchFragment extends Fragment {
                             cooperativeList.addAll(cooperatives);
                             // Notificar o adapter para atualizar a lista exibida
                             cooperativeAdapter.notifyDataSetChanged();
+
                         }
 
                         @Override
