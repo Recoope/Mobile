@@ -110,7 +110,7 @@ public class BidFragment extends Fragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                endCounterView.setText("Encerra em " + PtBrUtils.getRemaingTimeMsgPTBR(remainingTime));
+                endCounterView.setText("Encerra em " + PtBrUtils.getRemaingTimeMsgPTBR(endDate, endHour));
 
                 if (remainingTime.getTime() >= 0) {
                     handler.postDelayed(this, 0);

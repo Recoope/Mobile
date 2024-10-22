@@ -28,42 +28,26 @@ public interface ApiService {
     Call<ResponseBody> authenticationCompany(@Body LoginParams loginParams);
 
     /////Empresa
-    // Criar um novo recurso (POST)
     @POST("empresa/cadastrar")
     Call<ResponseBody> createCompany(@Body Company company);
-
-    // Ler um recurso específico (GET)
     @GET("empresa/{id}")
     Call<ApiDataResponse<CompanyProfile>> getCompanyById(@Path("id") String id);
-
-    // Atualizar um recurso existente (PUT)
     @PATCH("empresa/alterar/{id}")
     Call<Company> updateCompany(@Path("id") String id, @Body Company company);
-
-    // Excluir um recurso (DELETE)
     @DELETE("empresa/remover/{id}")
     Call<Void> deleteCompany(@Path("id") String id);
-
-    /////Leilão
-
-    // Ler todos recursos (GET)
+    ///// Leilão
     @GET("leilao")
     Call<ApiDataResponse<List<Auction>>> getAllAuctions();
-
-    // Ler um recurso específico (GET)
     @GET("leilao/{id}")
     Call<Auction> getByIdAuction(@Path("id") String id);
-
-    // Ler um recurso filtrado por material (GET)
-    @GET("leilao")
+    @GET("/leilao")
     Call<ApiDataResponse<List<Auction>>> getFilteredAuctions(
             @Query("materiais") List<String> materials,
             @Query("ate") String closeAt,
             @Query("pesoMin") String weightMin,
             @Query("pesoMax") String weightMax
     );
-
-    // Ler um recurso por data (GET)
     @GET("leilao/participados/{cnpj}")
     Call<ApiDataResponse<List<Auction>>> getParticipations(@Path("cnpj") String cnpj);
     @GET("leilao/participados/{cnpj}")
@@ -73,15 +57,11 @@ public interface ApiService {
     @GET("leilao/vencimentos/{cnpj}")
     Call<ApiDataResponse<List<Date>>> getExpiringDates(@Path("cnpj") String cnpj);
 
-
     /////Cooperativa
-    // Ler um recurso filtrado por material (GET)
     @GET("cooperativa/buscar/{nomeCooperativa}")
     Call<ApiDataResponse<List<Cooperative>>> getSearchCooperative(
             @Path("nomeCooperativa") String nameCooperative
     );
-
-    // Ler uma cooperativa por id (GET)
     @GET("cooperativa/{cnpj}")
     Call<ApiDataResponse<Cooperative>> getIdCooperative(
             @Path("cnpj") String cnpj

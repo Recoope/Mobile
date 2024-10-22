@@ -1,13 +1,26 @@
 package com.example.recoope_mobile.utils;
 
+import java.sql.Time;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class PtBrUtils {
 
-    public static String getRemaingTimeMsgPTBR(Date remainingTime) {
+    public static String getRemaingTimeMsgPTBR(Date endDate, Time endHour) {
+
+        Calendar dateCal = Calendar.getInstance();
+        dateCal.setTime(endDate);
+        Calendar timeCal = Calendar.getInstance();
+        timeCal.setTime(endHour);
+
+        dateCal.set(Calendar.HOUR_OF_DAY, timeCal.get(Calendar.HOUR_OF_DAY));
+        dateCal.set(Calendar.MINUTE, timeCal.get(Calendar.MINUTE));
+        dateCal.set(Calendar.SECOND, timeCal.get(Calendar.SECOND));
+
+        Date remainingTime = dateCal.getTime();
 
         Date now = new Date();
         long difMillis = remainingTime.getTime() - now.getTime();

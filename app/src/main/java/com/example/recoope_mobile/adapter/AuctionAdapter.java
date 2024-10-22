@@ -1,11 +1,16 @@
 package com.example.recoope_mobile.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,21 +21,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.recoope_mobile.R;
+import com.example.recoope_mobile.Retrofit.ApiService;
+import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.activity.fragments.BidFragment;
 import com.example.recoope_mobile.model.Auction;
+import com.example.recoope_mobile.model.AuctionDetails;
+import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.PtBrUtils;
 
+import java.io.IOException;
+import java.sql.Time;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionViewHolder> {
     private List<Auction> auctions;
     private Context context;
+    private ApiService apiService;
     private final String LOG_TAG = "CardFeed";
 
 
     public AuctionAdapter(List<Auction> auctions, Context context) {
         this.auctions = auctions;
         this.context = context;
+        this.apiService = RetrofitClient.getClient(context).create(ApiService.class);
     }
 
     @NonNull
@@ -65,13 +84,13 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
                         .load(auction.getProduct().getPhoto())
                         .into(holder.auctionImg);
             } else {
-                holder.auctionImg.setImageResource(R.drawable.glass_image); // Exemplo de imagem padrão
+                holder.auctionImg.setImageResource(R.drawable.ic_launcher_background); // Exemplo de imagem padrão
             }
         } else {
             holder.auctionMaterial.setText("Material não disponível");
             holder.auctionWeight.setText("Peso não disponível");
             holder.auctionPrice.setText("Preço não disponível");
-            holder.auctionImg.setImageResource(R.drawable.glass_image_2); // Imagem padrão
+            holder.auctionImg.setImageResource(R.drawable.ic_launcher_background); // Imagem padrão
         }
 
         // Preencher outras informações que não dependem de nulos
@@ -80,24 +99,48 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
         // Clique para ver detalhes
         holder.auctionDetailBtn.setOnClickListener(v -> {
-            Log.e(LOG_TAG, "Clicado no botão detalhes (Implementar fluxo) leilao:" + auction.getAuctionId());
+            Call<ApiDataResponse<AuctionDetails>> call = apiService.getAuctionDetails(auction.getAuctionId());
+
+            call.enqueue(new Callback<ApiDataResponse<AuctionDetails>>() {
+                @Override
+                public void onResponse(Call<ApiDataResponse<AuctionDetails>> call, Response<ApiDataResponse<AuctionDetails>> response) {
+                    AuctionDetails auctionDetails = response.body().getData();
+
+                    Dialog dialog = new Dialog(context);
+
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.setContentView(R.layout.detail_dialog);
+                    dialog.getWindow().setLayout(850, WindowManager.LayoutParams.WRAP_CONTENT);
+
+                    ((TextView) dialog.findViewById(R.id.detailAuctionId)).setText(PtBrUtils.formatId(auctionDetails.getAuctionId()));
+                    ((TextView) dialog.findViewById(R.id.coopName)).setText(auctionDetails.getCooperative().getName());
+                    ((TextView) dialog.findViewById(R.id.remainingTime)).setText("Inicia em " + PtBrUtils.getRemaingTimeMsgPTBR(auctionDetails.getEndDate(), Time.valueOf(auctionDetails.getTime())));
+                    ((TextView) dialog.findViewById(R.id.startBidPrice)).setText(PtBrUtils.formatReal(auctionDetails.getProduct().getInitialValue()));
+                    ((TextView) dialog.findViewById(R.id.detailAuctionMaterial)).setText(auctionDetails.getProduct().getProductType());
+                    ((TextView) dialog.findViewById(R.id.detailAuctionWeight)).setText(PtBrUtils.formatWeight(auctionDetails.getProduct().getWeight()));
+                    ((TextView) dialog.findViewById(R.id.detailAuctionDate)).setText(PtBrUtils.formatDate(auctionDetails.getEndDate()));
+                    ((TextView) dialog.findViewById(R.id.detailAuctionHour)).setText(auctionDetails.getTime().toString());
+                    ((TextView) dialog.findViewById(R.id.detailAuctionEmail)).setText(auctionDetails.getCooperative().getEmail());
+
+                    dialog.findViewById(R.id.exitButton).setOnClickListener((view) -> dialog.cancel());
+                    dialog.findViewById(R.id.detailAuctionParticipateBtn).setOnClickListener((view) -> {
+                        dialog.cancel();
+                        openBidScreen(auctionDetails.getAuctionId());
+                    });
+
+                    dialog.show();
+                }
+
+                @Override
+                public void onFailure(Call<ApiDataResponse<AuctionDetails>> call, Throwable t) {
+                    Log.e(LOG_TAG, "Erro ao mostrar detalhes: " + t.getMessage());
+                }
+            });
+            Log.e(LOG_TAG, "Clicado no botão detalhes, leilao: " + auction.getAuctionId());
         });
 
         // Clique para participar
-        holder.auctionParticipateBtn.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putInt("AUCTION_ID", auction.getAuctionId());
-            // Instanciar o fragmento de detalhes e passar o bundle
-            BidFragment auctionDetailFragment = new BidFragment();
-            auctionDetailFragment.setArguments(bundle);
-            // Navegar para o fragmento de detalhes usando FragmentManager
-            ((FragmentActivity) context).getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.mainContent, auctionDetailFragment) // substitui pelo ID do container do fragment
-                    .addToBackStack(null) // Adiciona à pilha para voltar
-                    .commit();
-            Log.e(LOG_TAG, "Clicado no botão detalhes (Implementar fluxo) leilao:" + auction.getAuctionId());
-        });
+        holder.auctionParticipateBtn.setOnClickListener(v -> openBidScreen(auction.getAuctionId()));
     }
 
 
@@ -123,5 +166,18 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
             auctionDetailBtn = itemView.findViewById(R.id.auctionDetailBtn);
             auctionParticipateBtn = itemView.findViewById(R.id.auctionParticipateBtn);
         }
+    }
+
+    public void openBidScreen(int id) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("AUCTION_ID", id);
+        BidFragment auctionDetailFragment = new BidFragment();
+        auctionDetailFragment.setArguments(bundle);
+        ((FragmentActivity) context).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContent, auctionDetailFragment)
+                .addToBackStack(null)
+                .commit();
+        Log.e(LOG_TAG, "Clicado no botão participar, leilao: " + id);
     }
 }
