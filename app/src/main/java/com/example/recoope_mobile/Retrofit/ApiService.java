@@ -27,36 +27,19 @@ public interface ApiService {
     Call<ResponseBody> authenticationCompany(@Body LoginParams loginParams);
 
     /////Empresa
-    // Criar um novo recurso (POST)
     @POST("empresa/cadastrar")
     Call<ResponseBody> createCompany(@Body Company company);
-
-    // Ler um recurso específico (GET)
     @GET("empresa/{id}")
     Call<ApiDataResponseAuction<CompanyProfile>> getCompanyById(@Path("id") String id);
-
-    // Atualizar um recurso existente (PUT)
     @PATCH("empresa/alterar/{id}")
     Call<Company> updateCompany(@Path("id") String id, @Body Company company);
-
-    // Excluir um recurso (DELETE)
     @DELETE("empresa/remover/{id}")
     Call<Void> deleteCompany(@Path("id") String id);
-
-    /////Empresa
-
-
-    /////Leilão
-
-    // Ler todos recursos (GET)
+    ///// Leilão
     @GET("leilao")
     Call<ApiDataResponseAuction<List<Auction>>> getAllAuctions();
-
-    // Ler um recurso específico (GET)
     @GET("leilao/{id}")
     Call<Auction> getByIdAuction(@Path("id") String id);
-
-    // Ler um recurso filtrado por material (GET)
     @GET("/leilao")
     Call<ApiDataResponseAuction<List<Auction>>> getFilteredAuctions(
             @Query("materiais") List<String> materials,
@@ -64,8 +47,6 @@ public interface ApiService {
             @Query("pesoMin") String weightMin,
             @Query("pesoMax") String weightMax
     );
-
-    // Ler um recurso por data (GET)
     @GET("leilao/participados/{cnpj}")
     Call<ApiDataResponseAuction<List<Auction>>> getParticipations(@Path("cnpj") String cnpj);
     @GET("leilao/participados/{cnpj}")
