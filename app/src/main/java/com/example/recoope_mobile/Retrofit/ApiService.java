@@ -4,8 +4,9 @@ import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.model.AuctionDetails;
 import com.example.recoope_mobile.model.Company;
 import com.example.recoope_mobile.model.CompanyProfile;
+import com.example.recoope_mobile.model.Cooperative;
 import com.example.recoope_mobile.model.LoginParams;
-import com.example.recoope_mobile.response.ApiDataResponseAuction;
+import com.example.recoope_mobile.response.ApiDataResponse;
 
 import java.util.Date;
 import java.util.List;
@@ -30,29 +31,36 @@ public interface ApiService {
     @POST("empresa/cadastrar")
     Call<ResponseBody> createCompany(@Body Company company);
     @GET("empresa/{id}")
-    Call<ApiDataResponseAuction<CompanyProfile>> getCompanyById(@Path("id") String id);
+    Call<ApiDataResponse<CompanyProfile>> getCompanyById(@Path("id") String id);
     @PATCH("empresa/alterar/{id}")
     Call<Company> updateCompany(@Path("id") String id, @Body Company company);
     @DELETE("empresa/remover/{id}")
     Call<Void> deleteCompany(@Path("id") String id);
     ///// Leilão
     @GET("leilao")
-    Call<ApiDataResponseAuction<List<Auction>>> getAllAuctions();
+    Call<ApiDataResponse<List<Auction>>> getAllAuctions();
     @GET("leilao/{id}")
     Call<Auction> getByIdAuction(@Path("id") String id);
     @GET("/leilao")
-    Call<ApiDataResponseAuction<List<Auction>>> getFilteredAuctions(
+    Call<ApiDataResponse<List<Auction>>> getFilteredAuctions(
             @Query("materiais") List<String> materials,
             @Query("ate") String closeAt,
             @Query("pesoMin") String weightMin,
             @Query("pesoMax") String weightMax
     );
     @GET("leilao/participados/{cnpj}")
-    Call<ApiDataResponseAuction<List<Auction>>> getParticipations(@Path("cnpj") String cnpj);
+    Call<ApiDataResponse<List<Auction>>> getParticipations(@Path("cnpj") String cnpj);
     @GET("leilao/participados/{cnpj}")
-    Call<ApiDataResponseAuction<List<Auction>>> getParticipationsByExpiringDate(@Path("cnpj") String cnpj, @Query("fim") String date);
+    Call<ApiDataResponse<List<Auction>>> getParticipationsByExpiringDate(@Path("cnpj") String cnpj, @Query("fim") String date);
     @GET("leilao/{id}")
-    Call<ApiDataResponseAuction<AuctionDetails>> getAuctionDetails(@Path("id") int id);
+    Call<ApiDataResponse<AuctionDetails>> getAuctionDetails(@Path("id") int id);
     @GET("leilao/vencimentos/{cnpj}")
-    Call<ApiDataResponseAuction<List<Date>>> getExpiringDates(@Path("cnpj") String cnpj);
+    Call<ApiDataResponse<List<Date>>> getExpiringDates(@Path("cnpj") String cnpj);
+
+    /////Cooperativa
+    // Ler um recurso filtrado por material (GET)
+    @GET("cooperativa/buscar/{nomeCooperativa}")
+    Call<ApiDataResponse<List<Cooperative>>> getSearchCooperative(
+            @Path("nomeCooperativa") String nameCooperative
+    );
 }

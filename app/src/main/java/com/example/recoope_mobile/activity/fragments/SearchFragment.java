@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +41,8 @@ public class SearchFragment extends Fragment {
     private List<Cooperative> cooperativeList;
     private ApiService apiService;
     private EditText etWord;
-    private final Firebase firebase = new Firebase();
+    private TextView txtRecentSearch;
+    private final Firebase firebase = new Firebase(getContext());
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,8 +63,27 @@ public class SearchFragment extends Fragment {
 
         TextView btClearResults = view.findViewById(R.id.btClearResults);
         etWord = view.findViewById(R.id.nameSearching);
+        txtRecentSearch = view.findViewById(R.id.txtRecentSearch);
 
         btClearResults.setOnClickListener(r -> clearResults());
+
+        firebase.getCooperativeSearchHistory(new Firebase.OnSearchHistoryFetchedListener() {
+            @Override
+            public void onSuccess(List<Cooperative> cooperatives) {
+                // Limpar lista atual
+                cooperativeList.clear();
+                // Adicionar a lista de cooperativas buscadas no histórico
+                cooperativeList.addAll(cooperatives);
+                // Notificar o adapter para atualizar a lista exibida
+                cooperativeAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                // Lidar com falhas ao buscar histórico
+                Toast.makeText(getContext(), "Failed to fetch history: " + errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Adiciona um TextWatcher para capturar mudanças no campo de texto
         etWord.addTextChangedListener(new TextWatcher() {
@@ -70,13 +92,16 @@ public class SearchFragment extends Fragment {
                 // Não precisa de implementação
             }
 
+
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() > 0) {
+                    btClearResults.setVisibility(View.GONE);
+                    txtRecentSearch.setVisibility(View.GONE);
                     // Usuário está digitando, ajustar o RecyclerView e buscar os resultados
-                    recyclerView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                     getCooperatives(charSequence.toString());  // Chamar o método de pesquisa
                 } else {
+                    btClearResults.setVisibility(View.VISIBLE);
                     // Usuário não está digitando, exibir o histórico
                     firebase.getCooperativeSearchHistory(new Firebase.OnSearchHistoryFetchedListener() {
                         @Override
@@ -110,6 +135,7 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -120,10 +146,51 @@ public class SearchFragment extends Fragment {
     }
 
     public void clearResults() {
-        etWord.setText("");
-        cooperativeList.clear();
-        cooperativeAdapter.notifyDataSetChanged();
+        etWord.setText("");  // Limpar o campo de pesquisa
+
+        // Chama o método de exclusão no Firebase
+        firebase.deleteAllDocuments(new Firebase.OnDeleteDocumentsListener() {
+            @Override
+            public void onSuccess() {
+                // Limpar a lista de cooperativas somente após a exclusão ser bem-sucedida
+                cooperativeList.clear();
+                cooperativeAdapter.notifyDataSetChanged();
+
+                // Notificar o usuário sobre a exclusão
+                Toast.makeText(getContext(), "Histórico apagado com sucesso!", Toast.LENGTH_SHORT).show();
+
+                // Atualizar o histórico do Firebase para garantir que ele não recarregue os itens antigos
+                fetchHistoryFromFirebase();
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                // Em caso de falha, exibir uma mensagem de erro
+                Toast.makeText(getContext(), "Erro ao apagar histórico: " + errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+    // Método para buscar novamente o histórico e garantir que ele esteja vazio
+    private void fetchHistoryFromFirebase() {
+        firebase.getCooperativeSearchHistory(new Firebase.OnSearchHistoryFetchedListener() {
+            @Override
+            public void onSuccess(List<Cooperative> cooperatives) {
+                // Limpar a lista e atualizar com o histórico mais recente (se houver)
+                cooperativeList.clear();  // Isso pode não ser necessário, mas por segurança
+                cooperativeList.addAll(cooperatives);
+                cooperativeAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                // Caso não consiga buscar o histórico, apenas exiba uma mensagem
+                Toast.makeText(getContext(), "Erro ao buscar histórico atualizado: " + errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 
     private void getCooperatives(String name) {
         Log.d(LOG_TAG, "Searching cooperatives with term: " + name);
@@ -154,6 +221,7 @@ public class SearchFragment extends Fragment {
         }
     }
 
+
     private void handleCooperativeResponse(ApiDataResponse<List<Cooperative>> response) {
         if (response != null && response.getData() != null && !response.getData().isEmpty()) {
             cooperativeList.clear();
@@ -166,6 +234,8 @@ public class SearchFragment extends Fragment {
             Toast.makeText(getContext(), "No results found.", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
     private void handleCooperativeFailure(Throwable t) {
         Log.e(LOG_TAG, "Error while fetching cooperatives: " + t.getMessage());

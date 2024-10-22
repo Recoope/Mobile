@@ -57,4 +57,15 @@ public class Cooperative {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Cooperative{" +
+                "cnpj='" + cnpj + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }
+

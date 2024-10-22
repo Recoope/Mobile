@@ -26,7 +26,7 @@ import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.activity.fragments.BidFragment;
 import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.model.AuctionDetails;
-import com.example.recoope_mobile.response.ApiDataResponseAuction;
+import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.PtBrUtils;
 
 import java.io.IOException;
@@ -99,11 +99,11 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
         // Clique para ver detalhes
         holder.auctionDetailBtn.setOnClickListener(v -> {
-            Call<ApiDataResponseAuction<AuctionDetails>> call = apiService.getAuctionDetails(auction.getAuctionId());
+            Call<ApiDataResponse<AuctionDetails>> call = apiService.getAuctionDetails(auction.getAuctionId());
 
-            call.enqueue(new Callback<ApiDataResponseAuction<AuctionDetails>>() {
+            call.enqueue(new Callback<ApiDataResponse<AuctionDetails>>() {
                 @Override
-                public void onResponse(Call<ApiDataResponseAuction<AuctionDetails>> call, Response<ApiDataResponseAuction<AuctionDetails>> response) {
+                public void onResponse(Call<ApiDataResponse<AuctionDetails>> call, Response<ApiDataResponse<AuctionDetails>> response) {
                     AuctionDetails auctionDetails = response.body().getData();
 
                     Dialog dialog = new Dialog(context);
@@ -132,7 +132,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
                 }
 
                 @Override
-                public void onFailure(Call<ApiDataResponseAuction<AuctionDetails>> call, Throwable t) {
+                public void onFailure(Call<ApiDataResponse<AuctionDetails>> call, Throwable t) {
                     Log.e(LOG_TAG, "Erro ao mostrar detalhes: " + t.getMessage());
                 }
             });

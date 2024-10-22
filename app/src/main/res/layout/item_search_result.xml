@@ -41,7 +41,7 @@
             app:layout_constraintGuide_percent="0.85" />
 
         <ImageButton
-            android:id="@+id/imgBtnAction"
+            android:id="@+id/btDeleteHistory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/transparent"
