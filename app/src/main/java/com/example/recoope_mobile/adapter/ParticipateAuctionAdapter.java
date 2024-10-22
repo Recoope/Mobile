@@ -1,6 +1,8 @@
 package com.example.recoope_mobile.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,26 +10,44 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.recoope_mobile.R;
+import com.example.recoope_mobile.Retrofit.ApiService;
+import com.example.recoope_mobile.Retrofit.RetrofitClient;
+import com.example.recoope_mobile.activity.Register;
+import com.example.recoope_mobile.enums.InvalidFormatRegister;
 import com.example.recoope_mobile.model.Auction;
+import com.example.recoope_mobile.model.Company;
+import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.PtBrUtils;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.io.IOException;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateAuctionAdapter.AuctionViewHolder> {
     private List<Auction> auctions;
     private Context context;
+    private ApiService apiService;
     private final String LOG_TAG = "CardFeed";
 
 
     public ParticipateAuctionAdapter(List<Auction> auctions, Context context) {
         this.auctions = auctions;
         this.context = context;
+        apiService = RetrofitClient.getClient(context).create(ApiService.class);
     }
 
     @NonNull
@@ -38,6 +58,7 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
     }
 
     @Override
+    @SuppressLint("RecyclerView")
     public void onBindViewHolder(@NonNull AuctionViewHolder holder, int position) {
         Auction auction = auctions.get(position);
 
@@ -74,6 +95,33 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
         // Preencher outras informações que não dependem de nulos
         holder.auctionDate.setText(PtBrUtils.formatDate(auction.getEndDate()));
         holder.idAuction.setText(PtBrUtils.formatId(auction.getAuctionId()));
+
+        holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                SharedPreferences sp = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
+                String cnpj = sp.getString("cnpj", "");
+
+                 Call call = apiService.deleteBid(cnpj, auction.getAuctionId());
+
+                call.enqueue(new Callback<ApiDataResponse<Auction>>() {
+                    @Override
+                    public void onResponse(Call<ApiDataResponse<Auction>> call, Response<ApiDataResponse<Auction>> response) {
+                        if (response.code() == 200) {
+                            auctions.remove(position);
+                            notifyDataSetChanged();
+                        } else {
+                            Log.e(LOG_TAG, "Error deleting auction: " + response.code());
+                            Toast.makeText(context, "Erro ao deletar leilão", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ApiDataResponse<Auction>> call, Throwable t) {
+                    }
+                });
+            }
+        });
     }
 
 
@@ -84,7 +132,7 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
 
     public static class AuctionViewHolder extends RecyclerView.ViewHolder {
         TextView auctionCoopName, auctionDate, auctionMaterial, auctionWeight, auctionPrice, idAuction;
-        ImageView auctionImg;
+        ImageView auctionImg, deleteBtn;
         Button auctionDetailBtn, auctionParticipateBtn;
 
         public AuctionViewHolder(@NonNull View itemView) {
@@ -98,6 +146,7 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
             auctionPrice = itemView.findViewById(R.id.auctionPrice);
             auctionDetailBtn = itemView.findViewById(R.id.auctionDetailBtn);
             auctionParticipateBtn = itemView.findViewById(R.id.auctionParticipateBtn);
+            deleteBtn = itemView.findViewById(R.id.deleteBtn);
         }
     }
 }

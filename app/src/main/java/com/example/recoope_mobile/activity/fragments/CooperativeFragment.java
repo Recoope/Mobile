@@ -63,7 +63,7 @@ public class CooperativeFragment extends Fragment {
             public void onResponse(Call<ApiDataResponse<CompanyProfile>> call, Response<ApiDataResponse<CompanyProfile>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     ApiDataResponse<CompanyProfile> apiResponse = response.body();
-                    // Pegar informações e colocar no perfil da empresa
+                    // Pegar informações e colocar no perfil da cooperativa
                     name = apiResponse.getData().getName();
                     email = apiResponse.getData().getEmail();
                     phone = apiResponse.getData().getPhone();
