@@ -81,5 +81,13 @@ public interface ApiService {
             @Path("nomeCooperativa") String nameCooperative
     );
 
+    // Ler uma cooperativa por id (GET)
+    @GET("cooperativa/{cnpj}")
+    Call<ApiDataResponse<Cooperative>> getIdCooperative(
+            @Path("cnpj") String cnpj
+    );
+
+
+
 
 }
