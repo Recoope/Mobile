@@ -20,7 +20,7 @@ import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.adapter.ParticipateAuctionAdapter;
 import com.example.recoope_mobile.model.Auction;
-import com.example.recoope_mobile.response.ApiDataResponseAuction;
+import com.example.recoope_mobile.response.ApiDataResponse;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -84,11 +84,11 @@ public class CalendarFragment extends Fragment {
 
         // Preenchendo leilões em andamento.
         Call c = apiService.getParticipations(cnpj);
-        c.enqueue(new Callback<ApiDataResponseAuction<List<Auction>>>() {
+        c.enqueue(new Callback<ApiDataResponse<List<Auction>>>() {
             @Override
-            public void onResponse(Call<ApiDataResponseAuction<List<Auction>>> call, Response<ApiDataResponseAuction<List<Auction>>> response) {
+            public void onResponse(Call<ApiDataResponse<List<Auction>>> call, Response<ApiDataResponse<List<Auction>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ApiDataResponseAuction<List<Auction>> apiResponse = response.body();
+                    ApiDataResponse<List<Auction>> apiResponse = response.body();
                     if (apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
                         Log.d("AuctionData", "Data fetched: " + apiResponse.getData().size());
                         auctionParticipationsAdapter = new ParticipateAuctionAdapter(apiResponse.getData(), getContext());
@@ -101,7 +101,7 @@ public class CalendarFragment extends Fragment {
                 }
             }
             @Override
-            public void onFailure(Call<ApiDataResponseAuction<List<Auction>>> call, Throwable t) {
+            public void onFailure(Call<ApiDataResponse<List<Auction>>> call, Throwable t) {
                 // Log.e(LOG_TAG, "API call failed: " + t.getMessage());
                 Toast.makeText(getContext(), "Failed to fetch data.", Toast.LENGTH_SHORT).show();
             }
@@ -111,17 +111,17 @@ public class CalendarFragment extends Fragment {
                 String.format("%s, %d de %s", todayDayOfWeek, todayDay, todayMonth)
         );
         // Resgatando datas de expiração.
-        Call<ApiDataResponseAuction<List<Date>>> call = apiService.getExpiringDates(cnpj);
-        call.enqueue(new Callback<ApiDataResponseAuction<List<Date>>>() {
+        Call<ApiDataResponse<List<Date>>> call = apiService.getExpiringDates(cnpj);
+        call.enqueue(new Callback<ApiDataResponse<List<Date>>>() {
             @Override
-            public void onResponse(Call<ApiDataResponseAuction<List<Date>>> call, Response<ApiDataResponseAuction<List<Date>>> response) {
+            public void onResponse(Call<ApiDataResponse<List<Date>>> call, Response<ApiDataResponse<List<Date>>> response) {
                 expiringDates.clear();
-                ApiDataResponseAuction<List<Date>> data = response.body();
+                ApiDataResponse<List<Date>> data = response.body();
                 if (data != null) expiringDates.addAll(data.getData());
                 updateCalendar();
             }
             @Override
-            public void onFailure(Call<ApiDataResponseAuction<List<Date>>> call, Throwable t) {}
+            public void onFailure(Call<ApiDataResponse<List<Date>>> call, Throwable t) {}
         });
 
         return view;
@@ -206,11 +206,11 @@ public class CalendarFragment extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String dataFormated = dateFormat.format(new Date(getYear() - 1900, getMonth(), Integer.parseInt(day)));
         Call call = apiService.getParticipationsByExpiringDate(cnpj, dataFormated);
-        call.enqueue(new Callback<ApiDataResponseAuction<List<Auction>>>() {
+        call.enqueue(new Callback<ApiDataResponse<List<Auction>>>() {
             @Override
-            public void onResponse(Call<ApiDataResponseAuction<List<Auction>>> call, Response<ApiDataResponseAuction<List<Auction>>> response) {
+            public void onResponse(Call<ApiDataResponse<List<Auction>>> call, Response<ApiDataResponse<List<Auction>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ApiDataResponseAuction<List<Auction>> apiResponse = response.body();
+                    ApiDataResponse<List<Auction>> apiResponse = response.body();
                     if (apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
                         Log.d("AuctionData", "Data fetched: " + apiResponse.getData().size());
                         expiringAuctionAdapter = new ParticipateAuctionAdapter(apiResponse.getData(), getContext());
@@ -222,7 +222,7 @@ public class CalendarFragment extends Fragment {
                 }
             }
             @Override
-            public void onFailure(Call<ApiDataResponseAuction<List<Auction>>> call, Throwable t) {
+            public void onFailure(Call<ApiDataResponse<List<Auction>>> call, Throwable t) {
                 // Log.e(LOG_TAG, "API call failed: " + t.getMessage());
                 Toast.makeText(getContext(), "Failed to fetch data.", Toast.LENGTH_SHORT).show();
             }

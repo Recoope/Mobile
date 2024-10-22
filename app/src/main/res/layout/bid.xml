@@ -45,7 +45,7 @@
             app:layout_constraintGuide_percent="0.08" />
 
         <TextView
-            android:id="@+id/cooperativeName"
+            android:id="@+id/txtCooperativeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
@@ -189,7 +189,7 @@
             app:cardCornerRadius="15dp"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toBottomOf="@id/cooperativeName">
+            app:layout_constraintTop_toBottomOf="@id/txtCooperativeName">
             <ImageView
                 android:id="@+id/auctionImage"
                 android:layout_width="match_parent"

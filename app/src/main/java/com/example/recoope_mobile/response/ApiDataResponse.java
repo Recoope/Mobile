@@ -1,6 +1,6 @@
 package com.example.recoope_mobile.response;
 
-public class ApiDataResponseAuction<T> {
+public class ApiDataResponse<T> {
     private String message;
     private T data;
     private String executedAt;

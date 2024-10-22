@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,38 +23,28 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CompanyFragment extends Fragment {
+public class CooperativeFragment extends Fragment {
 
-    private final String LOG_TAG = "CardProfile";
+    private final String LOG_TAG = "Cooperative Profile";
 
     private String name;
-    private String cnpj;
     private String email;
     private String phone;
-    private String participatedAuctions;
-    private Button exit;
 
     private TextView textViewName;
-    private TextView textViewCnpj;
     private TextView textViewEmail;
     private TextView textViewPhone;
-
-    private TextView textViewParticipatedAuctions;
-
     private ApiService apiService;
 
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(LOG_TAG, "onCreateView called");
-        View view = inflater.inflate(R.layout.profile, container, false);
+        View view = inflater.inflate(R.layout.cooperative_profile, container, false);
 
-        textViewName = view.findViewById(R.id.cooperativeName);
-        textViewCnpj = view.findViewById(R.id.cooperativeCNPJ);
+        textViewName = view.findViewById(R.id.txtCooperativeName);
         textViewEmail = view.findViewById(R.id.cooperativeEmail);
         textViewPhone = view.findViewById(R.id.cooperativePhone);
-        textViewParticipatedAuctions = view.findViewById(R.id.cooperativeParticipatedAuctions);
-        exit = view.findViewById(R.id.exitButton);
 
         apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
 
@@ -74,22 +63,14 @@ public class CompanyFragment extends Fragment {
             public void onResponse(Call<ApiDataResponse<CompanyProfile>> call, Response<ApiDataResponse<CompanyProfile>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     ApiDataResponse<CompanyProfile> apiResponse = response.body();
-                    // Pegar informações e colocar no perfil da empresa
+                    // Pegar informações e colocar no perfil da cooperativa
                     name = apiResponse.getData().getName();
                     email = apiResponse.getData().getEmail();
                     phone = apiResponse.getData().getPhone();
-                    participatedAuctions = apiResponse.getData().getParticipatedAuctions();
 
-                    textViewCnpj.setText(String.format("%s.%s.%s/%s-%s", cnpj.substring(0, 2), cnpj.substring(2, 5), cnpj.substring(5, 8), cnpj.substring(8, 12), cnpj.substring(11, 14)));
                     textViewName.setText(name);
                     textViewEmail.setText(email);
                     textViewPhone.setText(phone);
-                    textViewParticipatedAuctions.setText(String.valueOf(participatedAuctions));
-
-                    //Botao de sair
-                    exit.setOnClickListener(v -> {
-                        getActivity().finish();
-                    });
 
                     Log.d(LOG_TAG, "Company fetched successfully");
                 } else {

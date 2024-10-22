@@ -51,6 +51,7 @@
                 android:text="" />
 
             <TextView
+                android:id="@+id/btClearResults"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Limpar Tudo"
@@ -58,7 +59,7 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/nameSearching"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Procurar"
@@ -69,6 +70,7 @@
             android:padding="10dp"
             android:drawablePadding="10dp"
             android:drawableEnd="@drawable/vector_search"
+            android:imeOptions="actionSearch"
             app:layout_constraintStart_toEndOf="@id/startGuideLine"
             app:layout_constraintEnd_toStartOf="@id/endGuideLine"
             app:layout_constraintTop_toBottomOf="@id/toolbar"

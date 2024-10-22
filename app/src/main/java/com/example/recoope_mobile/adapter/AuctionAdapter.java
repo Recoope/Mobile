@@ -56,7 +56,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
         // Verificar se o produto não é nulo antes de acessar seus atributos
         if (auction.getProduct() != null) {
             holder.auctionMaterial.setText(auction.getProduct().getProductType());
-            holder.auctionWeight.setText(PtBrUtils.formatDate(auction.getEndDate()));
+            holder.auctionWeight.setText(String.valueOf(auction.getProduct().getWeight()));
             holder.auctionPrice.setText(PtBrUtils.formatReal(auction.getProduct().getInitialValue()));
 
             // Carregar a imagem do leilão (produto) usando Glide, se a URL não for nula

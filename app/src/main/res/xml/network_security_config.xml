@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--CONFIG DE QA-->
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">10.0.2.2</domain>
     </domain-config>
 </network-security-config>
+
+<!--CONFIG DE PROD-->
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<network-security-config>-->
+<!--<domain-config cleartextTrafficPermitted="true">-->
+<!--    <domain includeSubdomains="true">ec2-44-194-250-226.compute-1.amazonaws.com</domain>-->
+<!--</domain-config>-->
+<!--</network-security-config>-->
