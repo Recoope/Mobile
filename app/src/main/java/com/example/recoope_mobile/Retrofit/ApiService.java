@@ -2,6 +2,7 @@ package com.example.recoope_mobile.Retrofit;
 
 import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.model.AuctionDetails;
+import com.example.recoope_mobile.model.Bid;
 import com.example.recoope_mobile.model.Company;
 import com.example.recoope_mobile.model.CompanyProfile;
 import com.example.recoope_mobile.model.Cooperative;
@@ -80,6 +81,11 @@ public interface ApiService {
     Call<ApiDataResponse<List<Cooperative>>> getSearchCooperative(
             @Path("nomeCooperativa") String nameCooperative
     );
-
-
+    /////Lance
+    // Excluir um recurso filtrado por material (DELETE)
+    @DELETE("lance/cancelar")
+    Call<ApiDataResponse<List<Bid>>> deleteBid(
+            @Query("cnpj") String cnpj,
+            @Query("idLeilao") int idLeilao
+    );
 }
