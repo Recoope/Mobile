@@ -48,7 +48,7 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
             holder.auctionCoopName.setText(auction.getCooperative().getName());
         } else {
             holder.auctionCoopName.setText("Cooperativa não disponível");
-        }
+        }git
 
         // Verificar se o produto não é nulo antes de acessar seus atributos
         if (auction.getProduct() != null) {
