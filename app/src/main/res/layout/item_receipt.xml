@@ -5,111 +5,85 @@
     android:layout_width="match_parent"
     android:layout_height="140dp"
     android:layout_marginBottom="14dp"
-    app:cardCornerRadius="15dp"
-    >
+    app:cardCornerRadius="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textRecibo"
+            android:id="@+id/txtNumPayment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recibo N°042"
-            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="12dp"
+            android:text="Recibo N°"
             android:textColor="@color/black"
             android:textSize="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Campos de rótulos fixos -->
         <TextView
-            android:id="@+id/TextData"
+            android:id="@+id/textData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Data"
-            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="52dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textPara"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Para"
-            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="78dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:text="De"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textValor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Valor"
-            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="104dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Campos de dados dinâmicos -->
         <TextView
-            android:id="@+id/valueData"
+            android:id="@+id/txtDatePaymentD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="21/07/2024"
-            android:layout_marginRight="25dp"
+            android:layout_marginEnd="25dp"
             android:layout_marginTop="52dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/valuePara"
+            android:id="@+id/txtNamePayment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cooperativa viva"
-            android:layout_marginRight="25dp"
+            android:layout_marginEnd="25dp"
             android:layout_marginTop="78dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/valueValor"
+            android:id="@+id/txtValuePayment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="R$ 999,99"
-            android:layout_marginRight="25dp"
+            android:layout_marginEnd="25dp"
             android:layout_marginTop="104dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

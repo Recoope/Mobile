@@ -7,6 +7,7 @@ import com.example.recoope_mobile.model.Company;
 import com.example.recoope_mobile.model.CompanyProfile;
 import com.example.recoope_mobile.model.Cooperative;
 import com.example.recoope_mobile.model.LoginParams;
+import com.example.recoope_mobile.model.Payment;
 import com.example.recoope_mobile.response.ApiDataResponse;
 
 import java.util.Date;
@@ -88,4 +89,9 @@ public interface ApiService {
             @Query("cnpj") String cnpj,
             @Query("idLeilao") int idLeilao
     );
+
+    @GET("recibo/{cnpj}")
+    Call<ApiDataResponse<List<Payment>>> getPayment(@Path("cnpj") String cnpj);
+
+
 }

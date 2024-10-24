@@ -16,6 +16,6 @@ public class FullPaymentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.full_payments, container, false);
+        return inflater.inflate(R.layout.full_payments_dialog, container, false);
     }
 }

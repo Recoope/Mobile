@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,10 +28,7 @@ import com.example.recoope_mobile.model.AuctionDetails;
 import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.PtBrUtils;
 
-import java.io.IOException;
 import java.sql.Time;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -65,20 +61,17 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
         Log.e(LOG_TAG, auction.toString());
 
-        // Verificar se a cooperativa não é nula antes de acessar seus atributos
         if (auction.getCooperative() != null) {
             holder.auctionCoopName.setText(auction.getCooperative().getName());
         } else {
             holder.auctionCoopName.setText("Cooperativa não disponível");
         }
 
-        // Verificar se o produto não é nulo antes de acessar seus atributos
         if (auction.getProduct() != null) {
             holder.auctionMaterial.setText(auction.getProduct().getProductType());
-            holder.auctionWeight.setText(String.valueOf(auction.getProduct().getWeight()));
+            holder.auctionWeight.setText(PtBrUtils.formatReal(auction.getProduct().getWeight()));
             holder.auctionPrice.setText(PtBrUtils.formatReal(auction.getProduct().getInitialValue()));
 
-            // Carregar a imagem do leilão (produto) usando Glide, se a URL não for nula
             if (auction.getProduct().getPhoto() != null) {
                 Glide.with(context)
                         .load(auction.getProduct().getPhoto())
@@ -93,11 +86,9 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
             holder.auctionImg.setImageResource(R.drawable.ic_launcher_background); // Imagem padrão
         }
 
-        // Preencher outras informações que não dependem de nulos
         holder.auctionDate.setText(PtBrUtils.formatDate(auction.getEndDate()));
         holder.idAuction.setText(PtBrUtils.formatId(auction.getAuctionId()));
 
-        // Clique para ver detalhes
         holder.auctionDetailBtn.setOnClickListener(v -> {
             Call<ApiDataResponse<AuctionDetails>> call = apiService.getAuctionDetails(auction.getAuctionId());
 
@@ -139,7 +130,6 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
             Log.e(LOG_TAG, "Clicado no botão detalhes, leilao: " + auction.getAuctionId());
         });
 
-        // Clique para participar
         holder.auctionParticipateBtn.setOnClickListener(v -> openBidScreen(auction.getAuctionId()));
     }
 

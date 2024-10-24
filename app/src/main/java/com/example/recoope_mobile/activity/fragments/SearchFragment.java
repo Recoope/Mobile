@@ -50,7 +50,6 @@ public class SearchFragment extends Fragment {
 
         Log.d(LOG_TAG, "Activity created");
 
-        // Inicialização do RecyclerView e Adapter
         recyclerView = view.findViewById(R.id.searchRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -70,26 +69,20 @@ public class SearchFragment extends Fragment {
         firebase.getCooperativeSearchHistory(new Firebase.OnSearchHistoryFetchedListener() {
             @Override
             public void onSuccess(List<Cooperative> cooperatives) {
-                // Limpar lista atual
                 cooperativeList.clear();
-                // Adicionar a lista de cooperativas buscadas no histórico
                 cooperativeList.addAll(cooperatives);
-                // Notificar o adapter para atualizar a lista exibida
                 cooperativeAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(String errorMessage) {
-                // Lidar com falhas ao buscar histórico
                 Toast.makeText(getContext(), "Failed to fetch history: " + errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Adiciona um TextWatcher para capturar mudanças no campo de texto
         etWord.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // Não precisa de implementação
             }
 
 
@@ -98,37 +91,30 @@ public class SearchFragment extends Fragment {
                 if (charSequence.length() > 0) {
                     btClearResults.setVisibility(View.GONE);
                     txtRecentSearch.setVisibility(View.GONE);
-                    // Usuário está digitando, ajustar o RecyclerView e buscar os resultados
-                    getCooperatives(charSequence.toString());  // Chamar o método de pesquisa
+                    getCooperatives(charSequence.toString());
                 } else {
                     btClearResults.setVisibility(View.VISIBLE);
-                    // Usuário não está digitando, exibir o histórico
                     firebase.getCooperativeSearchHistory(new Firebase.OnSearchHistoryFetchedListener() {
                         @Override
                         public void onSuccess(List<Cooperative> cooperatives) {
-                            // Limpar lista atual
                             cooperativeList.clear();
-                            // Adicionar a lista de cooperativas buscadas no histórico
                             cooperativeList.addAll(cooperatives);
-                            // Notificar o adapter para atualizar a lista exibida
                             cooperativeAdapter.notifyDataSetChanged();
 
                         }
 
                         @Override
                         public void onFailure(String errorMessage) {
-                            // Lidar com falhas ao buscar histórico
                             Toast.makeText(getContext(), "Failed to fetch history: " + errorMessage, Toast.LENGTH_SHORT).show();
                         }
                     });
 
                 }
-                recyclerView.requestLayout(); // Atualizar o layout após modificar o tamanho
+                recyclerView.requestLayout();
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                // Não precisa de implementação
             }
         });
 
@@ -140,51 +126,43 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        etWord.requestFocus();  // Força o foco no EditText
+        etWord.requestFocus();
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(etWord, InputMethodManager.SHOW_IMPLICIT);  // Exibe o teclado
+        imm.showSoftInput(etWord, InputMethodManager.SHOW_IMPLICIT);
     }
 
     public void clearResults() {
-        etWord.setText("");  // Limpar o campo de pesquisa
+        etWord.setText("");
 
-        // Chama o método de exclusão no Firebase
         firebase.deleteAllDocuments(new Firebase.OnDeleteDocumentsListener() {
             @Override
             public void onSuccess() {
-                // Limpar a lista de cooperativas somente após a exclusão ser bem-sucedida
                 cooperativeList.clear();
                 cooperativeAdapter.notifyDataSetChanged();
 
-                // Notificar o usuário sobre a exclusão
                 Toast.makeText(getContext(), "Histórico apagado com sucesso!", Toast.LENGTH_SHORT).show();
 
-                // Atualizar o histórico do Firebase para garantir que ele não recarregue os itens antigos
                 fetchHistoryFromFirebase();
             }
 
             @Override
             public void onFailure(String errorMessage) {
-                // Em caso de falha, exibir uma mensagem de erro
                 Toast.makeText(getContext(), "Erro ao apagar histórico: " + errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    // Método para buscar novamente o histórico e garantir que ele esteja vazio
     private void fetchHistoryFromFirebase() {
         firebase.getCooperativeSearchHistory(new Firebase.OnSearchHistoryFetchedListener() {
             @Override
             public void onSuccess(List<Cooperative> cooperatives) {
-                // Limpar a lista e atualizar com o histórico mais recente (se houver)
-                cooperativeList.clear();  // Isso pode não ser necessário, mas por segurança
+                cooperativeList.clear();
                 cooperativeList.addAll(cooperatives);
                 cooperativeAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(String errorMessage) {
-                // Caso não consiga buscar o histórico, apenas exiba uma mensagem
                 Toast.makeText(getContext(), "Erro ao buscar histórico atualizado: " + errorMessage, Toast.LENGTH_SHORT).show();
             }
         });

@@ -52,6 +52,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/paymentRecycler"
             android:layout_width="0dp"
             android:layout_height="566dp"
             android:layout_marginTop="149dp"

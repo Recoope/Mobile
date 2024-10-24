@@ -2,10 +2,12 @@ package com.example.recoope_mobile.utils;
 
 import java.sql.Time;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class PtBrUtils {
 
@@ -51,7 +53,23 @@ public class PtBrUtils {
         return formatter.format(weight) + " kg";
     }
 
+    public static Date parseDate(String dateString) {
+        SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        originalFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        try {
+            return originalFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
     public static String formatDate(Date date) {
+        if(date == null){
+            return null;
+        }
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         return formatter.format(date);
     }

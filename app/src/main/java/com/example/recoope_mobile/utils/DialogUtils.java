@@ -16,6 +16,7 @@ import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.activity.fragments.FeedFragment;
 import com.example.recoope_mobile.enums.InvalidFormatLogin;
 import com.example.recoope_mobile.enums.InvalidFormatRegister;
+import com.example.recoope_mobile.model.Payment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -221,5 +222,65 @@ public class DialogUtils {
             Log.e("CardFeed", "Error showing dialog: " + e.getMessage(), e);
         }
     }
+
+    public static void showPaymentDialog(Payment payment, Context context) {
+        Dialog dialog = new Dialog(context);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setContentView(R.layout.full_payments_dialog);
+        dialog.getWindow().setLayout(1000, WindowManager.LayoutParams.WRAP_CONTENT);
+
+        TextView txtNumPaymentD = dialog.findViewById(R.id.txtNumPaymentD);
+        if (txtNumPaymentD == null) {
+            Log.e("DialogUtils", "txtNumPaymentD não encontrado");
+        } else {
+            txtNumPaymentD.setText(String.valueOf(payment.getId()));
+        }
+
+        TextView txtDatePaymentD = dialog.findViewById(R.id.txtDatePaymentD);
+        if (txtDatePaymentD == null) {
+            Log.e("DialogUtils", "txtDatePaymentD não encontrado");
+        } else {
+            txtDatePaymentD.setText(PtBrUtils.formatDate(PtBrUtils.parseDate(payment.getEmissionDate())));
+        }
+
+        TextView txtCooperativeName = dialog.findViewById(R.id.txtCooperativeName);
+        if (txtCooperativeName == null) {
+            Log.e("DialogUtils", "txtCooperativeName não encontrado");
+        } else {
+            txtCooperativeName.setText(payment.getCooperativeName());
+        }
+
+        TextView txtCnpjPayment = dialog.findViewById(R.id.txtCnpjPayment);
+        if (txtCnpjPayment == null) {
+            Log.e("DialogUtils", "txtCnpjPayment não encontrado");
+        } else {
+            txtCnpjPayment.setText(payment.getCompanyCnpj());
+        }
+
+        TextView txtPayerNamePaymentD = dialog.findViewById(R.id.txtPayerNamePaymentD);
+        if (txtPayerNamePaymentD == null) {
+            Log.e("DialogUtils", "txtPayerNamePaymentD não encontrado");
+        } else {
+            txtPayerNamePaymentD.setText(payment.getCompanyName());
+        }
+
+        TextView txtPayerCnpjD = dialog.findViewById(R.id.txtPayerCnpjD);
+        if (txtPayerCnpjD == null) {
+            Log.e("DialogUtils", "txtPayerCnpjD não encontrado");
+        } else {
+            txtPayerCnpjD.setText(payment.getCompanyCnpj());
+        }
+
+        TextView txtTimePaymentD = dialog.findViewById(R.id.txtTimePaymentD);
+        if (txtTimePaymentD == null) {
+            Log.e("DialogUtils", "txtTimePaymentD não encontrado");
+        } else {
+            txtTimePaymentD.setText(payment.getEmissionTime());
+        }
+
+        dialog.show();
+    }
+
+
 
 }
