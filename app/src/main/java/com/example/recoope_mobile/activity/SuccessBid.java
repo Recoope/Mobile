@@ -26,7 +26,7 @@ public class SuccessBid extends AppCompatActivity {
         auctionIdView.setText("Leilão " + PtBrUtils.formatId(auctionId));
 
         Handler handle = new Handler();
-        Runnable finish = () -> finish();
+        Runnable finish = this::finish;
 
         handle.postDelayed(finish, 5000);
         findViewById(R.id.successLayout).setOnClickListener((v) -> {

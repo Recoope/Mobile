@@ -75,7 +75,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
         // Verificar se o produto não é nulo antes de acessar seus atributos
         if (auction.getProduct() != null) {
             holder.auctionMaterial.setText(auction.getProduct().getProductType());
-            holder.auctionWeight.setText(String.valueOf(auction.getProduct().getWeight()));
+            holder.auctionWeight.setText(PtBrUtils.formatWeight(auction.getProduct().getWeight()));
             holder.auctionPrice.setText(PtBrUtils.formatReal(auction.getProduct().getInitialValue()));
 
             // Carregar a imagem do leilão (produto) usando Glide, se a URL não for nula
@@ -95,7 +95,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
         // Preencher outras informações que não dependem de nulos
         holder.auctionDate.setText(PtBrUtils.formatDate(auction.getEndDate()));
-        holder.idAuction.setText(PtBrUtils.formatId(auction.getAuctionId()));
+        holder.idAuction.setText("Leilão " + PtBrUtils.formatId(auction.getAuctionId()));
 
         // Clique para ver detalhes
         holder.auctionDetailBtn.setOnClickListener(v -> {
@@ -112,7 +112,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
                     dialog.setContentView(R.layout.detail_dialog);
                     dialog.getWindow().setLayout(850, WindowManager.LayoutParams.WRAP_CONTENT);
 
-                    ((TextView) dialog.findViewById(R.id.detailAuctionId)).setText(PtBrUtils.formatId(auctionDetails.getAuctionId()));
+                    ((TextView) dialog.findViewById(R.id.detailAuctionId)).setText("Leilão " + PtBrUtils.formatId(auctionDetails.getAuctionId()));
                     ((TextView) dialog.findViewById(R.id.coopName)).setText(auctionDetails.getCooperative().getName());
                     ((TextView) dialog.findViewById(R.id.remainingTime)).setText("Inicia em " + PtBrUtils.getRemaingTimeMsgPTBR(auctionDetails.getEndDate(), Time.valueOf(auctionDetails.getTime())));
                     ((TextView) dialog.findViewById(R.id.startBidPrice)).setText(PtBrUtils.formatReal(auctionDetails.getProduct().getInitialValue()));

@@ -1,29 +1,24 @@
 package com.example.recoope_mobile.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
 public class Bid {
 
-    @SerializedName("bidId")
+    @SerializedName("id")
     private int bidId;
 
-    @SerializedName("auctionId")
-    private int auctionId;
+    @SerializedName("empresa")
+    private Company auction;
 
-    @SerializedName("companyCnpj")
-    private String companyCnpj;
-
-    @SerializedName("value")
+    @SerializedName("valor")
     private double value;
 
-    @SerializedName("bidDate")
+    @SerializedName("data")
     private String bidDate;
 
-    public Bid(int bidId, int auctionId, String companyCnpj, double value, String bidDate) {
+    public Bid(int bidId, Company auction, double value, String bidDate) {
         this.bidId = bidId;
-        this.auctionId = auctionId;
-        this.companyCnpj = companyCnpj;
+        this.auction = auction;
         this.value = value;
         this.bidDate = bidDate;
     }
@@ -36,20 +31,12 @@ public class Bid {
         this.bidId = bidId;
     }
 
-    public int getAuctionId() {
-        return auctionId;
+    public Company getAuction() {
+        return auction;
     }
 
-    public void setAuctionId(int auctionId) {
-        this.auctionId = auctionId;
-    }
-
-    public String getCompanyCnpj() {
-        return companyCnpj;
-    }
-
-    public void setCompanyCnpj(String companyCnpj) {
-        this.companyCnpj = companyCnpj;
+    public void setAuction(Company auction) {
+        this.auction = auction;
     }
 
     public double getValue() {

@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Handler;
 import android.util.Log;
@@ -29,6 +32,7 @@ import com.example.recoope_mobile.model.AuctionDetails;
 import com.example.recoope_mobile.model.BidInfo;
 import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.PtBrUtils;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.sql.Time;
 import java.util.Calendar;
@@ -41,7 +45,6 @@ import retrofit2.Response;
 public class BidFragment extends Fragment {
 
     private int auctionId;
-
     private ImageView backButton;
     private TextView auctionIdView;
     private TextView cooperativeName;
@@ -117,6 +120,15 @@ public class BidFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), SuccessBid.class);
                         intent.putExtra("AUCTION_ID", auctionId);
                         startActivity(intent);
+
+                        new Handler().postDelayed(() -> {
+                            FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.mainContent, new CalendarFragment());
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                            ((NavigationBarView) getActivity().findViewById(R.id.navbar)).setSelectedItemId(R.id.calendar_button);
+                        }, 50);
                     }
                 }
 
