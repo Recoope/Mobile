@@ -1,6 +1,8 @@
 package com.example.recoope_mobile.activity.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +22,11 @@ import com.bumptech.glide.Glide;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
+import com.example.recoope_mobile.activity.SplashScreen;
+import com.example.recoope_mobile.activity.StartScreen;
+import com.example.recoope_mobile.activity.SuccessBid;
 import com.example.recoope_mobile.model.AuctionDetails;
+import com.example.recoope_mobile.model.BidInfo;
 import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.PtBrUtils;
 
@@ -42,7 +50,8 @@ public class BidFragment extends Fragment {
     private TextView auctionMaterial;
     private TextView auctionWeight;
     private TextView auctionPrice;
-
+    private EditText bidPriceInput;
+    private Button bidButton;
     private Handler handler = new Handler();
     private ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
 
@@ -51,6 +60,9 @@ public class BidFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bid, container, false);
+
+        String cnpj = getContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
+                .getString("cnpj", null);
 
         auctionId = getArguments().getInt("AUCTION_ID");
 
@@ -62,6 +74,8 @@ public class BidFragment extends Fragment {
         auctionMaterial = view.findViewById(R.id.auctionMaterial);
         auctionWeight = view.findViewById(R.id.auctionWeight);
         auctionPrice = view.findViewById(R.id.auctionPrice);
+        bidPriceInput = view.findViewById(R.id.bidPrice);
+        bidButton = view.findViewById(R.id.bidButton);
 
         auctionIdView.setText("Leilão " + PtBrUtils.formatId(auctionId));
         backButton.setOnClickListener((v) -> getParentFragmentManager().popBackStack());
@@ -79,7 +93,7 @@ public class BidFragment extends Fragment {
                     startEndCounter(auctionEndMsg, details.getEndDate(), Time.valueOf(details.getTime()));
                     auctionMaterial.setText(details.getProduct().getProductType());
                     auctionWeight.setText(PtBrUtils.formatWeight(details.getProduct().getWeight()));
-                    auctionPrice.setText(PtBrUtils.formatReal(details.getProduct().getInitialValue()));
+                    auctionPrice.setText(PtBrUtils.formatReal(details.getBestBid().getValue()));
                 } else {
                     Log.e("BID", "Response failed: " + response.message());
                     Toast.makeText(getContext(), "Failed to load auctions.", Toast.LENGTH_SHORT).show();
@@ -90,6 +104,28 @@ public class BidFragment extends Fragment {
             public void onFailure(Call<ApiDataResponse<AuctionDetails>> call, Throwable t) {
                 Log.e("BID", "Request Failed: " + t.getMessage());
             }
+        });
+
+        bidButton.setOnClickListener((v) -> {
+            BidInfo bidInfo = new BidInfo(cnpj, Double.parseDouble(bidPriceInput.getText().toString()));
+            Call bidCall = apiService.bid(auctionId, bidInfo);
+            bidCall.enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (response.code() == 201) {
+
+                        Intent intent = new Intent(getActivity(), SuccessBid.class);
+                        intent.putExtra("AUCTION_ID", auctionId);
+                        startActivity(intent);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+
+                }
+            });
+
         });
 
         return view;

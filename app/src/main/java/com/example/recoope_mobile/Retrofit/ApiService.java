@@ -2,6 +2,7 @@ package com.example.recoope_mobile.Retrofit;
 
 import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.model.AuctionDetails;
+import com.example.recoope_mobile.model.BidInfo;
 import com.example.recoope_mobile.model.Company;
 import com.example.recoope_mobile.model.CompanyProfile;
 import com.example.recoope_mobile.model.Cooperative;
@@ -58,9 +59,15 @@ public interface ApiService {
     Call<ApiDataResponse<List<Date>>> getExpiringDates(@Path("cnpj") String cnpj);
 
     /////Cooperativa
-    // Ler um recurso filtrado por material (GET)
     @GET("cooperativa/buscar/{nomeCooperativa}")
     Call<ApiDataResponse<List<Cooperative>>> getSearchCooperative(
             @Path("nomeCooperativa") String nameCooperative
+    );
+
+    /////Lance
+    @POST("lance/{idLeilao}")
+    Call<Void> bid(
+            @Path("idLeilao") int idLeilao,
+            @Body BidInfo bidInfo
     );
 }
