@@ -2,12 +2,10 @@ package com.example.recoope_mobile.Retrofit;
 
 import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.model.AuctionDetails;
-import com.example.recoope_mobile.model.Bid;
 import com.example.recoope_mobile.model.Company;
 import com.example.recoope_mobile.model.CompanyProfile;
 import com.example.recoope_mobile.model.Cooperative;
 import com.example.recoope_mobile.model.LoginParams;
-import com.example.recoope_mobile.model.Payment;
 import com.example.recoope_mobile.response.ApiDataResponse;
 
 import java.util.Date;
@@ -30,42 +28,26 @@ public interface ApiService {
     Call<ResponseBody> authenticationCompany(@Body LoginParams loginParams);
 
     /////Empresa
-    // Criar um novo recurso (POST)
     @POST("empresa/cadastrar")
     Call<ResponseBody> createCompany(@Body Company company);
-
-    // Ler um recurso específico (GET)
     @GET("empresa/{id}")
     Call<ApiDataResponse<CompanyProfile>> getCompanyById(@Path("id") String id);
-
-    // Atualizar um recurso existente (PUT)
     @PATCH("empresa/alterar/{id}")
     Call<Company> updateCompany(@Path("id") String id, @Body Company company);
-
-    // Excluir um recurso (DELETE)
     @DELETE("empresa/remover/{id}")
     Call<Void> deleteCompany(@Path("id") String id);
-
-    /////Leilão
-
-    // Ler todos recursos (GET)
+    ///// Leilão
     @GET("leilao")
     Call<ApiDataResponse<List<Auction>>> getAllAuctions();
-
-    // Ler um recurso específico (GET)
     @GET("leilao/{id}")
     Call<Auction> getByIdAuction(@Path("id") String id);
-
-    // Ler um recurso filtrado por material (GET)
-    @GET("leilao")
+    @GET("/leilao")
     Call<ApiDataResponse<List<Auction>>> getFilteredAuctions(
             @Query("materiais") List<String> materials,
             @Query("ate") String closeAt,
             @Query("pesoMin") String weightMin,
             @Query("pesoMax") String weightMax
     );
-
-    // Ler um recurso por data (GET)
     @GET("leilao/participados/{cnpj}")
     Call<ApiDataResponse<List<Auction>>> getParticipations(@Path("cnpj") String cnpj);
     @GET("leilao/participados/{cnpj}")
@@ -74,7 +56,6 @@ public interface ApiService {
     Call<ApiDataResponse<AuctionDetails>> getAuctionDetails(@Path("id") int id);
     @GET("leilao/vencimentos/{cnpj}")
     Call<ApiDataResponse<List<Date>>> getExpiringDates(@Path("cnpj") String cnpj);
-
 
     /////Cooperativa
     // Ler um recurso filtrado por material (GET)
@@ -94,4 +75,11 @@ public interface ApiService {
     Call<ApiDataResponse<List<Payment>>> getPayment(@Path("cnpj") String cnpj);
 
 
+
+    /////Lance
+    @POST("lance/{idLeilao}")
+    Call<Void> bid(
+            @Path("idLeilao") int idLeilao,
+            @Body BidInfo bidInfo
+    );
 }

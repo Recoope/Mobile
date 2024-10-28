@@ -1,4 +1,4 @@
-package com.example.recoope_mobile.activity.fragments;
+package com.example.recoope_mobile.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -8,6 +8,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.example.recoope_mobile.R;
+import com.example.recoope_mobile.activity.fragments.CalendarFragment;
+import com.example.recoope_mobile.activity.fragments.CompanyFragment;
+import com.example.recoope_mobile.activity.fragments.FeedFragment;
+import com.example.recoope_mobile.activity.fragments.PaymentsFragment;
+import com.example.recoope_mobile.activity.fragments.SearchFragment;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
