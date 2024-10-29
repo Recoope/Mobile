@@ -1,8 +1,11 @@
 package com.example.recoope_mobile.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -91,26 +95,44 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
             @Override
             public void onClick(View v) {
 
-                SharedPreferences sp = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
-                String cnpj = sp.getString("cnpj", "");
+                Dialog dialog = new Dialog(context);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.setContentView(R.layout.item_cancel_popup);
 
-                 Call call = apiService.deleteBid(cnpj, auction.getAuctionId());
+                dialog.findViewById(R.id.btnCancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SharedPreferences sp = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
+                        String cnpj = sp.getString("cnpj", "");
 
-                call.enqueue(new Callback<ApiDataResponse<Auction>>() {
-                    @Override
-                    public void onResponse(Call<ApiDataResponse<Auction>> call, Response<ApiDataResponse<Auction>> response) {
-                        if (response.code() == 200) {
-                            auctions.remove(position);
-                            notifyDataSetChanged();
-                        } else {
-                            Log.e(LOG_TAG, "Error deleting auction: " + response.code());
-                            Toast.makeText(context, "Erro ao deletar leilão", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<ApiDataResponse<Auction>> call, Throwable t) {
+                        Call call = apiService.deleteBid(cnpj, auction.getAuctionId());
+                        call.enqueue(new Callback<ApiDataResponse<Auction>>() {
+                            @Override
+                            public void onResponse(Call<ApiDataResponse<Auction>> call, Response<ApiDataResponse<Auction>> response) {
+                                if (response.code() == 200) {
+                                    auctions.remove(position);
+                                    notifyDataSetChanged();
+                                    dialog.dismiss();
+                                } else {
+                                    Log.e(LOG_TAG, "Error deleting auction: " + response.code());
+                                    Toast.makeText(context, "Erro ao deletar leilão", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<ApiDataResponse<Auction>> call, Throwable t) {
+                            }
+                        });
                     }
                 });
+
+                dialog.findViewById(R.id.x).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
             }
         });
     }

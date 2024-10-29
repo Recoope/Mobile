@@ -65,6 +65,7 @@ public interface ApiService {
     Call<ApiDataResponse<List<Cooperative>>> getSearchCooperative(
             @Path("nomeCooperativa") String nameCooperative
     );
+<<<<<<<<< Temporary merge branch 1
     /////Lance
     // Excluir um recurso filtrado por material (DELETE)
     @DELETE("lance/cancelar")

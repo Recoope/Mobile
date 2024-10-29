@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,10 +28,7 @@ import com.example.recoope_mobile.model.AuctionDetails;
 import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.PtBrUtils;
 
-import java.io.IOException;
 import java.sql.Time;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -92,7 +88,6 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
             holder.auctionPrice.setText("Preço não disponível");
             holder.auctionImg.setImageResource(R.drawable.ic_launcher_background); // Imagem padrão
         }
-
         // Preencher outras informações que não dependem de nulos
         holder.auctionDate.setText(PtBrUtils.formatDate(auction.getEndDate()));
         holder.idAuction.setText(PtBrUtils.formatId(auction.getAuctionId()));

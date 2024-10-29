@@ -1,7 +1,6 @@
 package com.example.recoope_mobile.activity.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
-import com.example.recoope_mobile.model.CompanyProfile;
 import com.example.recoope_mobile.model.Cooperative;
 import com.example.recoope_mobile.response.ApiDataResponse;
 
@@ -49,12 +47,12 @@ public class CooperativeFragment extends Fragment {
 
         apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
 
-        fetchCompany();
+        fetchCooperative();
 
         return view;
     }
 
-    private void fetchCompany() {
+    private void fetchCooperative() {
         Bundle bundle = getArguments();
 
         String cnpj = bundle.getString("cnpjCooperative");
