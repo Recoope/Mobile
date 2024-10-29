@@ -1,5 +1,10 @@
 package com.example.recoope_mobile.utils;
 
+import android.annotation.SuppressLint;
+import android.widget.TextView;
+
+import com.example.recoope_mobile.R;
+
 import java.sql.Time;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -58,5 +63,23 @@ public class PtBrUtils {
 
     public static String formatId(int id) {
         return String.format("#%04d", id);
+    }
+
+    @SuppressLint("ResourceAsColor")
+    public static void formatAuctionStatus(int status, TextView statusTv) {
+        switch (status) {
+            case 0:
+                statusTv.setText("Você venceu este leilão!");
+                statusTv.setTextColor(R.color.recoope_primary_color);
+            case 1:
+                statusTv.setText("Seu lance é o maior");
+                statusTv.setTextColor(R.color.recoope_light_blue_color);
+            case 2:
+                statusTv.setText("Leilão encerrado");
+                statusTv.setTextColor(R.color.recoope_yellow_color);
+            case 3:
+                statusTv.setText("Seu lance foi superado");
+                statusTv.setTextColor(R.color.recoope_red_color);
+        }
     }
 }

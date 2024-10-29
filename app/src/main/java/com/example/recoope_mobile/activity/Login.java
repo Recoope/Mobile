@@ -59,9 +59,6 @@ public class Login extends AppCompatActivity {
         passwordLoginEt = findViewById(R.id.passwordLogin);
         passwordLoginLayout = findViewById(R.id.passwordLoginLayout);
 
-        documentLoginEt.setText("18347306000184");
-        passwordLoginEt.setText("pass123");
-
         ImageButton btnLogin = findViewById(R.id.btnLogin);
 
         addTextWatchers();
@@ -71,10 +68,9 @@ public class Login extends AppCompatActivity {
 
                 String cnpj = documentLoginEt.getText().toString().trim();
                 String password = passwordLoginEt.getText().toString().trim();
-//
-//                cnpj = "18347306000184";
-//
-//                password = "Senha12345!";
+
+                cnpj = "12345678000195";
+                password = "Senha@123";
 
                 authenticationLogin(cnpj, password);
             }
@@ -191,7 +187,7 @@ public class Login extends AppCompatActivity {
             return null;
         }
     }
-  
+
     private void matchInvalidFormat(InvalidFormatLogin invalidFormat) {
         switch (invalidFormat) {
             case NO_MATCHING_CNPJ_OR_INCORRECT_PASSWORD:
