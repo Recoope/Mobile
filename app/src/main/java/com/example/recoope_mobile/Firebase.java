@@ -1,14 +1,18 @@
 package com.example.recoope_mobile;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import com.example.recoope_mobile.model.Cooperative;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +21,8 @@ import java.util.Map;
 
 public class Firebase {
 
-    private static final String COLLECTION_NAME = "searchHistory";
+    private static final String COLLECTION_NAME_SEARCH = "searchHistory";
+    private static final String COLLECTION_NAME_IMAGE = "imgProfileCooperative";
     private final Context context;
     private FirebaseFirestore db;
 
@@ -48,7 +53,7 @@ public class Firebase {
         cooperativeData.put("email", cooperative.getEmail());
         cooperativeData.put("status", cooperative.getStatus());
 
-        DocumentReference docRef = db.collection(COLLECTION_NAME).document(cnpj);
+        DocumentReference docRef = db.collection(COLLECTION_NAME_SEARCH).document(cnpj);
 
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -74,7 +79,7 @@ public class Firebase {
     }
 
     public void getCooperativeSearchHistory(OnSearchHistoryFetchedListener listener) {
-        db.collection(COLLECTION_NAME)
+        db.collection(COLLECTION_NAME_SEARCH)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -113,12 +118,12 @@ public class Firebase {
     }
 
     public void deleteAllDocuments(OnDeleteDocumentsListener listener) {
-        db.collection(COLLECTION_NAME)
+        db.collection(COLLECTION_NAME_SEARCH)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            db.collection(COLLECTION_NAME).document(document.getId()).delete();
+                            db.collection(COLLECTION_NAME_SEARCH).document(document.getId()).delete();
                         }
                         listener.onSuccess();
                     } else {
@@ -146,7 +151,7 @@ public class Firebase {
             return;
         }
 
-        DocumentReference docRef = db.collection(COLLECTION_NAME).document(cnpj);
+        DocumentReference docRef = db.collection(COLLECTION_NAME_SEARCH).document(cnpj);
 
         Map<String, Object> cooperativeData = new HashMap<>();
         cooperativeData.put("cnpj", cooperative.getCnpj());
@@ -164,6 +169,58 @@ public class Firebase {
                     listener.onFailure(e.getMessage());
                 });
     }
+
+    public void saveProfileImage(Uri imageUrl) {
+        String cnpj = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
+                .getString("cnpj", "");
+
+        if (cnpj.isEmpty()) {
+            Log.e("Firebase", "CNPJ da empresa não encontrado");
+            return;
+        }
+
+        DocumentReference docRef = db.collection(COLLECTION_NAME_IMAGE).document(cnpj);
+
+        // Usamos um mapa para armazenar os dados da imagem
+        Map<String, Object> imageData = new HashMap<>();
+        imageData.put("profileImageUrl", imageUrl.toString());  // Converte Uri para String
+
+        // Atualiza ou cria o campo profileImageUrl
+        docRef.set(imageData, SetOptions.merge())
+                .addOnSuccessListener(aVoid -> Log.d("Firebase", "Imagem de perfil salva com sucesso"))
+                .addOnFailureListener(e -> Log.e("Firebase", "Erro ao salvar a imagem de perfil", e));
+    }
+
+
+    public Task<String> getProfileImageUrl() {
+        String cnpj = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
+                .getString("cnpj", "");
+
+        if (cnpj.isEmpty()) {
+            Log.e("Firebase", "CNPJ da empresa não encontrado");
+            return Tasks.forException(new Exception("CNPJ não encontrado"));
+        }
+
+        // Referência ao documento usando o CNPJ
+        DocumentReference docRef = db.collection(COLLECTION_NAME_IMAGE).document(cnpj);
+
+        // Retorna uma Task que obtém o URL da imagem de perfil
+        return docRef.get().continueWith(task -> {
+            if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+                // Recupera o URL da imagem de perfil
+                String imageUrl = task.getResult().getString("profileImageUrl");
+
+                if (imageUrl != null && !imageUrl.isEmpty()) {
+                    return imageUrl;
+                } else {
+                    throw new Exception("URL da imagem de perfil não encontrado");
+                }
+            } else {
+                throw new Exception("Erro ao buscar o documento do Firestore");
+            }
+        });
+    }
+
 
 
 

@@ -22,6 +22,7 @@ import com.example.recoope_mobile.utils.DialogUtils;
 import com.example.recoope_mobile.enums.InvalidFormatLogin;
 import com.example.recoope_mobile.model.LoginParams;
 import com.example.recoope_mobile.model.LoginResponse;
+import com.example.recoope_mobile.utils.NotificationHelper;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
@@ -53,14 +54,13 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getIntent().addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-
         documentLoginEt = findViewById(R.id.documentLogin);
         documentLoginLayout = findViewById(R.id.documentLoginLayout);
         passwordLoginEt = findViewById(R.id.passwordLogin);
         passwordLoginLayout = findViewById(R.id.passwordLoginLayout);
 
-        documentLoginEt.setText("18347306000184");
-        passwordLoginEt.setText("pass123");
+        documentLoginEt.setText("12345678000195");
+        passwordLoginEt.setText("Senha@123");
 
         ImageButton btnLogin = findViewById(R.id.btnLogin);
 
@@ -71,10 +71,6 @@ public class Login extends AppCompatActivity {
 
                 String cnpj = documentLoginEt.getText().toString().trim();
                 String password = passwordLoginEt.getText().toString().trim();
-//
-//                cnpj = "18347306000184";
-//
-//                password = "Senha12345!";
 
                 authenticationLogin(cnpj, password);
             }
@@ -216,6 +212,8 @@ public class Login extends AppCompatActivity {
         Intent intent = new Intent(Login.this, MainActivity.class);
         startActivity(intent);
         finish();
+
+        NotificationHelper.sendNotification(Login.this, "Ufa... Que bom te ver por aqui!", "Entre diariamente, sempre há novidades!");
     }
 
     private void saveToken(String cnpj, String token) {

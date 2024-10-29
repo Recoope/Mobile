@@ -1,9 +1,17 @@
 package com.example.recoope_mobile.activity.fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -11,9 +19,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.recoope_mobile.Firebase;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
@@ -39,10 +50,16 @@ public class CompanyFragment extends Fragment {
     private TextView textViewCnpj;
     private TextView textViewEmail;
     private TextView textViewPhone;
+    private ImageView imgCompany;
+    private ImageView btEditPhotoCompany;
 
     private TextView textViewParticipatedAuctions;
 
     private ApiService apiService;
+
+    // Gerenciador para a seleção de imagens
+    private ActivityResultLauncher<Intent> imagePickerLauncher;
+    private ActivityResultLauncher<String> permissionLauncher;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -56,13 +73,75 @@ public class CompanyFragment extends Fragment {
         textViewPhone = view.findViewById(R.id.cooperativePhone);
         textViewParticipatedAuctions = view.findViewById(R.id.cooperativeParticipatedAuctions);
         exit = view.findViewById(R.id.exitButton);
+        imgCompany = view.findViewById(R.id.imgCompany);
+        btEditPhotoCompany = view.findViewById(R.id.btEditPhotoCompany);
 
         apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
+        Firebase firebase = new Firebase(getContext());
+
+        // Inicializar o gerenciador de seleção de imagens
+        imagePickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == getActivity().RESULT_OK && result.getData() != null) {
+                        Uri selectedImageUri = result.getData().getData();
+                        if (selectedImageUri != null) {
+                            // Exibir a imagem selecionada no ImageView
+                            Glide.with(this).load(selectedImageUri).into(imgCompany);
+                            firebase.saveProfileImage(selectedImageUri);
+                        }
+                    }
+                }
+        );
+
+        // Inicializar o gerenciador de permissões
+        permissionLauncher = registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(),
+                isGranted -> {
+                    if (isGranted) {
+                        Log.d(LOG_TAG, "Permissão de leitura concedida, abrindo galeria");
+                        openGallery();
+                    } else {
+                        Toast.makeText(getContext(), "Permissão negada para acessar a galeria", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
+        btEditPhotoCompany.setOnClickListener(v -> {
+            Log.d(LOG_TAG, "Botão de editar foto clicado");
+            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+                Log.d(LOG_TAG, "Permissão de leitura não concedida, solicitando permissão");
+                permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES);
+            } else {
+                Log.d(LOG_TAG, "Permissão de leitura concedida, abrindo galeria");
+                openGallery();
+            }
+        });
+
+        firebase.getProfileImageUrl()
+                .addOnSuccessListener(imageUrl -> {
+                    Glide.with(this)
+                            .load(imageUrl)
+                            .into(imgCompany);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Firebase", "Erro ao salvar a imagem de perfil", e);
+                    Toast.makeText(getContext(), "Erro ao salvar a imagem. Tente novamente.", Toast.LENGTH_SHORT).show();
+                });
 
         fetchCompany();
 
         return view;
     }
+
+    // Método para abrir a galeria
+    private void openGallery() {
+        Log.d(LOG_TAG, "Tentando abrir a galeria");
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        imagePickerLauncher.launch(intent);
+    }
+    
 
     private void fetchCompany() {
         String cnpj = getContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
@@ -73,30 +152,35 @@ public class CompanyFragment extends Fragment {
             @Override
             public void onResponse(Call<ApiDataResponse<CompanyProfile>> call, Response<ApiDataResponse<CompanyProfile>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ApiDataResponse<CompanyProfile> apiResponse = response.body();
-                    // Pegar informações e colocar no perfil da empresa
-                    name = apiResponse.getData().getName();
-                    email = apiResponse.getData().getEmail();
-                    phone = apiResponse.getData().getPhone();
-                    participatedAuctions = apiResponse.getData().getParticipatedAuctions();
+                    try {
+                        ApiDataResponse<CompanyProfile> apiResponse = response.body();
+                        name = apiResponse.getData().getName();
+                        email = apiResponse.getData().getEmail();
+                        phone = apiResponse.getData().getPhone();
+                        participatedAuctions = apiResponse.getData().getParticipatedAuctions();
 
-                    textViewCnpj.setText(String.format("%s.%s.%s/%s-%s", cnpj.substring(0, 2), cnpj.substring(2, 5), cnpj.substring(5, 8), cnpj.substring(8, 12), cnpj.substring(11, 14)));
-                    textViewName.setText(name);
-                    textViewEmail.setText(email);
-                    textViewPhone.setText(phone);
-                    textViewParticipatedAuctions.setText(String.valueOf(participatedAuctions));
+                        textViewCnpj.setText(String.format("%s.%s.%s/%s-%s", cnpj.substring(0, 2), cnpj.substring(2, 5), cnpj.substring(5, 8), cnpj.substring(8, 12), cnpj.substring(11, 14)));
+                        textViewName.setText(name);
+                        textViewEmail.setText(email);
+                        textViewPhone.setText(phone);
+                        textViewParticipatedAuctions.setText(String.valueOf(participatedAuctions));
 
-                    //Botao de sair
-                    exit.setOnClickListener(v -> {
-                        getActivity().finish();
-                    });
+                        // Botão de sair
+                        exit.setOnClickListener(v -> {
+                            getActivity().finish();
+                        });
 
-                    Log.d(LOG_TAG, "Company fetched successfully");
+                        Log.d(LOG_TAG, "Company fetched successfully");
+                    } catch (Exception e) {
+                        Log.e(LOG_TAG, "Erro ao processar resposta da API", e);
+                        Toast.makeText(getContext(), "Erro ao processar dados.", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Log.e(LOG_TAG, "Response failed: " + response.message());
                     Toast.makeText(getContext(), "Failed to load auctions.", Toast.LENGTH_SHORT).show();
                 }
             }
+
 
             @Override
             public void onFailure(Call<ApiDataResponse<CompanyProfile>> call, Throwable t) {

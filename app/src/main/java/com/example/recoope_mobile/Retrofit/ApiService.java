@@ -2,10 +2,13 @@ package com.example.recoope_mobile.Retrofit;
 
 import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.model.AuctionDetails;
+import com.example.recoope_mobile.model.Bid;
+import com.example.recoope_mobile.model.BidInfo;
 import com.example.recoope_mobile.model.Company;
 import com.example.recoope_mobile.model.CompanyProfile;
 import com.example.recoope_mobile.model.Cooperative;
 import com.example.recoope_mobile.model.LoginParams;
+import com.example.recoope_mobile.model.Payment;
 import com.example.recoope_mobile.response.ApiDataResponse;
 
 import java.util.Date;
@@ -28,7 +31,7 @@ public interface ApiService {
     Call<ResponseBody> authenticationCompany(@Body LoginParams loginParams);
 
     /////Empresa
-    @POST("empresa/cadastrar")
+    @POST("empresa/cadastrar/")
     Call<ResponseBody> createCompany(@Body Company company);
     @GET("empresa/{id}")
     Call<ApiDataResponse<CompanyProfile>> getCompanyById(@Path("id") String id);
@@ -73,8 +76,6 @@ public interface ApiService {
 
     @GET("recibo/{cnpj}")
     Call<ApiDataResponse<List<Payment>>> getPayment(@Path("cnpj") String cnpj);
-
-
 
     /////Lance
     @POST("lance/{idLeilao}")

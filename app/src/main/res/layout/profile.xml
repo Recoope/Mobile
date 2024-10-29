@@ -46,6 +46,7 @@
             app:layout_constraintBottom_toTopOf="@id/cooperativeName">
 
             <ImageView
+                android:id="@+id/imgCompany"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -71,7 +72,7 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@id/exitButton"
             app:layout_constraintEnd_toStartOf="@id/endGuideLine"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/startGuideLine"
             app:layout_constraintTop_toBottomOf="@id/cooperativeName">
 
@@ -85,15 +86,15 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        style="@style/Theme.RecoopeMobile.ProfileCardText"
-                        android:text="00.000.000/0000-00"
                         android:id="@+id/cooperativeCNPJ"
-                        />
+                        style="@style/Theme.RecoopeMobile.ProfileCardText"
+                        android:text="00.000.000/0000-00" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView style="@style/Theme.RecoopeMobile.ProfileCardInfo">
+
                 <LinearLayout style="@style/Theme.RecoopeMobile.ProfileCardLayout">
 
                     <TextView
@@ -102,15 +103,15 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        style="@style/Theme.RecoopeMobile.ProfileCardText"
-                        android:text="cooperative@email.com"
                         android:id="@+id/cooperativeEmail"
-                        />
+                        style="@style/Theme.RecoopeMobile.ProfileCardText"
+                        android:text="cooperative@email.com" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView style="@style/Theme.RecoopeMobile.ProfileCardInfo">
+
                 <LinearLayout style="@style/Theme.RecoopeMobile.ProfileCardLayout">
 
                     <TextView
@@ -119,26 +120,26 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        style="@style/Theme.RecoopeMobile.ProfileCardText"
-                        android:text="(00) 00000-0000"
                         android:id="@+id/cooperativePhone"
-                        />
+                        style="@style/Theme.RecoopeMobile.ProfileCardText"
+                        android:text="(00) 00000-0000" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView style="@style/Theme.RecoopeMobile.ProfileCardInfo">
+
                 <LinearLayout style="@style/Theme.RecoopeMobile.ProfileCardLayout">
+
                     <TextView
                         style="@style/Theme.RecoopeMobile.ProfileCardText"
                         android:text="Leilões Participados"
                         android:textStyle="bold" />
 
                     <TextView
-                        style="@style/Theme.RecoopeMobile.ProfileCardText"
-                        android:text="00 Leilões"
                         android:id="@+id/cooperativeParticipatedAuctions"
-                        />
+                        style="@style/Theme.RecoopeMobile.ProfileCardText"
+                        android:text="00 Leilões" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -165,5 +166,17 @@
             android:orientation="vertical"
             app:layout_constraintGuide_begin="0dp"
             app:layout_constraintGuide_percent="0.92" />
+
+        <ImageView
+            android:id="@+id/btEditPhotoCompany"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/imgpenedit"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            app:layout_constraintStart_toEndOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="@+id/cardView"
+            app:layout_constraintVertical_bias="0.0" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

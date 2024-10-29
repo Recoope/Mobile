@@ -19,6 +19,7 @@ import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.utils.DialogUtils;
 import com.example.recoope_mobile.enums.InvalidFormatRegister;
 import com.example.recoope_mobile.model.Company;
+import com.example.recoope_mobile.utils.NotificationHelper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -213,8 +214,7 @@ public class Register extends AppCompatActivity {
                         JsonObject data = jsonResponse.has("data") ? jsonResponse.get("data").getAsJsonObject() : new JsonObject();
 
                         if (response.code() == 200 ) {
-                            Gson gson = new Gson();
-                            Company company = gson.fromJson(data, Company.class);
+                            NotificationHelper.sendNotification(Register.this, "Bem vindo!", "Entre diariamente, sempre há novidades!");
                             nextScreen();
                         } else {
                             InvalidFormatRegister invalidFormatRegister = verifyReturn(message);
