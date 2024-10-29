@@ -71,7 +71,7 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
             holder.auctionMaterial.setText(auction.getProduct().getProductType());
             holder.auctionWeight.setText(PtBrUtils.formatWeight(auction.getProduct().getWeight()));
             holder.auctionPrice.setText(PtBrUtils.formatReal(auction.getProduct().getInitialValue()));
-
+            PtBrUtils.formatAuctionStatus(auction.getStatus(), holder.status);
             // Carregar a imagem do leilão (produto) usando Glide, se a URL não for nula
             if (auction.getProduct().getPhoto() != null) {
                 Glide.with(context)
@@ -81,6 +81,7 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
                 holder.auctionImg.setImageResource(R.drawable.glass_image); // Exemplo de imagem padrão
             }
         } else {
+            holder.status.setText("Status não disponível");
             holder.auctionMaterial.setText("Material não disponível");
             holder.auctionWeight.setText("Peso não disponível");
             holder.auctionPrice.setText("Preço não disponível");
@@ -144,6 +145,9 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
     }
 
     public static class AuctionViewHolder extends RecyclerView.ViewHolder {
+        TextView auctionCoopName, auctionDate, auctionMaterial, auctionWeight,
+                auctionPrice, idAuction, status;
+        ImageView auctionImg;
         TextView auctionCoopName, auctionDate, auctionMaterial, auctionWeight, auctionPrice, idAuction;
         ImageView auctionImg, deleteBtn;
         Button auctionDetailBtn, auctionParticipateBtn;
@@ -153,6 +157,7 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
             auctionImg = itemView.findViewById(R.id.auctionImg);
             idAuction = itemView.findViewById(R.id.auctionId);
             auctionCoopName = itemView.findViewById(R.id.auctionCoopName);
+            status = itemView.findViewById(R.id.status);
             auctionDate = itemView.findViewById(R.id.auctionDate);
             auctionMaterial = itemView.findViewById(R.id.auctionMaterial);
             auctionWeight = itemView.findViewById(R.id.auctionWeight);
