@@ -17,6 +17,7 @@ import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.model.CompanyProfile;
+import com.example.recoope_mobile.model.Cooperative;
 import com.example.recoope_mobile.response.ApiDataResponse;
 
 import retrofit2.Call;
@@ -54,23 +55,23 @@ public class CooperativeFragment extends Fragment {
     }
 
     private void fetchCompany() {
-        String cnpj = getContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
-                .getString("cnpj", "");
-        Call<ApiDataResponse<CompanyProfile>> call = apiService.getCompanyById(cnpj);
+        Bundle bundle = getArguments();
 
-        call.enqueue(new Callback<ApiDataResponse<CompanyProfile>>() {
+        String cnpj = bundle.getString("cnpjCooperative");
+
+        Call<ApiDataResponse<Cooperative>> call = apiService.getIdCooperative(cnpj);
+
+        call.enqueue(new Callback<ApiDataResponse<Cooperative>>() {
             @Override
-            public void onResponse(Call<ApiDataResponse<CompanyProfile>> call, Response<ApiDataResponse<CompanyProfile>> response) {
+            public void onResponse(Call<ApiDataResponse<Cooperative>> call, Response<ApiDataResponse<Cooperative>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ApiDataResponse<CompanyProfile> apiResponse = response.body();
-                    // Pegar informações e colocar no perfil da cooperativa
+                    ApiDataResponse<Cooperative> apiResponse = response.body();
+                    // Pegar informações e colocar no perfil da empresa
                     name = apiResponse.getData().getName();
                     email = apiResponse.getData().getEmail();
-                    phone = apiResponse.getData().getPhone();
 
                     textViewName.setText(name);
                     textViewEmail.setText(email);
-                    textViewPhone.setText(phone);
 
                     Log.d(LOG_TAG, "Company fetched successfully");
                 } else {
@@ -80,7 +81,7 @@ public class CooperativeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ApiDataResponse<CompanyProfile>> call, Throwable t) {
+            public void onFailure(Call<ApiDataResponse<Cooperative>> call, Throwable t) {
                 Log.e(LOG_TAG, "API call failed: " + t.getMessage());
                 Toast.makeText(getContext(), "Failed to fetch data.", Toast.LENGTH_SHORT).show();
             }

@@ -90,16 +90,6 @@
             app:layout_constraintTop_toBottomOf="@+id/txtCooperativeName" />
 
         <TextView
-            android:id="@+id/cooperativePhone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="(11) 1234-5678"
-            android:textSize="13sp"
-            app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
-            app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toBottomOf="@+id/contactText" />
-
-        <TextView
             android:id="@+id/cooperativeEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -107,8 +97,9 @@
             android:textColor="@color/recoope_light_blue_color"
             android:textSize="13sp"
             app:layout_constraintEnd_toStartOf="@+id/endGuideLine"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="@+id/startGuideLine"
-            app:layout_constraintTop_toBottomOf="@+id/cooperativePhone" />
+            app:layout_constraintTop_toBottomOf="@+id/contactText" />
 
         <TextView
             android:id="@+id/auctionText"

@@ -61,7 +61,6 @@ public interface ApiService {
     Call<ApiDataResponse<List<Date>>> getExpiringDates(@Path("cnpj") String cnpj);
 
     /////Cooperativa
-    // Ler um recurso filtrado por material (GET)
     @GET("cooperativa/buscar/{nomeCooperativa}")
     Call<ApiDataResponse<List<Cooperative>>> getSearchCooperative(
             @Path("nomeCooperativa") String nameCooperative
@@ -83,4 +82,12 @@ public interface ApiService {
             @Path("idLeilao") int idLeilao,
             @Body BidInfo bidInfo
     );
+    @GET("cooperativa/{cnpj}")
+    Call<ApiDataResponse<Cooperative>> getIdCooperative(
+            @Path("cnpj") String cnpj
+    );
+
+
+
+
 }
