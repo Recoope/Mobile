@@ -59,8 +59,8 @@ public class Login extends AppCompatActivity {
         passwordLoginEt = findViewById(R.id.passwordLogin);
         passwordLoginLayout = findViewById(R.id.passwordLoginLayout);
 
-        documentLoginEt.setText("12345678000195");
-        passwordLoginEt.setText("Senha@123");
+        documentLoginEt.setText("18814730000191");
+        passwordLoginEt.setText("Senha12345!");
 
         ImageButton btnLogin = findViewById(R.id.btnLogin);
 

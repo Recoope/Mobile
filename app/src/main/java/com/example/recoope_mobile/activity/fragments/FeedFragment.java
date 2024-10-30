@@ -207,8 +207,10 @@ public class FeedFragment extends Fragment {
     }
 
     private void handleAuctionFailure(Throwable t) {
+        Log.e("API_ERROR", "Failed to load data: " + t.getMessage(), t);
         auctionList.clear();
         auctionAdapter.notifyDataSetChanged();
         Toast.makeText(getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
     }
+
 }

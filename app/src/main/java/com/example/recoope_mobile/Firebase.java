@@ -13,6 +13,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -169,8 +171,7 @@ public class Firebase {
                     listener.onFailure(e.getMessage());
                 });
     }
-
-    public void saveProfileImage(Uri imageUrl) {
+    public void saveProfileImage(Uri imageUri) {
         String cnpj = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
                 .getString("cnpj", "");
 
@@ -179,18 +180,35 @@ public class Firebase {
             return;
         }
 
-        DocumentReference docRef = db.collection(COLLECTION_NAME_IMAGE).document(cnpj);
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference()
+                .child("profile_images/" + cnpj + ".jpg");
 
-        // Usamos um mapa para armazenar os dados da imagem
-        Map<String, Object> imageData = new HashMap<>();
-        imageData.put("profileImageUrl", imageUrl.toString());  // Converte Uri para String
+        storageRef.putFile(imageUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    // Log para indicar que o upload foi bem-sucedido
+                    Log.d("Firebase", "Upload da imagem de perfil concluído com sucesso.");
 
-        // Atualiza ou cria o campo profileImageUrl
-        docRef.set(imageData, SetOptions.merge())
-                .addOnSuccessListener(aVoid -> Log.d("Firebase", "Imagem de perfil salva com sucesso"))
-                .addOnFailureListener(e -> Log.e("Firebase", "Erro ao salvar a imagem de perfil", e));
+                    storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        // Após o upload, obtenha o URL de download e salve no Firestore
+                        saveImageUrlInFirestore(uri.toString(), cnpj);
+                    }).addOnFailureListener(e ->
+                            Log.e("Firebase", "Erro ao obter a URL de download da imagem", e)
+                    );
+                })
+                .addOnFailureListener(e -> Log.e("Firebase", "Erro ao fazer upload da imagem", e));
     }
 
+    // Função auxiliar para salvar o URL da imagem no Firestore
+    private void saveImageUrlInFirestore(String imageUrl, String cnpj) {
+        DocumentReference docRef = db.collection(COLLECTION_NAME_IMAGE).document(cnpj);
+
+        Map<String, Object> imageData = new HashMap<>();
+        imageData.put("profileImageUrl", imageUrl);
+
+        docRef.set(imageData, SetOptions.merge())
+                .addOnSuccessListener(aVoid -> Log.d("Firebase", "Imagem de perfil salva com sucesso no Firestore"))
+                .addOnFailureListener(e -> Log.e("Firebase", "Erro ao salvar a URL da imagem no Firestore", e));
+    }
 
     public Task<String> getProfileImageUrl() {
         String cnpj = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
@@ -201,24 +219,22 @@ public class Firebase {
             return Tasks.forException(new Exception("CNPJ não encontrado"));
         }
 
-        // Referência ao documento usando o CNPJ
         DocumentReference docRef = db.collection(COLLECTION_NAME_IMAGE).document(cnpj);
 
-        // Retorna uma Task que obtém o URL da imagem de perfil
         return docRef.get().continueWith(task -> {
             if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
-                // Recupera o URL da imagem de perfil
                 String imageUrl = task.getResult().getString("profileImageUrl");
 
                 if (imageUrl != null && !imageUrl.isEmpty()) {
+                    Log.d("Firebase", "URL da imagem de perfil obtida com sucesso: " + imageUrl);
                     return imageUrl;
                 } else {
-                    throw new Exception("URL da imagem de perfil não encontrado");
+                    throw new Exception("URL da imagem de perfil não encontrada");
                 }
             } else {
                 throw new Exception("Erro ao buscar o documento do Firestore");
             }
-        });
+        }).addOnFailureListener(e -> Log.e("Firebase", "Erro ao buscar a imagem de perfil", e));
     }
 
 
