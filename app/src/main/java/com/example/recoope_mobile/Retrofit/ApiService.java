@@ -7,6 +7,7 @@ import com.example.recoope_mobile.model.Company;
 import com.example.recoope_mobile.model.CompanyProfile;
 import com.example.recoope_mobile.model.Cooperative;
 import com.example.recoope_mobile.model.LoginParams;
+import com.example.recoope_mobile.model.ParticipatedAuction;
 import com.example.recoope_mobile.response.ApiDataResponse;
 
 import java.util.Date;
@@ -50,9 +51,9 @@ public interface ApiService {
             @Query("pesoMax") String weightMax
     );
     @GET("leilao/participados/{cnpj}")
-    Call<ApiDataResponse<List<Auction>>> getParticipations(@Path("cnpj") String cnpj);
+    Call<ApiDataResponse<List<ParticipatedAuction>>> getParticipations(@Path("cnpj") String cnpj);
     @GET("leilao/participados/{cnpj}")
-    Call<ApiDataResponse<List<Auction>>> getParticipationsByExpiringDate(@Path("cnpj") String cnpj, @Query("fim") String date);
+    Call<ApiDataResponse<List<ParticipatedAuction>>> getParticipationsByExpiringDate(@Path("cnpj") String cnpj, @Query("fim") String date);
     @GET("leilao/{id}")
     Call<ApiDataResponse<AuctionDetails>> getAuctionDetails(@Path("id") int id);
     @GET("leilao/vencimentos/{cnpj}")

@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class Auction {
+public class ParticipatedAuction {
 
     @SerializedName(value="id")
     private int auctionId;
@@ -33,7 +33,11 @@ public class Auction {
     @SerializedName(value="cooperativa")
     private Cooperative cooperative;
 
-    public Auction(int auctionId, Date startDate, Date endDate, String details, String time, Product product, Cooperative cooperative, Address address) {
+    @SerializedName(value="status")
+    @Nullable
+    private Integer status;
+
+    public ParticipatedAuction(int auctionId, Date startDate, Date endDate, String details, String time, Product product, Cooperative cooperative, Address address, @Nullable Integer status) {
         this.auctionId = auctionId;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -42,6 +46,7 @@ public class Auction {
         this.address = address;
         this.product = product;
         this.cooperative = cooperative;
+        this.status = status;
     }
 
     public int getAuctionId() {
@@ -107,6 +112,14 @@ public class Auction {
         this.cooperative = cooperative;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Auction{" +
@@ -118,6 +131,7 @@ public class Auction {
                 ", adress=" + address +
                 ", product=" + product +
                 ", cooperative=" + cooperative +
+                ", status=" + status +
                 '}';
     }
 }

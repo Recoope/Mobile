@@ -14,18 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.recoope_mobile.R;
-import com.example.recoope_mobile.model.Auction;
+import com.example.recoope_mobile.model.ParticipatedAuction;
 import com.example.recoope_mobile.utils.PtBrUtils;
 
 import java.util.List;
 
 public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateAuctionAdapter.AuctionViewHolder> {
-    private List<Auction> auctions;
+    private List<ParticipatedAuction> auctions;
     private Context context;
     private final String LOG_TAG = "CardFeed";
 
 
-    public ParticipateAuctionAdapter(List<Auction> auctions, Context context) {
+    public ParticipateAuctionAdapter(List<ParticipatedAuction> auctions, Context context) {
         this.auctions = auctions;
         this.context = context;
     }
@@ -39,7 +39,7 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
 
     @Override
     public void onBindViewHolder(@NonNull AuctionViewHolder holder, int position) {
-        Auction auction = auctions.get(position);
+        ParticipatedAuction auction = auctions.get(position);
 
         Log.e(LOG_TAG, auction.toString());
 
