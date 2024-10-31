@@ -19,7 +19,7 @@ import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.adapter.ParticipateAuctionAdapter;
-import com.example.recoope_mobile.model.Auction;
+import com.example.recoope_mobile.model.ParticipatedAuction;
 import com.example.recoope_mobile.response.ApiDataResponse;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.text.SimpleDateFormat;
@@ -84,11 +84,11 @@ public class CalendarFragment extends Fragment {
 
         // Preenchendo leilões em andamento.
         Call c = apiService.getParticipations(cnpj);
-        c.enqueue(new Callback<ApiDataResponse<List<Auction>>>() {
+        c.enqueue(new Callback<ApiDataResponse<List<ParticipatedAuction>>>() {
             @Override
-            public void onResponse(Call<ApiDataResponse<List<Auction>>> call, Response<ApiDataResponse<List<Auction>>> response) {
+            public void onResponse(Call<ApiDataResponse<List<ParticipatedAuction>>> call, Response<ApiDataResponse<List<ParticipatedAuction>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ApiDataResponse<List<Auction>> apiResponse = response.body();
+                    ApiDataResponse<List<ParticipatedAuction>> apiResponse = response.body();
                     if (apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
                         Log.d("AuctionData", "Data fetched: " + apiResponse.getData().size());
                         auctionParticipationsAdapter = new ParticipateAuctionAdapter(apiResponse.getData(), getContext());
@@ -101,7 +101,7 @@ public class CalendarFragment extends Fragment {
                 }
             }
             @Override
-            public void onFailure(Call<ApiDataResponse<List<Auction>>> call, Throwable t) {
+            public void onFailure(Call<ApiDataResponse<List<ParticipatedAuction>>> call, Throwable t) {
                 // Log.e(LOG_TAG, "API call failed: " + t.getMessage());
                 Toast.makeText(getContext(), "Failed to fetch data.", Toast.LENGTH_SHORT).show();
             }
@@ -206,11 +206,11 @@ public class CalendarFragment extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String dataFormated = dateFormat.format(new Date(getYear() - 1900, getMonth(), Integer.parseInt(day)));
         Call call = apiService.getParticipationsByExpiringDate(cnpj, dataFormated);
-        call.enqueue(new Callback<ApiDataResponse<List<Auction>>>() {
+        call.enqueue(new Callback<ApiDataResponse<List<ParticipatedAuction>>>() {
             @Override
-            public void onResponse(Call<ApiDataResponse<List<Auction>>> call, Response<ApiDataResponse<List<Auction>>> response) {
+            public void onResponse(Call<ApiDataResponse<List<ParticipatedAuction>>> call, Response<ApiDataResponse<List<ParticipatedAuction>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ApiDataResponse<List<Auction>> apiResponse = response.body();
+                    ApiDataResponse<List<ParticipatedAuction>> apiResponse = response.body();
                     if (apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
                         Log.d("AuctionData", "Data fetched: " + apiResponse.getData().size());
                         expiringAuctionAdapter = new ParticipateAuctionAdapter(apiResponse.getData(), getContext());
@@ -222,7 +222,7 @@ public class CalendarFragment extends Fragment {
                 }
             }
             @Override
-            public void onFailure(Call<ApiDataResponse<List<Auction>>> call, Throwable t) {
+            public void onFailure(Call<ApiDataResponse<List<ParticipatedAuction>>> call, Throwable t) {
                 // Log.e(LOG_TAG, "API call failed: " + t.getMessage());
                 Toast.makeText(getContext(), "Failed to fetch data.", Toast.LENGTH_SHORT).show();
             }

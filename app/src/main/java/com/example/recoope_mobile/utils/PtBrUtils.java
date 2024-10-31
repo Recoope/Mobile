@@ -3,6 +3,8 @@ package com.example.recoope_mobile.utils;
 import android.annotation.SuppressLint;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.example.recoope_mobile.R;
 
 import java.sql.Time;
@@ -88,16 +90,23 @@ public class PtBrUtils {
         switch (status) {
             case 0:
                 statusTv.setText("Você venceu este leilão!");
-                statusTv.setTextColor(R.color.recoope_primary_color);
+                statusTv.setTextColor(ContextCompat.getColor(statusTv.getContext(), R.color.recoope_primary_color));
+                break;
             case 1:
                 statusTv.setText("Seu lance é o maior");
-                statusTv.setTextColor(R.color.recoope_light_blue_color);
+                statusTv.setTextColor(ContextCompat.getColor(statusTv.getContext(), R.color.recoope_light_blue_color));
+                break;
             case 2:
                 statusTv.setText("Leilão encerrado");
-                statusTv.setTextColor(R.color.recoope_yellow_color);
+                statusTv.setTextColor(ContextCompat.getColor(statusTv.getContext(), R.color.recoope_red_color));
+                break;
             case 3:
                 statusTv.setText("Seu lance foi superado");
-                statusTv.setTextColor(R.color.recoope_red_color);
+                statusTv.setTextColor(ContextCompat.getColor(statusTv.getContext(), R.color.recoope_yellow_color));
+                break;
+            case 4:
+                statusTv.setText("Status não disponível");
+                break;
         }
     }
 }
