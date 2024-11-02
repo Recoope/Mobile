@@ -116,5 +116,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.92" />
+
+        <ImageView
+            android:id="@+id/messageStatus"
+            android:layout_width="136dp"
+            android:layout_height="116dp"
+            android:src="@drawable/notfounditemserror"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerViewFeed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

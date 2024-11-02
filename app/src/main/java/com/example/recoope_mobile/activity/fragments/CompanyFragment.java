@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +33,7 @@ import com.example.recoope_mobile.Firebase;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
+import com.example.recoope_mobile.activity.MainActivity;
 import com.example.recoope_mobile.model.CompanyProfile;
 import com.example.recoope_mobile.response.ApiDataResponse;
 
@@ -59,12 +59,12 @@ public class CompanyFragment extends Fragment {
     private ImageView imgCompany;
     private ImageView btEditPhotoCompany;
     private TextView textViewParticipatedAuctions;
-    private ProgressBar progressBar; // Adicionando o ProgressBar
     private ApiService apiService;
 
     // Gerenciador para a seleção de imagens
     private ActivityResultLauncher<Intent> imagePickerLauncher;
     private ActivityResultLauncher<String> permissionLauncher;
+    private MainActivity activity;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -80,7 +80,7 @@ public class CompanyFragment extends Fragment {
         exit = view.findViewById(R.id.exitButton);
         imgCompany = view.findViewById(R.id.imgCompany);
         btEditPhotoCompany = view.findViewById(R.id.btEditPhotoCompany);
-        progressBar = view.findViewById(R.id.progressBar); // Inicializa o ProgressBar
+        activity = (MainActivity) getActivity();
 
         apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
         Firebase firebase = new Firebase(getContext());
@@ -92,13 +92,46 @@ public class CompanyFragment extends Fragment {
                     if (result.getResultCode() == getActivity().RESULT_OK && result.getData() != null) {
                         Uri selectedImageUri = result.getData().getData();
                         if (selectedImageUri != null) {
-                            // Exibir a imagem selecionada no ImageView
-                            Glide.with(this).load(selectedImageUri).into(imgCompany);
-                            firebase.saveProfileImage(selectedImageUri);
+                            // Exibir o loading antes de iniciar o processo de upload e carregamento da imagem
+                            activity.showLoading();
+
+                            // Salvar a imagem no Firebase
+                            firebase.saveProfileImage(selectedImageUri,
+                                    uri -> {
+                                        // Carregar a imagem salva no ImageView usando Glide
+                                        Glide.with(this)
+                                                .load(uri)
+                                                .listener(new com.bumptech.glide.request.RequestListener<Drawable>() {
+                                                    @Override
+                                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                                        // Ocultar o loading em caso de falha no carregamento da imagem
+                                                        activity.hideLoading();
+                                                        Toast.makeText(getContext(), "Erro ao carregar a imagem", Toast.LENGTH_SHORT).show();
+                                                        return false; // Permite que o Glide lide com o erro
+                                                    }
+
+                                                    @Override
+                                                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                                        // Ocultar o loading quando a imagem for carregada com sucesso
+                                                        activity.hideLoading();
+                                                        return false; // Permite que o Glide lide com a exibição da imagem
+                                                    }
+                                                })
+                                                .into(imgCompany);
+
+                                        Toast.makeText(getContext(), "Imagem de perfil atualizada com sucesso", Toast.LENGTH_SHORT).show();
+                                    },
+                                    e -> {
+                                        // Ocultar o loading em caso de erro ao salvar no Firebase
+                                        activity.hideLoading();
+                                        Toast.makeText(getContext(), "Erro ao atualizar a imagem de perfil", Toast.LENGTH_SHORT).show();
+                                    }
+                            );
                         }
                     }
                 }
         );
+
 
         // Inicializar o gerenciador de permissões
         permissionLauncher = registerForActivityResult(
@@ -114,6 +147,7 @@ public class CompanyFragment extends Fragment {
         );
 
         btEditPhotoCompany.setOnClickListener(v -> {
+            activity.showLoading();
             Log.d(LOG_TAG, "Botão de editar foto clicado");
             if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
                 Log.d(LOG_TAG, "Permissão de leitura não concedida, solicitando permissão");
@@ -127,7 +161,8 @@ public class CompanyFragment extends Fragment {
         // Carregar a imagem do Firebase
         firebase.getProfileImageUrl()
                 .addOnSuccessListener(imageUrl -> {
-                    loadCompanyImage(imageUrl); // Carrega a imagem da empresa
+                    loadCompanyImage(imageUrl);
+                    activity.hideLoading();
                 })
                 .addOnFailureListener(e -> {
                     Log.e("Firebase", "Erro ao salvar a imagem de perfil", e);
@@ -149,37 +184,37 @@ public class CompanyFragment extends Fragment {
 
     // Método para carregar a imagem da empresa
     private void loadCompanyImage(String imageUrl) {
-        if (isAdded()) {
-            progressBar.setVisibility(View.VISIBLE); // Mostra o ProgressBar
-            Glide.with(this)
-                    .load(imageUrl)
-                    .listener(new com.bumptech.glide.request.RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            progressBar.setVisibility(View.GONE); // Esconde o ProgressBar em caso de falha
-                            return false;
-                        }
+        Glide.with(this)
+                .load(imageUrl)
+                .listener(new com.bumptech.glide.request.RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
 
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            progressBar.setVisibility(View.GONE); // Esconde o ProgressBar quando a imagem é carregada
-                            return false;
-                        }
-                    })
-                    .into(imgCompany);
-        }
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        activity.hideLoading();
+                        return false;
+                    }
+                })
+                .into(imgCompany);
     }
+
 
     private void fetchCompany() {
         String cnpj = getContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
                 .getString("cnpj", "");
         Call<ApiDataResponse<CompanyProfile>> call = apiService.getCompanyById(cnpj);
 
+        activity = (MainActivity) getActivity();
+
         call.enqueue(new Callback<ApiDataResponse<CompanyProfile>>() {
             @Override
             public void onResponse(Call<ApiDataResponse<CompanyProfile>> call, Response<ApiDataResponse<CompanyProfile>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     try {
+                        activity.hideLoading();
                         ApiDataResponse<CompanyProfile> apiResponse = response.body();
                         name = apiResponse.getData().getName();
                         email = apiResponse.getData().getEmail();
@@ -200,18 +235,15 @@ public class CompanyFragment extends Fragment {
                         Log.d(LOG_TAG, "Company fetched successfully");
                     } catch (Exception e) {
                         Log.e(LOG_TAG, "Erro ao processar resposta da API", e);
-                        Toast.makeText(getContext(), "Erro ao processar dados.", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Log.e(LOG_TAG, "Response failed: " + response.message());
-                    Toast.makeText(getContext(), "Failed to load auctions.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ApiDataResponse<CompanyProfile>> call, Throwable t) {
                 Log.e(LOG_TAG, "API call failed: " + t.getMessage());
-                Toast.makeText(getContext(), "Failed to fetch data.", Toast.LENGTH_SHORT).show();
             }
         });
     }

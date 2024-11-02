@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
+import com.example.recoope_mobile.activity.MainActivity;
 import com.example.recoope_mobile.activity.fragments.BidFragment;
 import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.model.AuctionDetails;
@@ -151,13 +152,13 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
         public AuctionViewHolder(@NonNull View itemView) {
             super(itemView);
-            auctionImg = itemView.findViewById(R.id.auctionImg);
-            idAuction = itemView.findViewById(R.id.auctionId);
-            auctionCoopName = itemView.findViewById(R.id.auctionCoopName);
-            auctionDate = itemView.findViewById(R.id.auctionDate);
-            auctionMaterial = itemView.findViewById(R.id.auctionMaterial);
-            auctionWeight = itemView.findViewById(R.id.auctionWeight);
-            auctionPrice = itemView.findViewById(R.id.auctionPrice);
+            auctionImg = itemView.findViewById(R.id.auctionImgItem);
+            idAuction = itemView.findViewById(R.id.auctionIdItem);
+            auctionCoopName = itemView.findViewById(R.id.auctionCoopNameItem);
+            auctionDate = itemView.findViewById(R.id.auctionDateItem);
+            auctionMaterial = itemView.findViewById(R.id.auctionMaterialItem);
+            auctionWeight = itemView.findViewById(R.id.auctionWeightItem);
+            auctionPrice = itemView.findViewById(R.id.auctionPriceItem);
             auctionDetailBtn = itemView.findViewById(R.id.auctionDetailBtn);
             auctionParticipateBtn = itemView.findViewById(R.id.auctionParticipateBtn);
         }

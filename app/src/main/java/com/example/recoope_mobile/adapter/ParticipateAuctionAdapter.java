@@ -1,5 +1,6 @@
 package com.example.recoope_mobile.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -114,7 +115,6 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
                                     dialog.dismiss();
                                 } else {
                                     Log.e(LOG_TAG, "Error deleting auction: " + response.code());
-                                    Toast.makeText(context, "Erro ao deletar leilão", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             @Override
@@ -150,14 +150,14 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
 
         public AuctionViewHolder(@NonNull View itemView) {
             super(itemView);
-            auctionImg = itemView.findViewById(R.id.auctionImg);
-            idAuction = itemView.findViewById(R.id.auctionId);
-            auctionCoopName = itemView.findViewById(R.id.auctionCoopName);
-            status = itemView.findViewById(R.id.status);
-            auctionDate = itemView.findViewById(R.id.auctionDate);
-            auctionMaterial = itemView.findViewById(R.id.auctionMaterial);
-            auctionWeight = itemView.findViewById(R.id.auctionWeight);
-            auctionPrice = itemView.findViewById(R.id.auctionPrice);
+            auctionImg = itemView.findViewById(R.id.auctionImgItemC);
+            idAuction = itemView.findViewById(R.id.auctionIdItemC);
+            auctionCoopName = itemView.findViewById(R.id.auctionCoopNameItemC);
+            status = itemView.findViewById(R.id.statusItemC);
+            auctionDate = itemView.findViewById(R.id.auctionDateItemC);
+            auctionMaterial = itemView.findViewById(R.id.auctionMaterialItemC);
+            auctionWeight = itemView.findViewById(R.id.auctionWeightItemC);
+            auctionPrice = itemView.findViewById(R.id.auctionPriceItemC);
             auctionDetailBtn = itemView.findViewById(R.id.auctionDetailBtn);
             auctionParticipateBtn = itemView.findViewById(R.id.auctionParticipateBtn);
             deleteBtn = itemView.findViewById(R.id.deleteBtn);

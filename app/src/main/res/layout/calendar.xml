@@ -191,5 +191,18 @@
             app:layout_constraintGuide_begin="0dp"
             app:layout_constraintGuide_percent="0.92" />
 
+        <ImageView
+            android:id="@+id/messageStatusCalendar"
+            android:layout_width="136dp"
+            android:layout_height="116dp"
+            android:src="@drawable/notfounditemserror"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/calendarAuctions"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.889" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

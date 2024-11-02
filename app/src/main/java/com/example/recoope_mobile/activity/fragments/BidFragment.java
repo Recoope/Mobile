@@ -19,14 +19,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
-import com.example.recoope_mobile.activity.SplashScreen;
-import com.example.recoope_mobile.activity.StartScreen;
+import com.example.recoope_mobile.activity.MainActivity;
 import com.example.recoope_mobile.activity.SuccessBid;
 import com.example.recoope_mobile.model.AuctionDetails;
 import com.example.recoope_mobile.model.BidInfo;
@@ -67,6 +65,14 @@ public class BidFragment extends Fragment {
         String cnpj = getContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
                 .getString("cnpj", null);
 
+        // Obtém uma referência à MainActivity
+        MainActivity activity = (MainActivity) getActivity();
+
+        // Inicia o ProgressBar ao começar a carregar os dados
+        if (activity != null) {
+            activity.showLoading();
+        }
+
         auctionId = getArguments().getInt("AUCTION_ID");
 
         auctionIdView = view.findViewById(R.id.topBarText);
@@ -79,7 +85,6 @@ public class BidFragment extends Fragment {
         auctionPrice = view.findViewById(R.id.auctionPrice);
         bidPriceInput = view.findViewById(R.id.bidPrice);
         bidButton = view.findViewById(R.id.bidButton);
-
         auctionIdView.setText("Leilão " + PtBrUtils.formatId(auctionId));
         backButton.setOnClickListener((v) -> getParentFragmentManager().popBackStack());
 
@@ -88,6 +93,7 @@ public class BidFragment extends Fragment {
             @Override
             public void onResponse(Call<ApiDataResponse<AuctionDetails>> call, Response<ApiDataResponse<AuctionDetails>> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    activity.hideLoading();
                     AuctionDetails details = response.body().getData();
                     cooperativeName.setText(details.getCooperative().getName());
                     Glide.with(getContext())
@@ -99,7 +105,6 @@ public class BidFragment extends Fragment {
                     auctionPrice.setText(PtBrUtils.formatReal(details.getBestBid().getValue()));
                 } else {
                     Log.e("BID", "Response failed: " + response.message());
-                    Toast.makeText(getContext(), "Failed to load auctions.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -116,7 +121,7 @@ public class BidFragment extends Fragment {
                 @Override
                 public void onResponse(Call call, Response response) {
                     if (response.code() == 201) {
-
+                        activity.hideLoading();
                         Intent intent = new Intent(getActivity(), SuccessBid.class);
                         intent.putExtra("AUCTION_ID", auctionId);
                         startActivity(intent);
@@ -129,6 +134,8 @@ public class BidFragment extends Fragment {
                             fragmentTransaction.commit();
                             ((NavigationBarView) getActivity().findViewById(R.id.navbar)).setSelectedItemId(R.id.calendar_button);
                         }, 50);
+                    }else{
+
                     }
                 }
 

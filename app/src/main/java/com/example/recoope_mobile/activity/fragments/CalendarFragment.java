@@ -1,4 +1,6 @@
 package com.example.recoope_mobile.activity.fragments;
+import static androidx.core.content.PackageManagerCompat.LOG_TAG;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
@@ -13,14 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
+import com.example.recoope_mobile.activity.MainActivity;
 import com.example.recoope_mobile.adapter.ParticipateAuctionAdapter;
 import com.example.recoope_mobile.model.ParticipatedAuction;
 import com.example.recoope_mobile.response.ApiDataResponse;
+import com.example.recoope_mobile.utils.StatusUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,6 +49,8 @@ public class CalendarFragment extends Fragment {
     ParticipateAuctionAdapter auctionParticipationsAdapter;
     RecyclerView inProgressRecycler;
     private TextView pendingText;
+    private ImageView messageStatus;
+    private MainActivity activity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +63,7 @@ public class CalendarFragment extends Fragment {
         pendingText = view.findViewById(R.id.pendingText);
         pendingText.setVisibility(View.INVISIBLE);
 
+        messageStatus = view.findViewById(R.id.messageStatusCalendar);
 
         gridLayout = view.findViewById(R.id.gridLayout);
         monthTextView = view.findViewById(R.id.textMonth);
@@ -68,6 +75,8 @@ public class CalendarFragment extends Fragment {
         todayYear = getYear();
         cnpj = getContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
                 .getString("cnpj", "");
+
+        activity = (MainActivity) getActivity();
 
         // Criando calendario.
         updateCalendar();
@@ -88,22 +97,29 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onResponse(Call<ApiDataResponse<List<ParticipatedAuction>>> call, Response<ApiDataResponse<List<ParticipatedAuction>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    activity.hideLoading();
+                    StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_NO_DATA);
                     ApiDataResponse<List<ParticipatedAuction>> apiResponse = response.body();
                     if (apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
                         Log.d("AuctionData", "Data fetched: " + apiResponse.getData().size());
                         auctionParticipationsAdapter = new ParticipateAuctionAdapter(apiResponse.getData(), getContext());
                         pendingText.setVisibility(View.VISIBLE);
                         inProgressRecycler.setAdapter(auctionParticipationsAdapter);
-                    } else {
-                        Log.d("AuctionData", "No auctions found for this date.");
-                        Toast.makeText(getContext(), "No auctions found.", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    if(response.code() == 500){
+                        StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_SERVER_ERROR);
+                    }else {
+                        StatusUtils.hideStatusImage(messageStatus);
+                        StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_NO_DATA);
                     }
                 }
             }
             @Override
             public void onFailure(Call<ApiDataResponse<List<ParticipatedAuction>>> call, Throwable t) {
-                // Log.e(LOG_TAG, "API call failed: " + t.getMessage());
-                Toast.makeText(getContext(), "Failed to fetch data.", Toast.LENGTH_SHORT).show();
+                StatusUtils.hideStatusImage(messageStatus);
+                Log.e("API_ERROR", "Failed to load data: " + t.getMessage(), t);
+                StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_SERVER_ERROR);
             }
         });
         // Colocando data do dia.
@@ -115,6 +131,7 @@ public class CalendarFragment extends Fragment {
         call.enqueue(new Callback<ApiDataResponse<List<Date>>>() {
             @Override
             public void onResponse(Call<ApiDataResponse<List<Date>>> call, Response<ApiDataResponse<List<Date>>> response) {
+                activity.hideLoading();
                 expiringDates.clear();
                 ApiDataResponse<List<Date>> data = response.body();
                 if (data != null) expiringDates.addAll(data.getData());
@@ -205,11 +222,13 @@ public class CalendarFragment extends Fragment {
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String dataFormated = dateFormat.format(new Date(getYear() - 1900, getMonth(), Integer.parseInt(day)));
+        activity = (MainActivity) getActivity();
         Call call = apiService.getParticipationsByExpiringDate(cnpj, dataFormated);
         call.enqueue(new Callback<ApiDataResponse<List<ParticipatedAuction>>>() {
             @Override
             public void onResponse(Call<ApiDataResponse<List<ParticipatedAuction>>> call, Response<ApiDataResponse<List<ParticipatedAuction>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    activity.hideLoading();
                     ApiDataResponse<List<ParticipatedAuction>> apiResponse = response.body();
                     if (apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
                         Log.d("AuctionData", "Data fetched: " + apiResponse.getData().size());
@@ -217,14 +236,12 @@ public class CalendarFragment extends Fragment {
                         recycler.setAdapter(expiringAuctionAdapter);
                     } else {
                         Log.d("AuctionData", "No auctions found for this date.");
-                        Toast.makeText(getContext(), "No auctions found.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
             @Override
             public void onFailure(Call<ApiDataResponse<List<ParticipatedAuction>>> call, Throwable t) {
-                // Log.e(LOG_TAG, "API call failed: " + t.getMessage());
-                Toast.makeText(getContext(), "Failed to fetch data.", Toast.LENGTH_SHORT).show();
+//                 Log.e(LOG_TAG, "API call failed: " + t.getMessage());
             }
         });
         bottomSheetDialog.show();
@@ -277,4 +294,7 @@ public class CalendarFragment extends Fragment {
             throw new IllegalArgumentException("Unrecognized response month: " + month);
         }
     }
+
+
+
 }

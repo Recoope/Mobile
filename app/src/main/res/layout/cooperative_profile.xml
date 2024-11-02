@@ -59,10 +59,10 @@
             app:layout_constraintBottom_toTopOf="@id/txtCooperativeName">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+                android:id="@+id/imageView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/cooperativeimg" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -123,38 +123,55 @@
             app:layout_constraintTop_toBottomOf="@+id/auctionText">
 
             <Button
-                android:id="@+id/btGlassFilter"
+                android:id="@+id/btGlassFilterCoop"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="5"
                 android:text="Vidros" />
 
             <Button
-                android:id="@+id/btMetalFilterD"
+                android:id="@+id/btMetalFilterCoop"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="5"
                 android:text="Metais" />
 
             <Button
-                android:id="@+id/btPlasticFilter"
+                android:id="@+id/btPlasticFilterCoop"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="5"
                 android:text="Plásticos" />
 
             <ImageButton
-                android:id="@+id/btOtherFilter"
+                android:id="@+id/btOtherFilterCoop"
                 style="@style/Theme.RecoopeMobile.FilterButton"
                 android:layout_weight="3"
                 android:src="@drawable/vector_feed_filter_menu" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/auctionRecyclerCoop"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            tools:listitem="@layout/item_auction"
-            app:layout_constraintTop_toBottomOf="@id/filterLayout"
-            app:layout_constraintStart_toEndOf="@id/startGuideLine"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/endGuideLine"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toEndOf="@id/startGuideLine"
+            app:layout_constraintTop_toBottomOf="@id/filterLayout"
+            tools:listitem="@layout/item_auction" />
+
+        <Button
+            android:id="@+id/btClearFiltersCoop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/shape_button_basic"
+            android:textSize="12sp"
+            android:drawableRight="@drawable/clear_filters"
+            android:onClick="clearFilters"
+            android:text="Limpar"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.567" />
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -164,6 +181,19 @@
             android:orientation="vertical"
             app:layout_constraintGuide_begin="0dp"
             app:layout_constraintGuide_percent="0.92" />
+
+        <ImageView
+            android:id="@+id/messageStatusCoopProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/notfounditemserror"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.49"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.745" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

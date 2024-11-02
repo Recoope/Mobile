@@ -32,7 +32,7 @@ public interface ApiService {
     Call<ResponseBody> authenticationCompany(@Body LoginParams loginParams);
 
     /////Empresa
-    @POST("empresa/cadastrar")
+    @POST("empresa/cadastrar/")
     Call<ResponseBody> createCompany(@Body Company company);
     @GET("empresa/{id}")
     Call<ApiDataResponse<CompanyProfile>> getCompanyById(@Path("id") String id);

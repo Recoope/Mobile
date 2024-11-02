@@ -20,8 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recoope_mobile.Firebase;
 import com.example.recoope_mobile.R;
+import com.example.recoope_mobile.activity.MainActivity;
 import com.example.recoope_mobile.activity.fragments.CooperativeFragment;
 import com.example.recoope_mobile.model.Cooperative;
+import com.google.android.gms.tasks.Task;
 
 import java.util.List;
 
@@ -32,12 +34,16 @@ public class CooperativeAdapter extends RecyclerView.Adapter<CooperativeAdapter.
     private final String LOG_TAG = "CooperativeAdapter";
     private Firebase firebase;
     private boolean isSearchMode;
+    private MainActivity activity;
 
-    public CooperativeAdapter(List<Cooperative> cooperatives, LayoutInflater inflater, boolean isSearchMode) {
+
+
+    public CooperativeAdapter(List<Cooperative> cooperatives, LayoutInflater inflater, boolean isSearchMode, MainActivity activity) {
         this.cooperatives = cooperatives;
         this.inflater = inflater;
         this.firebase = new Firebase(inflater.getContext());
         this.isSearchMode = isSearchMode;
+        this.activity = activity;
     }
 
     @NonNull
@@ -65,20 +71,26 @@ public class CooperativeAdapter extends RecyclerView.Adapter<CooperativeAdapter.
                         public void onSuccess() {
                             cooperatives.remove(adapterPosition);
                             notifyItemRemoved(adapterPosition);
-                            Toast.makeText(inflater.getContext(), "Cooperative deleted from history", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onFailure(String errorMessage) {
-                            Toast.makeText(inflater.getContext(), "Failed to delete cooperative: " + errorMessage, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             });
 
+
+
             holder.itemView.setOnClickListener(v -> {
                 if (isSearchMode) {
-                    firebase.saveCooperativeSearchHistory(cooperative);
+                    Task<Void> voidTask = firebase.saveCooperativeSearchHistory(cooperative)
+                            .addOnSuccessListener(aVoid -> {
+                                Log.e(LOG_TAG, "Histórico salvo!");
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e(LOG_TAG, e.getMessage());
+                            });
                     Log.d(LOG_TAG, "Cooperative " + cooperative.getName() + " saved to Firebase history.");
                     Toast.makeText(v.getContext(), "Cooperative saved to search history", Toast.LENGTH_SHORT).show();
                     // Bundle

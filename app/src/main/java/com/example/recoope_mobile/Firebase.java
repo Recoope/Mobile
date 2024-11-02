@@ -5,7 +5,10 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.example.recoope_mobile.model.Cooperative;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -35,10 +38,10 @@ public class Firebase {
         this.context = context;
     }
 
-    public void saveCooperativeSearchHistory(Cooperative cooperative) {
+    public Task<Void> saveCooperativeSearchHistory(Cooperative cooperative) {
         if (cooperative == null) {
             Log.e("Firebase", "Cooperativa é null, não é possível salvar no Firebase");
-            return;
+            return Tasks.forException(new Exception("Cooperativa é null"));
         }
 
         String cnpj = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
@@ -46,7 +49,7 @@ public class Firebase {
 
         if (cnpj.isEmpty()) {
             Log.e("Firebase", "CNPJ da empresa não encontrado");
-            return;
+            return Tasks.forException(new Exception("CNPJ da empresa não encontrado"));
         }
 
         Map<String, Object> cooperativeData = new HashMap<>();
@@ -57,30 +60,34 @@ public class Firebase {
 
         DocumentReference docRef = db.collection(COLLECTION_NAME_SEARCH).document(cnpj);
 
-        docRef.get().addOnCompleteListener(task -> {
+        return docRef.get().continueWithTask(task -> {
             if (task.isSuccessful()) {
                 if (!task.getResult().exists()) {
                     Map<String, Object> initialData = new HashMap<>();
                     initialData.put("cooperatives", new ArrayList<>());
-                    docRef.set(initialData)
-                            .addOnSuccessListener(aVoid -> Log.d("Firebase", "Documento criado"))
-                            .addOnFailureListener(e -> Log.e("Firebase", "Falha ao criar documento", e));
+                    return docRef.set(initialData)
+                            .continueWith(aVoid -> {
+                                Log.d("Firebase", "Documento criado");
+                                return null;
+                            });
                 }
 
-                docRef.update("cooperatives", FieldValue.arrayUnion(cooperativeData))
-                        .addOnSuccessListener(aVoid -> {
+                return docRef.update("cooperatives", FieldValue.arrayUnion(cooperativeData))
+                        .continueWith(aVoid -> {
                             Log.d("Firebase", "Cooperativa adicionada ao histórico com sucesso");
-                        })
-                        .addOnFailureListener(e -> {
-                            Log.e("Firebase", "Erro ao salvar histórico de cooperativas", e);
+                            return null;
                         });
             } else {
                 Log.e("Firebase", "Erro ao acessar documento da empresa", task.getException());
+                return Tasks.forException(task.getException());
             }
         });
     }
 
-    public void getCooperativeSearchHistory(OnSearchHistoryFetchedListener listener) {
+
+    public Task<List<Cooperative>> getCooperativeSearchHistory() {
+        TaskCompletionSource<List<Cooperative>> taskCompletionSource = new TaskCompletionSource<>();
+
         db.collection(COLLECTION_NAME_SEARCH)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -103,21 +110,18 @@ public class Firebase {
                                     }
                                 }
                             }
-                            listener.onSuccess(cooperatives);
+                            taskCompletionSource.setResult(cooperatives);
                         } else {
-                            listener.onFailure("No records found");
+                            taskCompletionSource.setException(new Exception("No records found"));
                         }
                     } else {
-                        listener.onFailure(task.getException().getMessage());
+                        taskCompletionSource.setException(task.getException());
                     }
                 });
+
+        return taskCompletionSource.getTask();
     }
 
-
-    public interface OnSearchHistoryFetchedListener {
-        void onSuccess(List<Cooperative> cooperatives);
-        void onFailure(String errorMessage);
-    }
 
     public void deleteAllDocuments(OnDeleteDocumentsListener listener) {
         db.collection(COLLECTION_NAME_SEARCH)
@@ -171,7 +175,7 @@ public class Firebase {
                     listener.onFailure(e.getMessage());
                 });
     }
-    public void saveProfileImage(Uri imageUri) {
+    public void saveProfileImage(Uri imageUri, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
         String cnpj = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
                 .getString("cnpj", "");
 
@@ -189,14 +193,27 @@ public class Firebase {
                     Log.d("Firebase", "Upload da imagem de perfil concluído com sucesso.");
 
                     storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        // Chame o listener de sucesso passado como parâmetro
+                        if (successListener != null) {
+                            successListener.onSuccess(uri);
+                        }
                         // Após o upload, obtenha o URL de download e salve no Firestore
                         saveImageUrlInFirestore(uri.toString(), cnpj);
-                    }).addOnFailureListener(e ->
-                            Log.e("Firebase", "Erro ao obter a URL de download da imagem", e)
-                    );
+                    }).addOnFailureListener(e -> {
+                        Log.e("Firebase", "Erro ao obter a URL de download da imagem", e);
+                        if (failureListener != null) {
+                            failureListener.onFailure(e);
+                        }
+                    });
                 })
-                .addOnFailureListener(e -> Log.e("Firebase", "Erro ao fazer upload da imagem", e));
+                .addOnFailureListener(e -> {
+                    Log.e("Firebase", "Erro ao fazer upload da imagem", e);
+                    if (failureListener != null) {
+                        failureListener.onFailure(e);
+                    }
+                });
     }
+
 
     // Função auxiliar para salvar o URL da imagem no Firestore
     private void saveImageUrlInFirestore(String imageUrl, String cnpj) {

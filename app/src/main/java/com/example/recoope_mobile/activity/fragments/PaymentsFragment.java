@@ -11,15 +11,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
+import com.example.recoope_mobile.activity.MainActivity;
 import com.example.recoope_mobile.adapter.PaymentAdapter;
 import com.example.recoope_mobile.model.Payment;
-import com.example.recoope_mobile.model.Payment;
 import com.example.recoope_mobile.response.ApiDataResponse;
+import com.example.recoope_mobile.utils.StatusUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,9 @@ public class PaymentsFragment extends Fragment {
     private PaymentAdapter paymentAdapter;
     private List<Payment> paymentList;
     private ApiService apiService;
+    private ImageView messageStatus;
+    private MainActivity activity;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +51,10 @@ public class PaymentsFragment extends Fragment {
 
         paymentAdapter = new PaymentAdapter(paymentList, getContext());
         recyclerView.setAdapter(paymentAdapter);
+
+        activity = (MainActivity) requireActivity();
+
+        messageStatus = view.findViewById(R.id.messageStatusPayments);
 
         apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
 
@@ -63,6 +71,7 @@ public class PaymentsFragment extends Fragment {
             @Override
             public void onResponse(Call<ApiDataResponse<List<Payment>>> call, Response<ApiDataResponse<List<Payment>>> response) {
                 handlePaymentResponse(response);
+                activity.hideLoading();
             }
 
             @Override
@@ -74,19 +83,29 @@ public class PaymentsFragment extends Fragment {
 
     private void handlePaymentResponse(Response<ApiDataResponse<List<Payment>>> response) {
         if (response.isSuccessful() && response.body() != null) {
+            StatusUtils.hideStatusImage(messageStatus);
             paymentList.clear();
             paymentList.addAll(response.body().getData());
             paymentAdapter.notifyDataSetChanged();
+
         } else {
-            paymentList.clear();
-            paymentAdapter.notifyDataSetChanged();
+            if(response.code() == 500){
+                StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_SERVER_ERROR);
+            }else {
+                StatusUtils.hideStatusImage(messageStatus);
+                paymentList.clear();
+                StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_NO_DATA);
+                paymentAdapter.notifyDataSetChanged();
+            }
         }
     }
 
     private void handlePaymentFailure(Throwable t) {
+        StatusUtils.hideStatusImage(messageStatus);
+        Log.e("API_ERROR", "Failed to load data: " + t.getMessage(), t);
         paymentList.clear();
+        StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_SERVER_ERROR);
         paymentAdapter.notifyDataSetChanged();
-        Log.e(LOG_TAG, t.getMessage());
     }
     
     

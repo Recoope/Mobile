@@ -20,7 +20,7 @@
             android:layout_height="20dp"
             android:layout_marginTop="12dp"
             app:layout_constraintEnd_toEndOf="@id/endGuideLine"
-            app:layout_constraintTop_toBottomOf="@+id/auctionId"
+            app:layout_constraintTop_toBottomOf="@+id/auctionIdItemC"
             app:srcCompat="@drawable/trash" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -31,7 +31,7 @@
             app:layout_constraintGuide_percent="0.4" />
 
         <TextView
-            android:id="@+id/auctionId"
+            android:id="@+id/auctionIdItemC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Leilão #0000"
@@ -51,7 +51,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
             <ImageView
-                android:id="@+id/auctionImg"
+                android:id="@+id/auctionImgItemC"
                 android:layout_width="110dp"
                 android:layout_height="140dp"
                 android:scaleType="centerCrop"
@@ -59,7 +59,7 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/auctionCoopName"
+            android:id="@+id/auctionCoopNameItemC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cooperativa"
@@ -79,7 +79,7 @@
             app:layout_constraintVertical_bias="0.30">
 
             <TextView
-                android:id="@+id/status"
+                android:id="@+id/statusItemC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Iniciado"
@@ -97,14 +97,14 @@
             app:layout_constraintVertical_bias="0.47">
 
             <TextView
-                android:id="@+id/labelDate"
+                android:id="@+id/labelDateItemC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Data: "
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/auctionDate"
+                android:id="@+id/auctionDateItemC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00/00/0000"
@@ -122,14 +122,14 @@
             app:layout_constraintVertical_bias="0.59">
 
             <TextView
-                android:id="@+id/labelMaterial"
+                android:id="@+id/labelMaterialItemC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Material: "
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/auctionMaterial"
+                android:id="@+id/auctionMaterialItemC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Exemplo"
@@ -146,14 +146,14 @@
             app:layout_constraintVertical_bias="0.71">
 
             <TextView
-                android:id="@+id/labelWeight"
+                android:id="@+id/labelWeightItemC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:text="Peso: "/>
 
             <TextView
-                android:id="@+id/auctionWeight"
+                android:id="@+id/auctionWeightItemC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="000kg"
@@ -170,14 +170,14 @@
             app:layout_constraintVertical_bias="0.83">
 
             <TextView
-                android:id="@+id/labelPrice"
+                android:id="@+id/labelPriceItemC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:text="Lances a partir de "/>
 
             <TextView
-                android:id="@+id/auctionPrice"
+                android:id="@+id/auctionPriceItemC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="R$0000"

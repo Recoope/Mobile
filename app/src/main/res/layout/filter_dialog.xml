@@ -60,7 +60,7 @@
                         android:text="Vidros" />
 
                     <Button
-                        android:id="@+id/btMetalFilterD"
+                        android:id="@+id/btMetalFilterCoop"
                         style="@style/Theme.RecoopeMobile.FilterButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

@@ -11,10 +11,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +20,7 @@ import com.example.recoope_mobile.Firebase;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
+import com.example.recoope_mobile.activity.MainActivity;
 import com.example.recoope_mobile.adapter.CooperativeAdapter;
 import com.example.recoope_mobile.model.Cooperative;
 import com.example.recoope_mobile.response.ApiDataResponse;
@@ -43,6 +41,8 @@ public class SearchFragment extends Fragment {
     private EditText etWord;
     private TextView txtRecentSearch;
     private final Firebase firebase = new Firebase(getContext());
+    private MainActivity activity;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class SearchFragment extends Fragment {
 
         cooperativeList = new ArrayList<>();
 
-        cooperativeAdapter = new CooperativeAdapter(cooperativeList, inflater, true);  // true indica que estamos no modo pesquisa
+        cooperativeAdapter = new CooperativeAdapter(cooperativeList, inflater, true, activity);  // true indica que estamos no modo pesquisa
         recyclerView.setAdapter(cooperativeAdapter);
 
         apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
@@ -64,21 +64,21 @@ public class SearchFragment extends Fragment {
         etWord = view.findViewById(R.id.nameSearching);
         txtRecentSearch = view.findViewById(R.id.txtRecentSearch);
 
+        activity = (MainActivity) requireActivity();
+
         btClearResults.setOnClickListener(r -> clearResults());
 
-        firebase.getCooperativeSearchHistory(new Firebase.OnSearchHistoryFetchedListener() {
-            @Override
-            public void onSuccess(List<Cooperative> cooperatives) {
-                cooperativeList.clear();
-                cooperativeList.addAll(cooperatives);
-                cooperativeAdapter.notifyDataSetChanged();
-            }
+        firebase.getCooperativeSearchHistory()
+                .addOnSuccessListener(cooperatives -> {
+                    cooperativeList.clear();
+                    cooperativeList.addAll(cooperatives);
+                    cooperativeAdapter.notifyDataSetChanged();
+                    activity.hideLoading();
 
-            @Override
-            public void onFailure(String errorMessage) {
-                Toast.makeText(getContext(), "Failed to fetch history: " + errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("SearchFragment", "Error fetching cooperatives: " + e.getMessage());
+                });
 
         etWord.addTextChangedListener(new TextWatcher() {
             @Override
@@ -94,21 +94,15 @@ public class SearchFragment extends Fragment {
                     getCooperatives(charSequence.toString());
                 } else {
                     btClearResults.setVisibility(View.VISIBLE);
-                    firebase.getCooperativeSearchHistory(new Firebase.OnSearchHistoryFetchedListener() {
-                        @Override
-                        public void onSuccess(List<Cooperative> cooperatives) {
-                            cooperativeList.clear();
-                            cooperativeList.addAll(cooperatives);
-                            cooperativeAdapter.notifyDataSetChanged();
-
-                        }
-
-                        @Override
-                        public void onFailure(String errorMessage) {
-                            Toast.makeText(getContext(), "Failed to fetch history: " + errorMessage, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
+                    firebase.getCooperativeSearchHistory()
+                            .addOnSuccessListener(cooperatives -> {
+                                cooperativeList.clear();
+                                cooperativeList.addAll(cooperatives);
+                                cooperativeAdapter.notifyDataSetChanged();
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e("SearchFragment", "Error fetching cooperatives: " + e.getMessage());
+                            });
                 }
                 recyclerView.requestLayout();
             }
@@ -140,38 +134,33 @@ public class SearchFragment extends Fragment {
                 cooperativeList.clear();
                 cooperativeAdapter.notifyDataSetChanged();
 
-                Toast.makeText(getContext(), "Histórico apagado com sucesso!", Toast.LENGTH_SHORT).show();
 
                 fetchHistoryFromFirebase();
             }
 
             @Override
             public void onFailure(String errorMessage) {
-                Toast.makeText(getContext(), "Erro ao apagar histórico: " + errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void fetchHistoryFromFirebase() {
-        firebase.getCooperativeSearchHistory(new Firebase.OnSearchHistoryFetchedListener() {
-            @Override
-            public void onSuccess(List<Cooperative> cooperatives) {
-                cooperativeList.clear();
-                cooperativeList.addAll(cooperatives);
-                cooperativeAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(String errorMessage) {
-                Toast.makeText(getContext(), "Erro ao buscar histórico atualizado: " + errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+        firebase.getCooperativeSearchHistory()
+                .addOnSuccessListener(cooperatives -> {
+                    cooperativeList.clear();
+                    cooperativeList.addAll(cooperatives);
+                    cooperativeAdapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("SearchFragment", "Error fetching cooperatives: " + e.getMessage());
+                });
     }
 
 
 
     private void getCooperatives(String name) {
         Log.d(LOG_TAG, "Searching cooperatives with term: " + name);
+        activity = (MainActivity) getActivity();
         Call<ApiDataResponse<List<Cooperative>>> call = apiService.getSearchCooperative(name);
 
         if (isAdded()) {
@@ -179,6 +168,7 @@ public class SearchFragment extends Fragment {
                 @Override
                 public void onResponse(Call<ApiDataResponse<List<Cooperative>>> call, Response<ApiDataResponse<List<Cooperative>>> response) {
                     if (response.isSuccessful() && response.body() != null) {
+                        activity.hideLoading();
                         ApiDataResponse<List<Cooperative>> apiData = response.body();
                         Log.d(LOG_TAG, "API Response: " + apiData.getMessage());
                         handleCooperativeResponse(apiData);
@@ -209,9 +199,9 @@ public class SearchFragment extends Fragment {
             Log.e(LOG_TAG, "No cooperatives found");
             cooperativeList.clear();
             cooperativeAdapter.notifyDataSetChanged();
-            Toast.makeText(getContext(), "No results found.", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 
 
@@ -219,6 +209,5 @@ public class SearchFragment extends Fragment {
         Log.e(LOG_TAG, "Error while fetching cooperatives: " + t.getMessage());
         cooperativeList.clear();
         cooperativeAdapter.notifyDataSetChanged();
-        Toast.makeText(getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
     }
 }
