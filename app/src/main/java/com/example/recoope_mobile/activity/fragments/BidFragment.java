@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
+import com.example.recoope_mobile.Retrofit.LoggerClient;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.activity.SplashScreen;
 import com.example.recoope_mobile.activity.StartScreen;
@@ -62,6 +63,7 @@ public class BidFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        LoggerClient.postLog(getContext(), "BID");
         View view = inflater.inflate(R.layout.bid, container, false);
 
         String cnpj = getContext().getSharedPreferences("auth", Context.MODE_PRIVATE)

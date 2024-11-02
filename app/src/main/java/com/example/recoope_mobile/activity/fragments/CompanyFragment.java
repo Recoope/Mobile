@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
+import com.example.recoope_mobile.Retrofit.LoggerClient;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.model.CompanyProfile;
 import com.example.recoope_mobile.response.ApiDataResponse;
@@ -48,6 +49,7 @@ public class CompanyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(LOG_TAG, "onCreateView called");
+        LoggerClient.postLog(getContext(), "COMPANY");
         View view = inflater.inflate(R.layout.profile, container, false);
 
         textViewName = view.findViewById(R.id.cooperativeName);

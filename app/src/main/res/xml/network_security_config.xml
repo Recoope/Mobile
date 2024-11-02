@@ -8,6 +8,9 @@
         <domain includeSubdomains="true">ec2-44-194-250-226.compute-1.amazonaws.com</domain>
     </domain-config>
     <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">3.209.22.165</domain>
+    </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">recoopeapi.onrender.com</domain>
     </domain-config>
 </network-security-config>

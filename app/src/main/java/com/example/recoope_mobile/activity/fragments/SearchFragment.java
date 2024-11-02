@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.recoope_mobile.Firebase;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
+import com.example.recoope_mobile.Retrofit.LoggerClient;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.adapter.CooperativeAdapter;
 import com.example.recoope_mobile.model.Cooperative;
@@ -46,6 +47,7 @@ public class SearchFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        LoggerClient.postLog(getContext(), "SEARCH");
         View view = inflater.inflate(R.layout.search, container, false);
 
         Log.d(LOG_TAG, "Activity created");
