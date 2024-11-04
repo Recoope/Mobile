@@ -6,9 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/background_color"
         tools:context=".activity.Register"
         style="@style/Theme.RecoopeMobile">
@@ -17,11 +18,12 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="38dp"
+            android:layout_marginTop="84dp"
             android:fontFamily="@font/bree_serif"
-            android:text="Registro"
+            android:text="Atualize seus dados"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.482"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,113 +31,85 @@
             android:id="@+id/imageView3"
             android:layout_width="35dp"
             android:layout_height="31dp"
+            android:layout_marginTop="24dp"
             android:onClick="returnScreen"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.077"
+            app:layout_constraintHorizontal_bias="0.061"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.037"
             app:srcCompat="@drawable/resource_return" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/companyNameLayout"
+            android:id="@+id/companyNameLayoutAtt"
             android:layout_width="269dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            app:boxStrokeColor="@color/box_stroke_color"
-            app:hintTextColor="@color/hint_color"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView2">
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:boxStrokeColor="@color/box_stroke_color"
+            app:hintTextColor="@color/hint_color">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/companyName"
+                android:id="@+id/companyNameAtt"
                 android:layout_width="match_parent"
-                android:layout_height="63dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/bree_serif"
                 android:hint="Nome da empresa"
                 android:inputType="text"
                 android:textColorHint="#8F8F8F"
                 android:textSize="22sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/companyDocumentLayout"
+            android:id="@+id/companyEmailLayoutAtt"
             android:layout_width="269dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:boxStrokeColor="@color/box_stroke_color"
-            app:hintTextColor="@color/hint_color"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/companyNameLayoutAtt"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/companyNameLayout">
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:boxStrokeColor="@color/box_stroke_color"
+            app:hintTextColor="@color/hint_color">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/companyDocument"
+                android:id="@+id/companyEmailAtt"
                 android:layout_width="match_parent"
-                android:layout_height="63dp"
-                android:fontFamily="@font/bree_serif"
-                android:hint="CNPJ da empresa"
-                android:inputType="number"
-                android:textColorHint="#8F8F8F"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/companyEmailLayout"
-            android:layout_width="269dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:boxStrokeColor="@color/box_stroke_color"
-            app:hintTextColor="@color/hint_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/companyDocumentLayout">
-
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/companyEmail"
-                android:layout_width="match_parent"
-                android:layout_height="63dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/bree_serif"
                 android:hint="E-mail"
                 android:inputType="text"
                 android:textColorHint="#8F8F8F"
                 android:textSize="22sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/companyPhoneLayout"
+            android:id="@+id/companyPhoneLayoutAtt"
             android:layout_width="269dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:boxStrokeColor="@color/box_stroke_color"
-            app:hintTextColor="@color/hint_color"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/companyEmailLayoutAtt"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/companyEmailLayout">
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:boxStrokeColor="@color/box_stroke_color"
+            app:hintTextColor="@color/hint_color">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/companyPhone"
+                android:id="@+id/companyPhoneAtt"
                 android:layout_width="match_parent"
-                android:layout_height="63dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/bree_serif"
                 android:hint="Número para contato"
                 android:inputType="number"
                 android:textColorHint="#8F8F8F"
                 android:textSize="22sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/companyPasswordLayout"
+            android:id="@+id/companyPasswordLayoutAtt"
             android:layout_width="269dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -143,13 +117,12 @@
             app:endIconMode="password_toggle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/companyPhoneLayout">
-
+            app:layout_constraintTop_toBottomOf="@+id/btnConfirmUpdateProfile">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/companyPassword"
+                android:id="@+id/companyPasswordAtt"
                 android:layout_width="match_parent"
-                android:layout_height="63dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/bree_serif"
                 android:hint="Senha"
                 android:inputType="textPassword"
@@ -159,41 +132,38 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/companyPasswordConfirmationLayout"
+            android:id="@+id/companyPasswordConfirmationLayoutAtt"
             android:layout_width="269dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:boxStrokeColor="@color/box_stroke_color"
-            app:endIconMode="password_toggle"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/companyPasswordLayoutAtt"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/companyPasswordLayout">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:boxStrokeColor="@color/box_stroke_color"
+            app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/companyPasswordConfirmation"
+                android:id="@+id/companyPasswordConfirmationAtt"
                 android:layout_width="match_parent"
-                android:layout_height="63dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/bree_serif"
                 android:hint="Confirme sua senha"
                 android:inputType="textPassword"
                 android:textColorHint="#8F8F8F"
                 android:textSize="22sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton
             android:id="@+id/btnConfirmUpdateProfile"
             android:layout_width="296dp"
             android:layout_height="59dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginTop="16dp"
             android:onClick="register"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/companyPasswordConfirmationLayout"
-            app:layout_constraintVertical_bias="0.355"
+            app:layout_constraintTop_toBottomOf="@+id/companyPhoneLayoutAtt"
             app:srcCompat="@drawable/btn_green_large" />
 
         <TextView
@@ -201,13 +171,63 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/bree_serif"
-            android:text="Registrar"
+            android:text="Atualizar dados"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/btnConfirmUpdateProfile"
-            app:layout_constraintEnd_toEndOf="@+id/btnConfirmUpdateProfile"
-            app:layout_constraintStart_toStartOf="@+id/btnConfirmUpdateProfile"
-            app:layout_constraintTop_toTopOf="@+id/btnConfirmUpdateProfile" />
+            app:layout_constraintTop_toTopOf="@id/btnConfirmUpdateProfile"
+            app:layout_constraintBottom_toBottomOf="@id/btnConfirmUpdateProfile"
+            app:layout_constraintStart_toStartOf="@id/btnConfirmUpdateProfile"
+            app:layout_constraintEnd_toEndOf="@+id/btnConfirmUpdateProfile"/>
+
+        <ImageButton
+            android:id="@+id/btnUpdatePassword"
+            android:layout_width="296dp"
+            android:layout_height="59dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="30dp"
+            android:onClick="register"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/companyPasswordConfirmationLayoutAtt"
+            app:srcCompat="@drawable/btn_green_large" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bree_serif"
+            android:text="Atualizar senha"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintTop_toTopOf="@id/btnUpdatePassword"
+            app:layout_constraintBottom_toBottomOf="@id/btnUpdatePassword"
+            app:layout_constraintStart_toStartOf="@id/btnUpdatePassword"
+            app:layout_constraintEnd_toEndOf="@+id/btnUpdatePassword"/>
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/btnDeleteProfile"-->
+<!--            android:layout_width="296dp"-->
+<!--            android:layout_height="59dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:onClick="register"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/btnUpdatePassword"-->
+<!--            app:srcCompat="@drawable/btn_green_large" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView9"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:fontFamily="@font/bree_serif"-->
+<!--            android:text="Deletar conta"-->
+<!--            android:textColor="#FFFFFF"-->
+<!--            android:textSize="20sp"-->
+<!--            app:layout_constraintTop_toTopOf="@id/btnDeleteProfile"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/btnDeleteProfile"-->
+<!--            app:layout_constraintStart_toStartOf="@id/btnDeleteProfile"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/btnDeleteProfile"/>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

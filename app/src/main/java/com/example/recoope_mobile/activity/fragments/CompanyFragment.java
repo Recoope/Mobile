@@ -33,9 +33,11 @@ import com.example.recoope_mobile.Firebase;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
+import com.example.recoope_mobile.activity.EditCompany;
 import com.example.recoope_mobile.activity.MainActivity;
 import com.example.recoope_mobile.model.CompanyProfile;
 import com.example.recoope_mobile.response.ApiDataResponse;
+import com.example.recoope_mobile.utils.ValidationUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,6 +62,7 @@ public class CompanyFragment extends Fragment {
     private ImageView btEditPhotoCompany;
     private TextView textViewParticipatedAuctions;
     private ApiService apiService;
+    private TextView btnUpdateProfile;
 
     // Gerenciador para a seleção de imagens
     private ActivityResultLauncher<Intent> imagePickerLauncher;
@@ -81,9 +84,15 @@ public class CompanyFragment extends Fragment {
         imgCompany = view.findViewById(R.id.imgCompany);
         btEditPhotoCompany = view.findViewById(R.id.btEditPhotoCompany);
         activity = (MainActivity) getActivity();
+        btnUpdateProfile = view.findViewById(R.id.btnUpdateProfile);
 
         apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
         Firebase firebase = new Firebase(getContext());
+
+        btnUpdateProfile.setOnClickListener(r -> {
+            Intent intent = new Intent(getActivity(), EditCompany.class);
+            startActivity(intent);
+        });
 
         // Inicializar o gerenciador de seleção de imagens
         imagePickerLauncher = registerForActivityResult(
@@ -141,6 +150,7 @@ public class CompanyFragment extends Fragment {
                         Log.d(LOG_TAG, "Permissão de leitura concedida, abrindo galeria");
                         openGallery();
                     } else {
+                        activity.hideLoading();
                         Toast.makeText(getContext(), "Permissão negada para acessar a galeria", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -222,10 +232,10 @@ public class CompanyFragment extends Fragment {
                         participatedAuctions = apiResponse.getData().getParticipatedAuctions();
 
                         textViewCnpj.setText(String.format("%s.%s.%s/%s-%s", cnpj.substring(0, 2), cnpj.substring(2, 5), cnpj.substring(5, 8), cnpj.substring(8, 12), cnpj.substring(11, 14)));
-                        textViewName.setText(name);
-                        textViewEmail.setText(email);
+                        textViewName.setText(ValidationUtils.truncateString(name, 30));
+                        textViewEmail.setText(ValidationUtils.truncateString(email, 35));
                         textViewPhone.setText(phone);
-                        textViewParticipatedAuctions.setText(String.valueOf(participatedAuctions));
+                        textViewParticipatedAuctions.setText(ValidationUtils.truncateString(String.valueOf(participatedAuctions), 15));
 
                         // Botão de sair
                         exit.setOnClickListener(v -> {

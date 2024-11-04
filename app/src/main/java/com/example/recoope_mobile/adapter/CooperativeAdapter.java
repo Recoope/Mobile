@@ -23,6 +23,7 @@ import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.activity.MainActivity;
 import com.example.recoope_mobile.activity.fragments.CooperativeFragment;
 import com.example.recoope_mobile.model.Cooperative;
+import com.example.recoope_mobile.utils.ValidationUtils;
 import com.google.android.gms.tasks.Task;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public class CooperativeAdapter extends RecyclerView.Adapter<CooperativeAdapter.
         if (cooperative != null) {
             Log.d(LOG_TAG, "Cooperative: " + cooperative.toString());
 
-            holder.txtCooperativeName.setText(cooperative.getName() != null ? cooperative.getName() : "Cooperative not found");
+            holder.txtCooperativeName.setText(ValidationUtils.truncateString(cooperative.getName(), 30) != null ? cooperative.getName() : "Cooperative not found");
 
 
             holder.btDeleteHistory.setOnClickListener(v -> {

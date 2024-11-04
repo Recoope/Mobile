@@ -122,7 +122,6 @@ public class Login extends AppCompatActivity {
                         InvalidFormatLogin invalidFormatLogin = verifyReturn(message);
                         if (invalidFormatLogin != null) {
                             matchInvalidFormat(invalidFormatLogin);
-                            Log.e(LOG_TAG, "CHAMARIA O DIALOG");
                         } else {
                             Toast.makeText(Login.this, "Error.", Toast.LENGTH_SHORT).show();
                         }

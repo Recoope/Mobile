@@ -1,5 +1,6 @@
 package com.example.recoope_mobile.Retrofit;
 
+import com.example.recoope_mobile.dto.CompanyDto;
 import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.model.AuctionDetails;
 import com.example.recoope_mobile.model.Bid;
@@ -36,8 +37,12 @@ public interface ApiService {
     Call<ResponseBody> createCompany(@Body Company company);
     @GET("empresa/{id}")
     Call<ApiDataResponse<CompanyProfile>> getCompanyById(@Path("id") String id);
-    @PATCH("empresa/alterar/{id}")
-    Call<Company> updateCompany(@Path("id") String id, @Body Company company);
+    @PATCH("empresa/alterar/{cnpj}")
+    Call<ResponseBody> updateCompany(@Path("cnpj") String cnpj, @Body CompanyDto request);
+
+    @PATCH("empresa/alterarSenha/{cnpj}")
+    Call<ResponseBody> updateCompanyPassword(@Path("cnpj") String cnpj, @Body String newPassword);
+
     @DELETE("empresa/remover/{id}")
     Call<Void> deleteCompany(@Path("id") String id);
     ///// Leilão
@@ -75,7 +80,7 @@ public interface ApiService {
     );
 
     @GET("recibo/{cnpj}")
-    Call<ApiDataResponse<List<Payment>>> getPayment(@Path("cnpj") String cnpj);
+    Call<ApiDataResponse<List<Payment>>> getPayment(@Path("cnpj") String cnpj, @Query("dataDesc") boolean dataDesc);
 
     /////Lance
     @POST("lance/{idLeilao}")
@@ -87,8 +92,5 @@ public interface ApiService {
     Call<ApiDataResponse<Cooperative>> getIdCooperative(
             @Path("cnpj") String cnpj
     );
-
-
-
 
 }

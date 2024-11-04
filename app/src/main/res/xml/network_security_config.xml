@@ -4,8 +4,6 @@
         <domain includeSubdomains="true">recoopeapi.onrender.com</domain>
    </domain-config>
 </network-security-config>
-
-    <!--CONFIG DE QA-->
 <!--LOCALHOST-->
     <!--
     <network-security-config>
@@ -22,10 +20,9 @@
     </network-security-config>-->
 
     <!--CONFIG DE PROD-->
-    <!--
-    <network-security-config>
-        <domain-config cleartextTrafficPermitted="true">
-            <domain includeSubdomains="true">ec2-44-194-250-226.compute-1.amazonaws.com</domain>
-        </domain-config>
-    </network-security-config>
-    -->
+<!--<network-security-config>-->
+<!--<domain-config cleartextTrafficPermitted="true">-->
+<!--    <domain includeSubdomains="true">ec2-3-209-22-165.compute-1.amazonaws.com</domain>-->
+<!--</domain-config>-->
+<!--</network-security-config>-->
+

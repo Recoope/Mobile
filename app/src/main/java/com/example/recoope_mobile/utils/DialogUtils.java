@@ -13,10 +13,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.recoope_mobile.R;
+import com.example.recoope_mobile.activity.fragments.BidFragment;
 import com.example.recoope_mobile.activity.fragments.CooperativeFragment;
 import com.example.recoope_mobile.activity.fragments.FeedFragment;
 import com.example.recoope_mobile.enums.InvalidFormatLogin;
 import com.example.recoope_mobile.enums.InvalidFormatRegister;
+import com.example.recoope_mobile.enums.InvalidFormatUpdate;
 import com.example.recoope_mobile.model.Payment;
 
 import java.util.ArrayList;
@@ -403,6 +405,110 @@ public class DialogUtils {
         dialog.show();
     }
 
+    public static void showCustomBidDialog(BidFragment context, String message) {
+        if (context == null) {
+            Log.e("CardFeed", "Context is null");
+            return;
+        }
 
+        Dialog customDialog = new Dialog(context.getActivity());
+        customDialog.setContentView(R.layout.dialog_register);
+
+        customDialog.setCancelable(false);
+        customDialog.setCanceledOnTouchOutside(true);
+
+        Window window = customDialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            layoutParams.gravity = Gravity.TOP | Gravity.END;
+            layoutParams.x = 20;
+            layoutParams.y = 20;
+            window.setAttributes(layoutParams);
+        }
+
+        TextView txtTitulo = customDialog.findViewById(R.id.message);
+        txtTitulo.setText(message);
+
+        try {
+            customDialog.show();
+        } catch (Exception e) {
+            Log.e("CardFeed", "Error showing dialog: " + e.getMessage(), e);
+        }
+    }
+
+    public static void showCustomDialog(InvalidFormatUpdate invalidFormatUpdate, Context context) {
+        if (context == null) {
+            Log.e(LOG_TAG, "Context is null");
+            return;
+        }
+
+        Dialog customDialog = new Dialog(context);
+        customDialog.setContentView(R.layout.dialog_register);
+
+        customDialog.setCancelable(false);
+        customDialog.setCanceledOnTouchOutside(true);
+
+        Window window = customDialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            layoutParams.gravity = Gravity.TOP | Gravity.END;
+            layoutParams.x = 20;
+            layoutParams.y = 20;
+            window.setAttributes(layoutParams);
+        }
+
+        TextView txtTitulo = customDialog.findViewById(R.id.message);
+        if (txtTitulo != null) {
+            txtTitulo.setText(invalidFormatUpdate.getMessage());
+        }
+
+        try {
+            customDialog.show();
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Error showing dialog: " + e.getMessage(), e);
+        }
+    }
+
+    public static void showCustomDialog(String message, Context context) {
+        if (context == null) {
+            Log.e(LOG_TAG, "Context is null");
+            return;
+        }
+
+        Dialog customDialog = new Dialog(context);
+        customDialog.setContentView(R.layout.dialog_register);
+
+        customDialog.setCancelable(false);
+        customDialog.setCanceledOnTouchOutside(true);
+
+        Window window = customDialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            layoutParams.gravity = Gravity.TOP | Gravity.END;
+            layoutParams.x = 20;
+            layoutParams.y = 20;
+            window.setAttributes(layoutParams);
+        }
+
+        TextView txtTitulo = customDialog.findViewById(R.id.message);
+        if (txtTitulo != null) {
+            txtTitulo.setText(message);
+        }
+
+        try {
+            customDialog.show();
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Error showing dialog: " + e.getMessage(), e);
+        }
+    }
 
 }

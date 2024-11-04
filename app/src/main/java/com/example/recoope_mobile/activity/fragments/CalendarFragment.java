@@ -98,7 +98,7 @@ public class CalendarFragment extends Fragment {
             public void onResponse(Call<ApiDataResponse<List<ParticipatedAuction>>> call, Response<ApiDataResponse<List<ParticipatedAuction>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     activity.hideLoading();
-                    StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_NO_DATA);
+                    StatusUtils.hideStatusImage(messageStatus);
                     ApiDataResponse<List<ParticipatedAuction>> apiResponse = response.body();
                     if (apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
                         Log.d("AuctionData", "Data fetched: " + apiResponse.getData().size());

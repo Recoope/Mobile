@@ -27,7 +27,7 @@ public class RetrofitClient {
         private static final String BASE_URL = "https://recoopeapi.onrender.com/";
 
     //URL DE PROD
-//    private static final String BASE_URL = "http://ec2-44-194-250-226.compute-1.amazonaws.com:8080/";
+//    private static final String BASE_URL = "http://ec2-3-209-22-165.compute-1.amazonaws.com:8080/";
 
     private static Retrofit retrofit = null;
 

@@ -28,6 +28,7 @@ import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.model.AuctionDetails;
 import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.PtBrUtils;
+import com.example.recoope_mobile.utils.ValidationUtils;
 
 import java.sql.Time;
 import java.util.List;
@@ -64,7 +65,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
         // Verificar se a cooperativa não é nula antes de acessar seus atributos
         if (auction.getCooperative() != null) {
-            holder.auctionCoopName.setText(auction.getCooperative().getName());
+            holder.auctionCoopName.setText(ValidationUtils.truncateString(auction.getCooperative().getName(), 15));
         } else {
             holder.auctionCoopName.setText("Cooperativa não disponível");
         }
@@ -72,8 +73,8 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
         // Verificar se o produto não é nulo antes de acessar seus atributos
         if (auction.getProduct() != null) {
             holder.auctionMaterial.setText(auction.getProduct().getProductType());
-            holder.auctionWeight.setText(String.valueOf(auction.getProduct().getWeight()));
-            holder.auctionPrice.setText(PtBrUtils.formatReal(auction.getProduct().getInitialValue()));
+            holder.auctionWeight.setText(ValidationUtils.truncateString(String.valueOf(auction.getProduct().getWeight()), 15));
+            holder.auctionPrice.setText(ValidationUtils.truncateString(PtBrUtils.formatReal(auction.getProduct().getInitialValue()), 10));
 
             // Carregar a imagem do leilão (produto) usando Glide, se a URL não for nula
             if (auction.getProduct().getPhoto() != null) {
@@ -91,7 +92,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
         }
         // Preencher outras informações que não dependem de nulos
         holder.auctionDate.setText(PtBrUtils.formatDate(auction.getEndDate()));
-        holder.idAuction.setText(PtBrUtils.formatId(auction.getAuctionId()));
+        holder.idAuction.setText(ValidationUtils.truncateString(PtBrUtils.formatId(auction.getAuctionId()), 15));
 
         // Clique para ver detalhes
         holder.auctionDetailBtn.setOnClickListener(v -> {
@@ -108,15 +109,15 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
                     dialog.setContentView(R.layout.detail_dialog);
                     dialog.getWindow().setLayout(850, WindowManager.LayoutParams.WRAP_CONTENT);
 
-                    ((TextView) dialog.findViewById(R.id.detailAuctionId)).setText("Leilão " + PtBrUtils.formatId(auctionDetails.getAuctionId()));
-                    ((TextView) dialog.findViewById(R.id.coopName)).setText(auctionDetails.getCooperative().getName());
+                    ((TextView) dialog.findViewById(R.id.detailAuctionId)).setText("Leilão " + ValidationUtils.truncateString(PtBrUtils.formatId(auctionDetails.getAuctionId()), 15));
+                    ((TextView) dialog.findViewById(R.id.coopName)).setText(ValidationUtils.truncateString(auctionDetails.getCooperative().getName(), 25));
                     ((TextView) dialog.findViewById(R.id.remainingTime)).setText("Inicia em " + PtBrUtils.getRemaingTimeMsgPTBR(auctionDetails.getEndDate(), Time.valueOf(auctionDetails.getTime())));
-                    ((TextView) dialog.findViewById(R.id.startBidPrice)).setText(PtBrUtils.formatReal(auctionDetails.getProduct().getInitialValue()));
-                    ((TextView) dialog.findViewById(R.id.detailAuctionMaterial)).setText(auctionDetails.getProduct().getProductType());
-                    ((TextView) dialog.findViewById(R.id.detailAuctionWeight)).setText(PtBrUtils.formatWeight(auctionDetails.getProduct().getWeight()));
+                    ((TextView) dialog.findViewById(R.id.startBidPrice)).setText(ValidationUtils.truncateString(PtBrUtils.formatReal(auctionDetails.getProduct().getInitialValue()), 5));
+                    ((TextView) dialog.findViewById(R.id.detailAuctionMaterial)).setText(ValidationUtils.truncateString(auctionDetails.getProduct().getProductType(), 10));
+                    ((TextView) dialog.findViewById(R.id.detailAuctionWeight)).setText(ValidationUtils.truncateString(PtBrUtils.formatWeight(auctionDetails.getProduct().getWeight()), 20));
                     ((TextView) dialog.findViewById(R.id.detailAuctionDate)).setText(PtBrUtils.formatDate(auctionDetails.getEndDate()));
                     ((TextView) dialog.findViewById(R.id.detailAuctionHour)).setText(auctionDetails.getTime().toString());
-                    ((TextView) dialog.findViewById(R.id.detailAuctionEmail)).setText(auctionDetails.getCooperative().getEmail());
+                    ((TextView) dialog.findViewById(R.id.detailAuctionEmail)).setText(ValidationUtils.truncateString(auctionDetails.getCooperative().getEmail(), 22));
 
                     dialog.findViewById(R.id.exitButton).setOnClickListener((view) -> dialog.cancel());
                     dialog.findViewById(R.id.detailAuctionParticipateBtn).setOnClickListener((view) -> {

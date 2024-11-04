@@ -52,7 +52,9 @@ public class PtBrUtils {
 
     public static String formatReal(double real) {
         NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-        return formatter.format(real);
+        formatter.setMinimumFractionDigits(2);
+        formatter.setMaximumFractionDigits(2);
+        return formatter.format(real).replace("\u00A0", "");
     }
 
     public static String formatWeight(double weight) {
@@ -89,11 +91,11 @@ public class PtBrUtils {
     public static void formatAuctionStatus(int status, TextView statusTv) {
         switch (status) {
             case 0:
-                statusTv.setText("Você venceu este leilão!");
+                statusTv.setText("Leilão vencido!");
                 statusTv.setTextColor(ContextCompat.getColor(statusTv.getContext(), R.color.recoope_primary_color));
                 break;
             case 1:
-                statusTv.setText("Seu lance é o maior");
+                statusTv.setText("Maior lance é seu!");
                 statusTv.setTextColor(ContextCompat.getColor(statusTv.getContext(), R.color.recoope_light_blue_color));
                 break;
             case 2:
@@ -101,7 +103,7 @@ public class PtBrUtils {
                 statusTv.setTextColor(ContextCompat.getColor(statusTv.getContext(), R.color.recoope_red_color));
                 break;
             case 3:
-                statusTv.setText("Seu lance foi superado");
+                statusTv.setText("Lance superado!");
                 statusTv.setTextColor(ContextCompat.getColor(statusTv.getContext(), R.color.recoope_yellow_color));
                 break;
             case 4:

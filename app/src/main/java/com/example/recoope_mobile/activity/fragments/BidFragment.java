@@ -1,5 +1,7 @@
 package com.example.recoope_mobile.activity.fragments;
 
+import static androidx.core.content.PackageManagerCompat.LOG_TAG;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -28,14 +30,21 @@ import com.example.recoope_mobile.activity.MainActivity;
 import com.example.recoope_mobile.activity.SuccessBid;
 import com.example.recoope_mobile.model.AuctionDetails;
 import com.example.recoope_mobile.model.BidInfo;
+import com.example.recoope_mobile.model.LoginResponse;
 import com.example.recoope_mobile.response.ApiDataResponse;
+import com.example.recoope_mobile.utils.DialogUtils;
 import com.example.recoope_mobile.utils.PtBrUtils;
+import com.example.recoope_mobile.utils.ValidationUtils;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -85,7 +94,7 @@ public class BidFragment extends Fragment {
         auctionPrice = view.findViewById(R.id.auctionPrice);
         bidPriceInput = view.findViewById(R.id.bidPrice);
         bidButton = view.findViewById(R.id.bidButton);
-        auctionIdView.setText("Leilão " + PtBrUtils.formatId(auctionId));
+        auctionIdView.setText("Leilão " + ValidationUtils.truncateString(PtBrUtils.formatId(auctionId), 15));
         backButton.setOnClickListener((v) -> getParentFragmentManager().popBackStack());
 
         Call<ApiDataResponse<AuctionDetails>> call = apiService.getAuctionDetails(auctionId);
@@ -95,14 +104,18 @@ public class BidFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     activity.hideLoading();
                     AuctionDetails details = response.body().getData();
-                    cooperativeName.setText(details.getCooperative().getName());
+                    cooperativeName.setText(ValidationUtils.truncateString(details.getCooperative().getName(), 30));
                     Glide.with(getContext())
                             .load(details.getProduct().getPhoto())
                             .into(auctionImage);
                     startEndCounter(auctionEndMsg, details.getEndDate(), Time.valueOf(details.getTime()));
-                    auctionMaterial.setText(details.getProduct().getProductType());
-                    auctionWeight.setText(PtBrUtils.formatWeight(details.getProduct().getWeight()));
-                    auctionPrice.setText(PtBrUtils.formatReal(details.getBestBid().getValue()));
+                    auctionMaterial.setText(ValidationUtils.truncateString(details.getProduct().getProductType(), 15));
+                    auctionWeight.setText(ValidationUtils.truncateString(PtBrUtils.formatWeight(details.getProduct().getWeight()), 15));
+                    if(details.getBestBid() == null){
+                        auctionPrice.setText(PtBrUtils.formatReal(0.0));
+                    }else{
+                        auctionPrice.setText(PtBrUtils.formatReal(details.getBestBid().getValue()));
+                    }
                 } else {
                     Log.e("BID", "Response failed: " + response.message());
                 }
@@ -115,12 +128,19 @@ public class BidFragment extends Fragment {
         });
 
         bidButton.setOnClickListener((v) -> {
-            BidInfo bidInfo = new BidInfo(cnpj, Double.parseDouble(bidPriceInput.getText().toString()));
+            double bidPriceInputValue = 0;
+
+            String bidPriceInputText = bidPriceInput.getText().toString().trim();
+            if (!bidPriceInputText.isEmpty()) {
+                bidPriceInputValue = Double.parseDouble(bidPriceInputText);
+            }
+
+            BidInfo bidInfo = new BidInfo(cnpj, bidPriceInputValue);
             Call bidCall = apiService.bid(auctionId, bidInfo);
             bidCall.enqueue(new Callback() {
                 @Override
                 public void onResponse(Call call, Response response) {
-                    if (response.code() == 201) {
+                    if (response.isSuccessful() && response.code() == 201) {
                         activity.hideLoading();
                         Intent intent = new Intent(getActivity(), SuccessBid.class);
                         intent.putExtra("AUCTION_ID", auctionId);
@@ -134,17 +154,30 @@ public class BidFragment extends Fragment {
                             fragmentTransaction.commit();
                             ((NavigationBarView) getActivity().findViewById(R.id.navbar)).setSelectedItemId(R.id.calendar_button);
                         }, 50);
-                    }else{
+                    } else {
+                        ResponseBody responseBody = response.errorBody();
+                        if (responseBody != null) {
+                            try {
+                                String responseString = responseBody.string();
+                                JsonObject jsonResponse = JsonParser.parseString(responseString).getAsJsonObject();
+                                String message = jsonResponse.has("message") ? jsonResponse.get("message").getAsString() : "Unknown message";
 
+                                if (response.code() == 400) {
+                                    DialogUtils.showCustomBidDialog(BidFragment.this, message);
+                                }
+
+                            } catch (Exception e) {
+                                Log.e("Bid", "Error processing response: " + e.getMessage());
+                            }
+                        }
                     }
                 }
 
                 @Override
                 public void onFailure(Call call, Throwable t) {
-
+                    Log.e("Bid", "API call failed: " + t.getMessage());
                 }
             });
-
         });
 
         return view;

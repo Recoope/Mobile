@@ -32,6 +32,7 @@ import com.example.recoope_mobile.utils.ButtonToggleManager;
 import com.example.recoope_mobile.utils.DialogUtils;
 import com.example.recoope_mobile.utils.FilterDialogCallback;
 import com.example.recoope_mobile.utils.StatusUtils;
+import com.example.recoope_mobile.utils.ValidationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,8 +129,8 @@ public class CooperativeFragment extends Fragment {
                     name = apiResponse.getData().getName();
                     email = apiResponse.getData().getEmail();
 
-                    textViewName.setText(name);
-                    textViewEmail.setText(email);
+                    textViewName.setText(ValidationUtils.truncateString(name, 35));
+                    textViewEmail.setText(ValidationUtils.truncateString(email, 50));
 
                     Log.d(LOG_TAG, "Company fetched successfully");
                 } else {

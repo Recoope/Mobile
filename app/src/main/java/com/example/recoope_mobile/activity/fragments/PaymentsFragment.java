@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.recoope_mobile.R;
@@ -37,6 +39,8 @@ public class PaymentsFragment extends Fragment {
     private ApiService apiService;
     private ImageView messageStatus;
     private MainActivity activity;
+    private Button btnOrderByDate;
+    private boolean dateDesc;
 
 
     @Override
@@ -49,6 +53,8 @@ public class PaymentsFragment extends Fragment {
 
         paymentList = new ArrayList<>();
 
+        btnOrderByDate = view.findViewById(R.id.orderByDate);
+
         paymentAdapter = new PaymentAdapter(paymentList, getContext());
         recyclerView.setAdapter(paymentAdapter);
 
@@ -58,15 +64,29 @@ public class PaymentsFragment extends Fragment {
 
         apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
 
-        getPayments();
+        dateDesc = false;
+
+        btnOrderByDate.setOnClickListener(r -> {
+            if(dateDesc){
+                btnOrderByDate.setText("Mais recentes");
+                dateDesc = false;
+
+            }else{
+                btnOrderByDate.setText("Mais antigos");
+                dateDesc = true;
+            }
+            getPayments(dateDesc);
+        });
+
+        getPayments(dateDesc);
 
         return view;
     }
     
-    public void getPayments(){
+    public void getPayments(boolean dateDesc){
         String cnpj = getContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
                 .getString("cnpj", "");
-        Call<ApiDataResponse<List<Payment>>> call = apiService.getPayment(cnpj);
+        Call<ApiDataResponse<List<Payment>>> call = apiService.getPayment(cnpj, dateDesc);
         call.enqueue(new Callback<ApiDataResponse<List<Payment>>>() {
             @Override
             public void onResponse(Call<ApiDataResponse<List<Payment>>> call, Response<ApiDataResponse<List<Payment>>> response) {
@@ -80,6 +100,7 @@ public class PaymentsFragment extends Fragment {
             }
         });
     }
+
 
     private void handlePaymentResponse(Response<ApiDataResponse<List<Payment>>> response) {
         if (response.isSuccessful() && response.body() != null) {

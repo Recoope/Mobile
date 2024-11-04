@@ -50,6 +50,11 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.EditCompany"
+            android:exported="false"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.SplashScreen"
             android:exported="true"
             android:configChanges="orientation|screenSize"

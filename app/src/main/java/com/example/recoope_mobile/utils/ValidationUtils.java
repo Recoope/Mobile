@@ -36,4 +36,13 @@ public class ValidationUtils {
         }
     }
 
+    public static String truncateString(String input, int maxChars) {
+        if (input == null || input.length() <= maxChars) {
+            return input; // Retorna a string original se for nula ou não exceder o limite
+        }
+        return input.substring(0, maxChars) + "..."; // Retorna a string truncada com "..."
+    }
+
+
+
 }

@@ -26,6 +26,8 @@ import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.model.ParticipatedAuction;
 import com.example.recoope_mobile.utils.PtBrUtils;
+import com.example.recoope_mobile.utils.ValidationUtils;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -60,16 +62,16 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
 
         // Verificar se a cooperativa não é nula antes de acessar seus atributos
         if (auction.getCooperative() != null) {
-            holder.auctionCoopName.setText(auction.getCooperative().getName());
+            holder.auctionCoopName.setText(ValidationUtils.truncateString(auction.getCooperative().getName(), 15));
         } else {
             holder.auctionCoopName.setText("Cooperativa não disponível");
         }
 
         // Verificar se o produto não é nulo antes de acessar seus atributos
         if (auction.getProduct() != null) {
-            holder.auctionMaterial.setText(auction.getProduct().getProductType());
-            holder.auctionWeight.setText(PtBrUtils.formatWeight(auction.getProduct().getWeight()));
-            holder.auctionPrice.setText(PtBrUtils.formatReal(auction.getProduct().getInitialValue()));
+            holder.auctionMaterial.setText(ValidationUtils.truncateString(auction.getProduct().getProductType(), 15));
+            holder.auctionWeight.setText(ValidationUtils.truncateString(PtBrUtils.formatWeight(auction.getProduct().getWeight()), 15));
+            holder.auctionPrice.setText(ValidationUtils.truncateString(PtBrUtils.formatReal(auction.getProduct().getInitialValue()), 10));
             PtBrUtils.formatAuctionStatus(auction.getStatus(), holder.status);
             // Carregar a imagem do leilão (produto) usando Glide, se a URL não for nula
             if (auction.getProduct().getPhoto() != null) {
@@ -89,7 +91,7 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
 
         // Preencher outras informações que não dependem de nulos
         holder.auctionDate.setText(PtBrUtils.formatDate(auction.getEndDate()));
-        holder.idAuction.setText(PtBrUtils.formatId(auction.getAuctionId()));
+        holder.idAuction.setText(ValidationUtils.truncateString(PtBrUtils.formatId(auction.getAuctionId()), 30));
 
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override

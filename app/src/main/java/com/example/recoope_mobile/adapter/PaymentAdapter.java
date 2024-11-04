@@ -16,6 +16,7 @@ import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.model.Payment;
 import com.example.recoope_mobile.utils.DialogUtils;
 import com.example.recoope_mobile.utils.PtBrUtils;
+import com.example.recoope_mobile.utils.ValidationUtils;
 
 import java.util.List;
 
@@ -45,10 +46,10 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
         Log.e(LOG_TAG, payment.toString());
 
         if (payment != null) {
-            holder.txtNumPayment.setText("Recibo N°" + payment.getId());
-            holder.txtNamePayment.setText(payment.getCooperativeName());
+            holder.txtNumPayment.setText(ValidationUtils.truncateString("Recibo N°" + payment.getId(), 30));
+            holder.txtNamePayment.setText(ValidationUtils.truncateString(payment.getCooperativeName(), 30));
             holder.txtDatePayment.setText(PtBrUtils.formatDate(PtBrUtils.parseDate(payment.getEmissionDate())));
-            holder.txtValuePayment.setText(PtBrUtils.formatReal(payment.getAmount()));
+            holder.txtValuePayment.setText(ValidationUtils.truncateString(PtBrUtils.formatReal(payment.getAmount()), 30));
 
         } else {
             holder.txtNumPayment.setText("999+");
