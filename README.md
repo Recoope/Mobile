@@ -1,13 +1,13 @@
 # Mobile
 
-Este projeto é um aplicativo Android desenvolvido em Java, que tem como objetivo oferecer uma experiência intuitiva para [descrever o propósito do aplicativo, por exemplo, "gerenciar tarefas diárias" ou "explorar memes"]. O aplicativo permite que os usuários [descreva as funcionalidades principais, como "adicionem, editem e excluam tarefas" ou "naveguem por uma lista de memes e compartilhem seus favoritos"].
+Este projeto é um aplicativo Android desenvolvido em Java, com o objetivo de ajudar o meio ambiente, cooperativas e empresas que utilizam recicláveis, disponibilizando leilões desses materiais a baixo custo.
 
 ## Funcionalidades
 
 - **Cadastro de Usuários:** Permite que novos usuários se registrem e façam login no aplicativo.
-- **Gerenciamento de Tarefas:** Os usuários podem adicionar, editar e excluir tarefas de uma lista.
-- **Visualização de Memes:** Exibe uma lista de memes com a possibilidade de visualizar detalhes e compartilhar.
-- **Notificações:** Lembretes automáticos para tarefas pendentes.
+- **Feed de leilões:** Feed de Leilões: Os usuários podem visualizar os leilões disponíveis.
+- **Pesquisa de cooperativas:**  Permite que o usuário pesquise cooperativas para visualizar seus leilões e informações.
+- **Perfil:** Permite que os usuários alterem suas informações pessoais.
 
 ## Tecnologias Utilizadas
 
