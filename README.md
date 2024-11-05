@@ -28,7 +28,7 @@ Antes de começar, certifique-se de que você tenha instalado as seguintes ferra
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/usuario/nome-do-projeto.git
+   git clone https://github.com/Recoope/Mobile.git
    ```
 2. Abra o projeto no Android Studio.
 3. Aguarde a sincronização do Gradle.
