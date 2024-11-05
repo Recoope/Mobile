@@ -1,5 +1,7 @@
 package com.example.recoope_mobile.adapter;
 
+import static com.example.recoope_mobile.utils.ValidationUtils.calculateCardWidthDp;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -39,12 +40,13 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
     private Context context;
     private ApiService apiService;
     private final String LOG_TAG = "CardFeed";
+    private int screenWidthDp; // Adicionado para armazenar a largura da tela
 
-
-    public ParticipateAuctionAdapter(List<ParticipatedAuction> auctions, Context context) {
+    public ParticipateAuctionAdapter(List<ParticipatedAuction> auctions, Context context, int screenWidthDp) {
         this.auctions = auctions;
         this.context = context;
-        apiService = RetrofitClient.getClient(context).create(ApiService.class);
+        this.apiService = RetrofitClient.getClient(context).create(ApiService.class);
+        this.screenWidthDp = screenWidthDp; // Inicializa a largura da tela
     }
 
     @NonNull
@@ -57,22 +59,22 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
     @Override
     public void onBindViewHolder(@NonNull AuctionViewHolder holder, int position) {
         ParticipatedAuction auction = auctions.get(position);
-
         Log.e(LOG_TAG, auction.toString());
 
         // Verificar se a cooperativa não é nula antes de acessar seus atributos
         if (auction.getCooperative() != null) {
-            holder.auctionCoopName.setText(ValidationUtils.truncateString(auction.getCooperative().getName(), 15));
+            holder.auctionCoopName.setText(ValidationUtils.truncateString(context, auction.getCooperative().getName(), calculateCardWidthDp(context, 0.4)));
         } else {
             holder.auctionCoopName.setText("Cooperativa não disponível");
         }
 
         // Verificar se o produto não é nulo antes de acessar seus atributos
         if (auction.getProduct() != null) {
-            holder.auctionMaterial.setText(ValidationUtils.truncateString(auction.getProduct().getProductType(), 15));
-            holder.auctionWeight.setText(ValidationUtils.truncateString(PtBrUtils.formatWeight(auction.getProduct().getWeight()), 15));
-            holder.auctionPrice.setText(ValidationUtils.truncateString(PtBrUtils.formatReal(auction.getProduct().getInitialValue()), 10));
+            holder.auctionMaterial.setText(ValidationUtils.truncateString(context, auction.getProduct().getProductType(), calculateCardWidthDp(context, 0.25)));
+            holder.auctionWeight.setText(ValidationUtils.truncateString(context, PtBrUtils.formatWeight(auction.getProduct().getWeight()), calculateCardWidthDp(context, 0.35)));
+            holder.auctionPrice.setText(ValidationUtils.truncateString(context, PtBrUtils.formatReal(auction.getProduct().getInitialValue()), calculateCardWidthDp(context, 0.28)));
             PtBrUtils.formatAuctionStatus(auction.getStatus(), holder.status);
+
             // Carregar a imagem do leilão (produto) usando Glide, se a URL não for nula
             if (auction.getProduct().getPhoto() != null) {
                 Glide.with(context)
@@ -91,12 +93,11 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
 
         // Preencher outras informações que não dependem de nulos
         holder.auctionDate.setText(PtBrUtils.formatDate(auction.getEndDate()));
-        holder.idAuction.setText(ValidationUtils.truncateString(PtBrUtils.formatId(auction.getAuctionId()), 30));
+        holder.idAuction.setText(ValidationUtils.truncateString(context, PtBrUtils.formatId(auction.getAuctionId()), calculateCardWidthDp(context, 0.53)));
 
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Dialog dialog = new Dialog(context);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.setContentView(R.layout.item_cancel_popup);
@@ -119,8 +120,10 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
                                     Log.e(LOG_TAG, "Error deleting auction: " + response.code());
                                 }
                             }
+
                             @Override
                             public void onFailure(Call<ApiDataResponse<Auction>> call, Throwable t) {
+                                // Tratar falha
                             }
                         });
                     }
@@ -137,7 +140,6 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
             }
         });
     }
-
 
     @Override
     public int getItemCount() {

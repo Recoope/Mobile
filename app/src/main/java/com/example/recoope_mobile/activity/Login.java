@@ -23,6 +23,7 @@ import com.example.recoope_mobile.enums.InvalidFormatLogin;
 import com.example.recoope_mobile.model.LoginParams;
 import com.example.recoope_mobile.model.LoginResponse;
 import com.example.recoope_mobile.utils.NotificationHelper;
+import com.example.recoope_mobile.utils.Token;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
@@ -103,9 +104,16 @@ public class Login extends AppCompatActivity {
                             Gson gson = new Gson();
                             LoginResponse loginResponse = gson.fromJson(data, LoginResponse.class);
 
-                            saveToken(loginParams.getCnpjOrEmail(), loginResponse.getToken());
+                            // Capturando o valor do "context"
+                            String contextValue = data.has("context") ? data.get("context").getAsString() : "Unknown context";
+                            Log.i(LOG_TAG, "Context: " + contextValue);
 
-                            nextScreen();
+                            if(contextValue.equals("EMPRESA")){
+                                Token.saveToken(Login.this, loginParams.getCnpjOrEmail(), loginResponse.getToken(), loginResponse.getRefreshToken());
+                                nextScreenMain();
+                            }else{
+                                nextScreenWebView();
+                            }
 
                         }
 
@@ -207,20 +215,18 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    public void nextScreen() {
+    public void nextScreenMain() {
         Intent intent = new Intent(Login.this, MainActivity.class);
         startActivity(intent);
         finish();
-
         NotificationHelper.sendNotification(Login.this, "Ufa... Que bom te ver por aqui!", "Entre diariamente, sempre há novidades!");
     }
 
-    private void saveToken(String cnpj, String token) {
-        SharedPreferences preferences = getSharedPreferences("auth", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("cnpj", cnpj);
-        editor.putString("token", token);
-        editor.apply();
+    public void nextScreenWebView() {
+        Intent intent = new Intent(Login.this, WebArea.class);
+        startActivity(intent);
+        finish();
+        NotificationHelper.sendNotification(Login.this, "Ufa... Que bom te ver por aqui!", "Entre diariamente, sempre há novidades!");
     }
 
 }

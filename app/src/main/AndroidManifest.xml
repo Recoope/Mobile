@@ -3,12 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature android:name="android.hardware.camera.any" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
     <application
         android:name=".ApplicationApp"
         android:allowBackup="true"
@@ -22,42 +25,43 @@
         android:theme="@style/Theme.RecoopeMobile"
         tools:targetApi="31">
         <activity
+            android:name=".activity.WebArea"
+            android:exported="false" />
+        <activity
             android:name=".activity.MainActivity"
-            android:exported="false"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"/>
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Register"
-            android:exported="false"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"/>
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Login"
+            android:configChanges="orientation|keyboardHidden|screenSize|locale"
             android:exported="false"
             android:launchMode="singleTop"
-            android:configChanges="orientation|keyboardHidden|screenSize|locale"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.StartScreen"
-            android:exported="false"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"/>
-
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SuccessBid"
-            android:exported="false"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"/>
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.EditCompany"
-            android:exported="false"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"/>
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SplashScreen"
-            android:exported="true"
             android:configChanges="orientation|screenSize"
+            android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -65,6 +69,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

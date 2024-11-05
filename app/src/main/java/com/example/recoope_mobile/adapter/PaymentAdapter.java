@@ -1,5 +1,7 @@
 package com.example.recoope_mobile.adapter;
 
+import static com.example.recoope_mobile.utils.ValidationUtils.calculateCardWidthDp;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
-
 import com.example.recoope_mobile.model.Payment;
 import com.example.recoope_mobile.utils.DialogUtils;
 import com.example.recoope_mobile.utils.PtBrUtils;
@@ -25,11 +26,12 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
     private Context context;
     private final String LOG_TAG = "CardFeed";
     private ApiService apiService;
+    private int screenWidthDp; // Variável para armazenar a largura da tela
 
-
-    public PaymentAdapter(List<Payment> payments, Context context) {
+    public PaymentAdapter(List<Payment> payments, Context context, int screenWidthDp) {
         this.payments = payments;
         this.context = context;
+        this.screenWidthDp = screenWidthDp; // Inicializa a largura da tela
     }
 
     @NonNull
@@ -46,10 +48,10 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
         Log.e(LOG_TAG, payment.toString());
 
         if (payment != null) {
-            holder.txtNumPayment.setText(ValidationUtils.truncateString("Recibo N°" + payment.getId(), 30));
-            holder.txtNamePayment.setText(ValidationUtils.truncateString(payment.getCooperativeName(), 30));
+            holder.txtNumPayment.setText(ValidationUtils.truncateString(context, "Recibo N°" + payment.getId(), calculateCardWidthDp(context, 0.75)));
+            holder.txtNamePayment.setText(ValidationUtils.truncateString(context, payment.getCooperativeName(), calculateCardWidthDp(context, 0.7)));
             holder.txtDatePayment.setText(PtBrUtils.formatDate(PtBrUtils.parseDate(payment.getEmissionDate())));
-            holder.txtValuePayment.setText(ValidationUtils.truncateString(PtBrUtils.formatReal(payment.getAmount()), 30));
+            holder.txtValuePayment.setText(ValidationUtils.truncateString(context, PtBrUtils.formatReal(payment.getAmount()), calculateCardWidthDp(context, 0.53)));
 
         } else {
             holder.txtNumPayment.setText("999+");
@@ -60,11 +62,9 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
 
         // Clique para ver detalhes
         holder.itemView.setOnClickListener(v -> {
-            DialogUtils.showPaymentDialog(payment, v.getContext());
+            DialogUtils.showPaymentDialog(payment, v.getContext(), screenWidthDp);
         });
     }
-
-
 
     @Override
     public int getItemCount() {

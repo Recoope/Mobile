@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,7 +56,7 @@ public class SearchFragment extends Fragment {
 
         cooperativeList = new ArrayList<>();
 
-        cooperativeAdapter = new CooperativeAdapter(cooperativeList, inflater, true, activity);  // true indica que estamos no modo pesquisa
+        cooperativeAdapter = new CooperativeAdapter(cooperativeList, inflater, true, getContext());  // true indica que estamos no modo pesquisa
         recyclerView.setAdapter(cooperativeAdapter);
 
         apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);

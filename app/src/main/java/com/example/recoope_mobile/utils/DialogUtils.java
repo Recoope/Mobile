@@ -1,7 +1,12 @@
 package com.example.recoope_mobile.utils;
 
+import static com.example.recoope_mobile.utils.ValidationUtils.calculateCardWidthDp;
+
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -347,17 +352,22 @@ public class DialogUtils {
         }
     }
 
-    public static void showPaymentDialog(Payment payment, Context context) {
+    public static void showPaymentDialog(Payment payment, Context context, int screenWidthDp) {
         Dialog dialog = new Dialog(context);
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.full_payments_dialog);
-        dialog.getWindow().setLayout(1000, WindowManager.LayoutParams.WRAP_CONTENT);
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        int width = (int) (displayMetrics.widthPixels * 0.85); // ajusta para 85% da largura da tela
+
+        dialog.getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
 
         TextView txtNumPaymentD = dialog.findViewById(R.id.txtNumPaymentD);
         if (txtNumPaymentD == null) {
             Log.e("DialogUtils", "txtNumPaymentD não encontrado");
         } else {
-            txtNumPaymentD.setText(String.valueOf(payment.getId()));
+            txtNumPaymentD.setText(ValidationUtils.truncateString(context, String.valueOf(payment.getId()), calculateCardWidthDp(context, 0.3)));
         }
 
         TextView txtDatePaymentD = dialog.findViewById(R.id.txtDatePaymentD);
@@ -367,25 +377,25 @@ public class DialogUtils {
             txtDatePaymentD.setText(PtBrUtils.formatDate(PtBrUtils.parseDate(payment.getEmissionDate())));
         }
 
-        TextView txtCooperativeName = dialog.findViewById(R.id.txtCooperativeName);
+        TextView txtCooperativeName = dialog.findViewById(R.id.txtNamePaymentD);
         if (txtCooperativeName == null) {
             Log.e("DialogUtils", "txtCooperativeName não encontrado");
         } else {
-            txtCooperativeName.setText(payment.getCooperativeName());
+            txtCooperativeName.setText(ValidationUtils.truncateString(context, payment.getCooperativeName(), calculateCardWidthDp(context, 0.45)));
         }
 
-        TextView txtCnpjPayment = dialog.findViewById(R.id.txtCnpjPayment);
+        TextView txtCnpjPayment = dialog.findViewById(R.id.txtCnpjPaymentD);
         if (txtCnpjPayment == null) {
             Log.e("DialogUtils", "txtCnpjPayment não encontrado");
         } else {
-            txtCnpjPayment.setText(payment.getCompanyCnpj());
+            txtCnpjPayment.setText(payment.getCooperativeCnpj());
         }
 
         TextView txtPayerNamePaymentD = dialog.findViewById(R.id.txtPayerNamePaymentD);
         if (txtPayerNamePaymentD == null) {
             Log.e("DialogUtils", "txtPayerNamePaymentD não encontrado");
         } else {
-            txtPayerNamePaymentD.setText(payment.getCompanyName());
+            txtPayerNamePaymentD.setText(ValidationUtils.truncateString(context, payment.getCompanyName(), calculateCardWidthDp(context, 0.45)));
         }
 
         TextView txtPayerCnpjD = dialog.findViewById(R.id.txtPayerCnpjD);

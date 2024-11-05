@@ -1,5 +1,6 @@
 package com.example.recoope_mobile.activity.fragments;
 
+import static com.example.recoope_mobile.utils.ValidationUtils.calculateCardWidthDp;
 import static com.example.recoope_mobile.utils.ValidationUtils.isValidDate;
 import static com.example.recoope_mobile.utils.ValidationUtils.isValidWeight;
 
@@ -69,7 +70,6 @@ public class CooperativeFragment extends Fragment {
     private Button btPlasticFilter;
     private ImageView messageStatus;
 
-
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -129,8 +129,8 @@ public class CooperativeFragment extends Fragment {
                     name = apiResponse.getData().getName();
                     email = apiResponse.getData().getEmail();
 
-                    textViewName.setText(ValidationUtils.truncateString(name, 35));
-                    textViewEmail.setText(ValidationUtils.truncateString(email, 50));
+                    textViewName.setText(ValidationUtils.truncateString(requireContext(), name, calculateCardWidthDp(getContext(), 0.7)));
+                    textViewEmail.setText(ValidationUtils.truncateString(requireContext(), email, calculateCardWidthDp(getContext(), 0.8)));
 
                     Log.d(LOG_TAG, "Company fetched successfully");
                 } else {

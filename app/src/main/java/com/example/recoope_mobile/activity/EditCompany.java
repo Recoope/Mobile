@@ -7,15 +7,18 @@ import static com.example.recoope_mobile.enums.InvalidFormatUpdate.INVALID_NAME;
 import static com.example.recoope_mobile.enums.InvalidFormatUpdate.INVALID_PHONE;
 import static com.example.recoope_mobile.enums.InvalidFormatUpdate.PHONE_ALREADY_EXISTS;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +28,8 @@ import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.dto.CompanyDto;
 import com.example.recoope_mobile.enums.InvalidFormatRegister;
 import com.example.recoope_mobile.enums.InvalidFormatUpdate;
+import com.example.recoope_mobile.model.Auction;
+import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.DialogUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -42,9 +47,11 @@ public class EditCompany extends AppCompatActivity {
 
     private TextInputEditText companyName, companyEmail, companyPhone, companyPassword, companyPasswordConfirmation;
     private ImageView btnConfirmUpdateProfile, btnUpdatePassword;
+    private Button btnDeleteAccount;
     private TextInputLayout companyNameLayoutAtt, companyEmailLayoutAtt, companyPhoneLayoutAtt,companyPasswordLayoutAtt, companyPasswordConfirmationLayoutAtt;
     private ApiService apiService;
     private String cnpj;
+    private String refreshToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +60,7 @@ public class EditCompany extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE);
         cnpj = sharedPreferences.getString("cnpj", "");
+        refreshToken = sharedPreferences.getString("refreshToken", "");
 
         // Inicialização dos campos
         companyName = findViewById(R.id.companyNameAtt);
@@ -67,6 +75,7 @@ public class EditCompany extends AppCompatActivity {
         companyPasswordConfirmationLayoutAtt = findViewById(R.id.companyPasswordConfirmationLayoutAtt);
         btnConfirmUpdateProfile = findViewById(R.id.btnConfirmUpdateProfile);
         btnUpdatePassword = findViewById(R.id.btnUpdatePassword);
+        btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
 
         addTextWatchers();
 
@@ -79,6 +88,47 @@ public class EditCompany extends AppCompatActivity {
             updateCompanyPassword();
         });
 
+        btnDeleteAccount.setOnClickListener(r -> {
+            Dialog dialog = new Dialog(this);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setContentView(R.layout.item_cancel_popup);
+
+            dialog.findViewById(R.id.btnCancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SharedPreferences sp = getSharedPreferences("auth", Context.MODE_PRIVATE);
+                    String cnpj = sp.getString("cnpj", "");
+
+
+                    Call call = apiService.deleteCompany(cnpj);
+                    call.enqueue(new Callback<ApiDataResponse<Auction>>() {
+                        @Override
+                        public void onResponse(Call<ApiDataResponse<Auction>> call, Response<ApiDataResponse<Auction>> response) {
+                            if (response.code() == 200) {
+
+                            } else {
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ApiDataResponse<Auction>> call, Throwable t) {
+
+                        }
+                    });
+                }
+            });
+
+            dialog.findViewById(R.id.x).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+
+        });
+
         // Inicialização do ApiService
         apiService = RetrofitClient.getClient(this).create(ApiService.class);
     }
@@ -89,6 +139,14 @@ public class EditCompany extends AppCompatActivity {
         String phone = companyPhone.getText().toString().trim();
 
         CompanyDto request = new CompanyDto(name, email, phone);
+
+        if (name.isEmpty() && email.isEmpty() && phone.isEmpty()) {
+            setTextFieldError(companyNameLayoutAtt, "Nome vazio.");
+            setTextFieldError(companyEmailLayoutAtt, "E-mail vazio.");
+            setTextFieldError(companyPhoneLayoutAtt, "Número vazio.");
+            DialogUtils.showCustomDialog("Preencha os campos", EditCompany.this);
+            return;
+        }
 
         apiService.updateCompany(cnpj, request).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -103,7 +161,28 @@ public class EditCompany extends AppCompatActivity {
 
                         if (response.code() == 200 ) {
                             Log.e("EditCompany", "Atualizado com sucesso");
+                            apiService.refreshToken(cnpj, refreshToken).enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    if (response.isSuccessful()) {
+                                        if(response.code() == 200){
+                                            Log.e("TokenRefresh", "Atualizou token");
+
+                                        } else if (response.code() == 400) {
+                                            Log.e("TokenRefresh", "Deu erro");
+                                        }
+                                    } else {
+                                        Log.e("TokenRefresh", "Erro interno");
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Toast.makeText(EditCompany.this, "Erro: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         } else {
+
                             InvalidFormatUpdate invalidFormatEditCompany = verifyReturn(message);
                             if (invalidFormatEditCompany != null) {
                                 matchInvalidFormat(invalidFormatEditCompany);
@@ -146,21 +225,25 @@ public class EditCompany extends AppCompatActivity {
         String password = companyPassword.getText().toString().trim();
         String confirmPassword = companyPasswordConfirmation.getText().toString().trim();
 
-        if (password.isEmpty()) {
+        Log.e("senha", "senha: " + password);
+
+        if (password.isEmpty() && confirmPassword.isEmpty()) {
+            setTextFieldError(companyPasswordLayoutAtt, "Senha vazia.");
+            setTextFieldError(companyPasswordConfirmationLayoutAtt, "Senha vazia.");
+            DialogUtils.showCustomDialog("Verifique se sua senha não está vazia.", EditCompany.this);
+            return;
+        }else if (confirmPassword.isEmpty()){
+            setTextFieldError(companyPasswordConfirmationLayoutAtt, "Senha vazia.");
+            DialogUtils.showCustomDialog("Verifique se sua senha não está vazia.", EditCompany.this);
+            return;
+        } else if (password.isEmpty()) {
             setTextFieldError(companyPasswordLayoutAtt, "Senha vazia.");
             DialogUtils.showCustomDialog("Verifique se sua senha não está vazia.", EditCompany.this);
             return;
         }
 
-        if (confirmPassword.isEmpty()) {
-            setTextFieldError(companyPasswordConfirmationLayoutAtt, "Senha vazia.");
-            DialogUtils.showCustomDialog("Verifique se sua senha não está vazia.", EditCompany.this);
-            return;
-        }
-
-
         if (!password.equals(confirmPassword)) {
-            setTextFieldError(companyPasswordLayoutAtt, "Senha não correspondida.");
+            setTextFieldError(companyPasswordConfirmationLayoutAtt, "Senha não correspondida.");
             DialogUtils.showCustomDialog("Sua senha de confirmação não está correta.", EditCompany.this);
             return;
         }
@@ -177,9 +260,9 @@ public class EditCompany extends AppCompatActivity {
                         JsonObject data = jsonResponse.has("data") ? jsonResponse.get("data").getAsJsonObject() : new JsonObject();
 
                         if (response.code() == 200 ) {
-                            Log.e("EditCompany", "Atualizado com sucesso");
-                        } else {
-                            //Mensagem
+                            Toast.makeText(EditCompany.this, "Senha atualizada!", Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde", Toast.LENGTH_LONG).show();
                         }
                     } catch (IOException e) {
                         Log.e("EditCompany", "Error processing response: " + e.getMessage(), e);

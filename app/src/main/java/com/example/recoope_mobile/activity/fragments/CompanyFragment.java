@@ -1,9 +1,13 @@
 package com.example.recoope_mobile.activity.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.example.recoope_mobile.utils.ValidationUtils.calculateCardWidthDp;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -35,6 +39,8 @@ import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.activity.EditCompany;
 import com.example.recoope_mobile.activity.MainActivity;
+import com.example.recoope_mobile.activity.SplashScreen;
+import com.example.recoope_mobile.activity.StartScreen;
 import com.example.recoope_mobile.model.CompanyProfile;
 import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.ValidationUtils;
@@ -213,7 +219,7 @@ public class CompanyFragment extends Fragment {
 
 
     private void fetchCompany() {
-        String cnpj = getContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
+        String cnpj = getContext().getSharedPreferences("auth", MODE_PRIVATE)
                 .getString("cnpj", "");
         Call<ApiDataResponse<CompanyProfile>> call = apiService.getCompanyById(cnpj);
 
@@ -231,16 +237,25 @@ public class CompanyFragment extends Fragment {
                         phone = apiResponse.getData().getPhone();
                         participatedAuctions = apiResponse.getData().getParticipatedAuctions();
 
+                        int screenWidthDp = ValidationUtils.getScreenWidthDp(requireContext());
+
                         textViewCnpj.setText(String.format("%s.%s.%s/%s-%s", cnpj.substring(0, 2), cnpj.substring(2, 5), cnpj.substring(5, 8), cnpj.substring(8, 12), cnpj.substring(11, 14)));
-                        textViewName.setText(ValidationUtils.truncateString(name, 30));
-                        textViewEmail.setText(ValidationUtils.truncateString(email, 35));
+                        textViewName.setText(ValidationUtils.truncateString(requireContext(), name, calculateCardWidthDp(getContext(), 0.55)));
+                        textViewEmail.setText(ValidationUtils.truncateString(requireContext(), email, calculateCardWidthDp(getContext(), 0.8)));
                         textViewPhone.setText(phone);
-                        textViewParticipatedAuctions.setText(ValidationUtils.truncateString(String.valueOf(participatedAuctions), 15));
+                        textViewParticipatedAuctions.setText(ValidationUtils.truncateString(requireContext(), String.valueOf(participatedAuctions), calculateCardWidthDp(getContext(), 0.6)));
 
                         // Botão de sair
                         exit.setOnClickListener(v -> {
-                            getActivity().finish();
+                            SharedPreferences sp = requireActivity().getSharedPreferences("auth", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("cnpj", null);
+                            editor.apply();
+                            Intent intent = new Intent(getContext(), StartScreen.class);
+                            startActivity(intent);
+                            requireActivity().finish();
                         });
+
 
                         Log.d(LOG_TAG, "Company fetched successfully");
                     } catch (Exception e) {

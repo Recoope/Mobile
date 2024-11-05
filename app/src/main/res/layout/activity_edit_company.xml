@@ -159,7 +159,6 @@
             android:layout_width="296dp"
             android:layout_height="59dp"
             android:layout_marginTop="16dp"
-            android:onClick="register"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
@@ -183,13 +182,14 @@
             android:id="@+id/btnUpdatePassword"
             android:layout_width="296dp"
             android:layout_height="59dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="3dp"
             android:layout_marginBottom="30dp"
-            android:onClick="register"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/companyPasswordConfirmationLayoutAtt"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/btn_green_large" />
 
         <TextView
@@ -205,29 +205,43 @@
             app:layout_constraintStart_toStartOf="@id/btnUpdatePassword"
             app:layout_constraintEnd_toEndOf="@+id/btnUpdatePassword"/>
 
-<!--        <ImageButton-->
-<!--            android:id="@+id/btnDeleteProfile"-->
-<!--            android:layout_width="296dp"-->
-<!--            android:layout_height="59dp"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:onClick="register"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/btnUpdatePassword"-->
-<!--            app:srcCompat="@drawable/btn_green_large" />-->
+        <Button
+            android:id="@+id/btnDeleteAccount"
+            android:layout_width="296dp"
+            android:layout_height="59dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/shape_cancel_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/textView9"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:fontFamily="@font/bree_serif"-->
-<!--            android:text="Deletar conta"-->
-<!--            android:textColor="#FFFFFF"-->
-<!--            android:textSize="20sp"-->
-<!--            app:layout_constraintTop_toTopOf="@id/btnDeleteProfile"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/btnDeleteProfile"-->
-<!--            app:layout_constraintStart_toStartOf="@id/btnDeleteProfile"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/btnDeleteProfile"/>-->
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bree_serif"
+            android:text="Deletar conta"
+            android:textColor="#C80B0B"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/btnDeleteAccount"
+            app:layout_constraintEnd_toEndOf="@+id/btnDeleteAccount"
+            app:layout_constraintStart_toStartOf="@id/btnDeleteAccount"
+            app:layout_constraintTop_toTopOf="@id/btnDeleteAccount" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="Zona de perigo"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.154"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -142,7 +142,7 @@
             app:layout_constraintTop_toBottomOf="@id/textQuemRecebeu" />
 
         <TextView
-            android:id="@+id/txtCnpjD"
+            android:id="@+id/txtNamePaymentD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -153,7 +153,7 @@
             app:layout_constraintTop_toBottomOf="@id/textQuemRecebeu" />
 
         <TextView
-            android:id="@+id/textCNPJ"
+            android:id="@+id/textNamePayment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -164,7 +164,7 @@
             app:layout_constraintTop_toBottomOf="@id/textNome" />
 
         <TextView
-            android:id="@+id/txtCnpjPayment"
+            android:id="@+id/txtCnpjPaymentD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -172,7 +172,7 @@
             android:text="02.916.265/0001-60"
             android:textColor="#676767"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtCnpjD" />
+            app:layout_constraintTop_toBottomOf="@id/txtNamePaymentD" />
 
         <!-- Divider Line 3 -->
         <View
@@ -182,7 +182,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textCNPJ" />
+            app:layout_constraintTop_toBottomOf="@id/textNamePayment" />
 
         <!-- Payer Information -->
         <TextView

@@ -3,6 +3,7 @@ package com.example.recoope_mobile.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -25,7 +26,13 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     public void nextScreen(){
-        Intent intent = new Intent(SplashScreen.this, StartScreen.class);
+        SharedPreferences sp = getSharedPreferences("auth", MODE_PRIVATE);
+        Intent intent;
+        if(sp.getString("cnpj", null) != null){
+            intent = new Intent(SplashScreen.this, MainActivity.class);
+        }else {
+            intent = new Intent(SplashScreen.this, StartScreen.class);
+        }
         startActivity(intent);
         finish();
     }

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,7 +56,11 @@ public class PaymentsFragment extends Fragment {
 
         btnOrderByDate = view.findViewById(R.id.orderByDate);
 
-        paymentAdapter = new PaymentAdapter(paymentList, getContext());
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenWidthDp = Math.round(displayMetrics.widthPixels / displayMetrics.density);
+
+        paymentAdapter = new PaymentAdapter(paymentList, getContext(), screenWidthDp);
         recyclerView.setAdapter(paymentAdapter);
 
         activity = (MainActivity) requireActivity();

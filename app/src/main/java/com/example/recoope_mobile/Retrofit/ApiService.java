@@ -32,6 +32,9 @@ public interface ApiService {
     @POST("login")
     Call<ResponseBody> authenticationCompany(@Body LoginParams loginParams);
 
+    @POST("login/refreshToken/{cnpj}")
+    Call<ResponseBody> refreshToken(@Path("cnpj") String cnpj, @Query("refreshTokenParam") String token);
+
     /////Empresa
     @POST("empresa/cadastrar/")
     Call<ResponseBody> createCompany(@Body Company company);
@@ -41,10 +44,10 @@ public interface ApiService {
     Call<ResponseBody> updateCompany(@Path("cnpj") String cnpj, @Body CompanyDto request);
 
     @PATCH("empresa/alterarSenha/{cnpj}")
-    Call<ResponseBody> updateCompanyPassword(@Path("cnpj") String cnpj, @Body String newPassword);
+    Call<ResponseBody> updateCompanyPassword(@Path("cnpj") String cnpj, @Query("novaSenha") String newPassword);
 
-    @DELETE("empresa/remover/{id}")
-    Call<Void> deleteCompany(@Path("id") String id);
+    @DELETE("empresa/remover/{cnpj}")
+    Call<Void> deleteCompany(@Path("cnpj") String cnpj);
     ///// Leilão
     @GET("leilao")
     Call<ApiDataResponse<List<Auction>>> getAllAuctions();
@@ -92,5 +95,7 @@ public interface ApiService {
     Call<ApiDataResponse<Cooperative>> getIdCooperative(
             @Path("cnpj") String cnpj
     );
+
+
 
 }

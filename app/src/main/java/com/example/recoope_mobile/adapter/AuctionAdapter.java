@@ -1,10 +1,13 @@
 package com.example.recoope_mobile.adapter;
 
+import static com.example.recoope_mobile.utils.ValidationUtils.calculateCardWidthDp;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,12 +45,13 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
     private Context context;
     private ApiService apiService;
     private final String LOG_TAG = "CardFeed";
-
+    private int screenWidthDp;
 
     public AuctionAdapter(List<Auction> auctions, Context context) {
         this.auctions = auctions;
         this.context = context;
         this.apiService = RetrofitClient.getClient(context).create(ApiService.class);
+        this.screenWidthDp = context.getResources().getDisplayMetrics().widthPixels; // Pega a largura da tela em pixels
     }
 
     @NonNull
@@ -65,16 +69,16 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
 
         // Verificar se a cooperativa não é nula antes de acessar seus atributos
         if (auction.getCooperative() != null) {
-            holder.auctionCoopName.setText(ValidationUtils.truncateString(auction.getCooperative().getName(), 15));
+            holder.auctionCoopName.setText(ValidationUtils.truncateString(context, auction.getCooperative().getName(), calculateCardWidthDp(context, 0.53)));
         } else {
             holder.auctionCoopName.setText("Cooperativa não disponível");
         }
 
         // Verificar se o produto não é nulo antes de acessar seus atributos
         if (auction.getProduct() != null) {
-            holder.auctionMaterial.setText(auction.getProduct().getProductType());
-            holder.auctionWeight.setText(ValidationUtils.truncateString(String.valueOf(auction.getProduct().getWeight()), 15));
-            holder.auctionPrice.setText(ValidationUtils.truncateString(PtBrUtils.formatReal(auction.getProduct().getInitialValue()), 10));
+            holder.auctionMaterial.setText(ValidationUtils.truncateString(context, auction.getProduct().getProductType(), calculateCardWidthDp(context, 0.30)));
+            holder.auctionWeight.setText(ValidationUtils.truncateString(context, PtBrUtils.formatWeight(auction.getProduct().getWeight()), calculateCardWidthDp(context, 0.35)));
+            holder.auctionPrice.setText(ValidationUtils.truncateString(context, PtBrUtils.formatReal(auction.getProduct().getInitialValue()), calculateCardWidthDp(context, 0.28)));
 
             // Carregar a imagem do leilão (produto) usando Glide, se a URL não for nula
             if (auction.getProduct().getPhoto() != null) {
@@ -92,7 +96,7 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
         }
         // Preencher outras informações que não dependem de nulos
         holder.auctionDate.setText(PtBrUtils.formatDate(auction.getEndDate()));
-        holder.idAuction.setText(ValidationUtils.truncateString(PtBrUtils.formatId(auction.getAuctionId()), 15));
+        holder.idAuction.setText(ValidationUtils.truncateString(context, PtBrUtils.formatId(auction.getAuctionId()), calculateCardWidthDp(context, 0.45)));
 
         // Clique para ver detalhes
         holder.auctionDetailBtn.setOnClickListener(v -> {
@@ -104,20 +108,23 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
                     AuctionDetails auctionDetails = response.body().getData();
 
                     Dialog dialog = new Dialog(context);
-
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     dialog.setContentView(R.layout.detail_dialog);
-                    dialog.getWindow().setLayout(850, WindowManager.LayoutParams.WRAP_CONTENT);
+                    WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+                    DisplayMetrics displayMetrics = new DisplayMetrics();
+                    windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+                    int width = (int) (displayMetrics.widthPixels * 0.85); // ajusta para 85% da largura da tela
 
-                    ((TextView) dialog.findViewById(R.id.detailAuctionId)).setText("Leilão " + ValidationUtils.truncateString(PtBrUtils.formatId(auctionDetails.getAuctionId()), 15));
-                    ((TextView) dialog.findViewById(R.id.coopName)).setText(ValidationUtils.truncateString(auctionDetails.getCooperative().getName(), 25));
+                    dialog.getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
+                    ((TextView) dialog.findViewById(R.id.detailAuctionId)).setText("Leilão " + ValidationUtils.truncateString(context, PtBrUtils.formatId(auctionDetails.getAuctionId()), calculateCardWidthDp(context, 0.53)));
+                    ((TextView) dialog.findViewById(R.id.coopName)).setText(ValidationUtils.truncateString(context, auctionDetails.getCooperative().getName(), calculateCardWidthDp(context, 0.53)));
                     ((TextView) dialog.findViewById(R.id.remainingTime)).setText("Inicia em " + PtBrUtils.getRemaingTimeMsgPTBR(auctionDetails.getEndDate(), Time.valueOf(auctionDetails.getTime())));
-                    ((TextView) dialog.findViewById(R.id.startBidPrice)).setText(ValidationUtils.truncateString(PtBrUtils.formatReal(auctionDetails.getProduct().getInitialValue()), 5));
-                    ((TextView) dialog.findViewById(R.id.detailAuctionMaterial)).setText(ValidationUtils.truncateString(auctionDetails.getProduct().getProductType(), 10));
-                    ((TextView) dialog.findViewById(R.id.detailAuctionWeight)).setText(ValidationUtils.truncateString(PtBrUtils.formatWeight(auctionDetails.getProduct().getWeight()), 20));
+                    ((TextView) dialog.findViewById(R.id.startBidPrice)).setText(ValidationUtils.truncateString(context, PtBrUtils.formatReal(auctionDetails.getProduct().getInitialValue()), calculateCardWidthDp(context, 0.3)));
+                    ((TextView) dialog.findViewById(R.id.detailAuctionMaterial)).setText(ValidationUtils.truncateString(context, auctionDetails.getProduct().getProductType(), calculateCardWidthDp(context, 0.4)));
+                    ((TextView) dialog.findViewById(R.id.detailAuctionWeight)).setText(ValidationUtils.truncateString(context, PtBrUtils.formatWeight(auctionDetails.getProduct().getWeight()), calculateCardWidthDp(context, 0.45)));
                     ((TextView) dialog.findViewById(R.id.detailAuctionDate)).setText(PtBrUtils.formatDate(auctionDetails.getEndDate()));
                     ((TextView) dialog.findViewById(R.id.detailAuctionHour)).setText(auctionDetails.getTime().toString());
-                    ((TextView) dialog.findViewById(R.id.detailAuctionEmail)).setText(ValidationUtils.truncateString(auctionDetails.getCooperative().getEmail(), 22));
+                    ((TextView) dialog.findViewById(R.id.detailAuctionEmail)).setText(ValidationUtils.truncateString(context, auctionDetails.getCooperative().getEmail(), calculateCardWidthDp(context, 0.55)));
 
                     dialog.findViewById(R.id.exitButton).setOnClickListener((view) -> dialog.cancel());
                     dialog.findViewById(R.id.detailAuctionParticipateBtn).setOnClickListener((view) -> {
@@ -178,3 +185,4 @@ public class AuctionAdapter extends RecyclerView.Adapter<AuctionAdapter.AuctionV
         Log.e(LOG_TAG, "Clicado no botão participar, leilao: " + id);
     }
 }
+

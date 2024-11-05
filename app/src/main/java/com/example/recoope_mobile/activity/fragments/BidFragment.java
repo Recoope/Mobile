@@ -2,6 +2,8 @@ package com.example.recoope_mobile.activity.fragments;
 
 import static androidx.core.content.PackageManagerCompat.LOG_TAG;
 
+import static com.example.recoope_mobile.utils.ValidationUtils.calculateCardWidthDp;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +85,9 @@ public class BidFragment extends Fragment {
             activity.showLoading();
         }
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenWidthDp = Math.round(displayMetrics.widthPixels / displayMetrics.density);
         auctionId = getArguments().getInt("AUCTION_ID");
 
         auctionIdView = view.findViewById(R.id.topBarText);
@@ -94,7 +100,7 @@ public class BidFragment extends Fragment {
         auctionPrice = view.findViewById(R.id.auctionPrice);
         bidPriceInput = view.findViewById(R.id.bidPrice);
         bidButton = view.findViewById(R.id.bidButton);
-        auctionIdView.setText("Leilão " + ValidationUtils.truncateString(PtBrUtils.formatId(auctionId), 15));
+        auctionIdView.setText("Leilão " + ValidationUtils.truncateString(requireContext(), PtBrUtils.formatId(auctionId), calculateCardWidthDp(getContext(), 0.53)));
         backButton.setOnClickListener((v) -> getParentFragmentManager().popBackStack());
 
         Call<ApiDataResponse<AuctionDetails>> call = apiService.getAuctionDetails(auctionId);
@@ -104,18 +110,21 @@ public class BidFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     activity.hideLoading();
                     AuctionDetails details = response.body().getData();
-                    cooperativeName.setText(ValidationUtils.truncateString(details.getCooperative().getName(), 30));
+                    cooperativeName.setText(ValidationUtils.truncateString(requireContext(), details.getCooperative().getName(), calculateCardWidthDp(getContext(), 0.53)));
                     Glide.with(getContext())
                             .load(details.getProduct().getPhoto())
                             .into(auctionImage);
                     startEndCounter(auctionEndMsg, details.getEndDate(), Time.valueOf(details.getTime()));
-                    auctionMaterial.setText(ValidationUtils.truncateString(details.getProduct().getProductType(), 15));
-                    auctionWeight.setText(ValidationUtils.truncateString(PtBrUtils.formatWeight(details.getProduct().getWeight()), 15));
+                    auctionMaterial.setText(ValidationUtils.truncateString(requireContext(), details.getProduct().getProductType(), calculateCardWidthDp(getContext(), 0.53)));
+                    auctionWeight.setText(ValidationUtils.truncateString(requireContext(), PtBrUtils.formatWeight(details.getProduct().getWeight()), calculateCardWidthDp(getContext(), 0.53)));
                     if(details.getBestBid() == null){
                         auctionPrice.setText(PtBrUtils.formatReal(0.0));
                     }else{
-                        auctionPrice.setText(PtBrUtils.formatReal(details.getBestBid().getValue()));
-                    }
+                        auctionPrice.setText(ValidationUtils.truncateString(
+                                requireContext(),
+                                PtBrUtils.formatReal(details.getBestBid().getValue()),
+                                calculateCardWidthDp(getContext(), 0.50)
+                        ));                    }
                 } else {
                     Log.e("BID", "Response failed: " + response.message());
                 }

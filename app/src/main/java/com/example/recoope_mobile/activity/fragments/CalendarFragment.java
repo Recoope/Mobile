@@ -9,6 +9,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -65,6 +67,10 @@ public class CalendarFragment extends Fragment {
 
         messageStatus = view.findViewById(R.id.messageStatusCalendar);
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenWidthDp = Math.round(displayMetrics.widthPixels / displayMetrics.density);
+
         gridLayout = view.findViewById(R.id.gridLayout);
         monthTextView = view.findViewById(R.id.textMonth);
         yearTextView = view.findViewById(R.id.textYear);
@@ -102,7 +108,7 @@ public class CalendarFragment extends Fragment {
                     ApiDataResponse<List<ParticipatedAuction>> apiResponse = response.body();
                     if (apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
                         Log.d("AuctionData", "Data fetched: " + apiResponse.getData().size());
-                        auctionParticipationsAdapter = new ParticipateAuctionAdapter(apiResponse.getData(), getContext());
+                        auctionParticipationsAdapter = new ParticipateAuctionAdapter(apiResponse.getData(), getContext(), screenWidthDp);
                         pendingText.setVisibility(View.VISIBLE);
                         inProgressRecycler.setAdapter(auctionParticipationsAdapter);
                     }
@@ -203,6 +209,9 @@ public class CalendarFragment extends Fragment {
         gridLayout.addView(dayTextView);
     }
     private void openAuctionsExpiriredOn(String dw, String day) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenWidthDp = Math.round(displayMetrics.widthPixels / displayMetrics.density);
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
         View bidsDialog = LayoutInflater.from(getContext()).inflate(R.layout.dialog_bid, null);
         bottomSheetDialog.setContentView(bidsDialog);
@@ -232,7 +241,7 @@ public class CalendarFragment extends Fragment {
                     ApiDataResponse<List<ParticipatedAuction>> apiResponse = response.body();
                     if (apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
                         Log.d("AuctionData", "Data fetched: " + apiResponse.getData().size());
-                        expiringAuctionAdapter = new ParticipateAuctionAdapter(apiResponse.getData(), getContext());
+                        expiringAuctionAdapter = new ParticipateAuctionAdapter(apiResponse.getData(), getContext(), screenWidthDp);
                         recycler.setAdapter(expiringAuctionAdapter);
                     } else {
                         Log.d("AuctionData", "No auctions found for this date.");
