@@ -16,5 +16,10 @@ public class Token {
         editor.apply();
     }
 
-
+    public static void refreshToken(Context context, String token) {
+        SharedPreferences preferences = context.getSharedPreferences("auth", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("token", token);
+        editor.apply();
+    }
 }

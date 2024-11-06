@@ -36,6 +36,7 @@ import com.bumptech.glide.request.target.Target;
 import com.example.recoope_mobile.Firebase;
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
+import com.example.recoope_mobile.Retrofit.LoggerClient;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.activity.EditCompany;
 import com.example.recoope_mobile.activity.MainActivity;
@@ -78,7 +79,7 @@ public class CompanyFragment extends Fragment {
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(LOG_TAG, "onCreateView called");
+        LoggerClient.postLog(getContext(), "COMPANY_PROFILE");
         View view = inflater.inflate(R.layout.profile, container, false);
 
         textViewName = view.findViewById(R.id.cooperativeName);
@@ -96,7 +97,12 @@ public class CompanyFragment extends Fragment {
         Firebase firebase = new Firebase(getContext());
 
         btnUpdateProfile.setOnClickListener(r -> {
+            Bundle companyInfo = new Bundle();
+            companyInfo.putString("COMPANY_NAME", textViewName.getText().toString());
+            companyInfo.putString("COMPANY_EMAIL", textViewEmail.getText().toString());
+            companyInfo.putString("COMPANY_PHONE", textViewPhone.getText().toString());
             Intent intent = new Intent(getActivity(), EditCompany.class);
+            intent.putExtras(companyInfo);
             startActivity(intent);
         });
 

@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
+import com.example.recoope_mobile.Retrofit.LoggerClient;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.activity.MainActivity;
 import com.example.recoope_mobile.adapter.AuctionAdapter;
@@ -73,7 +74,7 @@ public class CooperativeFragment extends Fragment {
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(LOG_TAG, "onCreateView called");
+        LoggerClient.postLog(getContext(), "COOPERATIVE_PROFILE");
         View view = inflater.inflate(R.layout.cooperative_profile, container, false);
 
         textViewName = view.findViewById(R.id.txtCooperativeName);

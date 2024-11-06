@@ -14,6 +14,21 @@
         tools:context=".activity.Register"
         style="@style/Theme.RecoopeMobile">
 
+        <!-- Guideline para a margem da esquerda -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.08" />
+        <!-- Guideline para a margem da direita -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.92" />
+
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"

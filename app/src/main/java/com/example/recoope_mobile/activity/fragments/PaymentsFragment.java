@@ -18,6 +18,7 @@ import android.widget.ImageView;
 
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
+import com.example.recoope_mobile.Retrofit.LoggerClient;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.activity.MainActivity;
 import com.example.recoope_mobile.adapter.PaymentAdapter;
@@ -47,6 +48,7 @@ public class PaymentsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        LoggerClient.postLog(getContext(), "PAYMENTS");
         View view = inflater.inflate(R.layout.payments, container, false);
 
         recyclerView = view.findViewById(R.id.paymentRecycler);

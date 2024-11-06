@@ -31,12 +31,16 @@ import com.example.recoope_mobile.enums.InvalidFormatUpdate;
 import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.DialogUtils;
+import com.example.recoope_mobile.utils.Token;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -79,6 +83,10 @@ public class EditCompany extends AppCompatActivity {
 
         addTextWatchers();
 
+        Bundle extras = getIntent().getExtras();
+        companyName.setText(extras.getString("COMPANY_NAME"));
+        companyEmail.setText(extras.getString("COMPANY_EMAIL"));
+        companyPhone.setText(extras.getString("COMPANY_PHONE"));
 
         btnConfirmUpdateProfile.setOnClickListener(r ->{
             updateCompanyData();
@@ -166,7 +174,19 @@ public class EditCompany extends AppCompatActivity {
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                     if (response.isSuccessful()) {
                                         if(response.code() == 200){
-                                            Log.e("TokenRefresh", "Atualizou token");
+                                            try {
+                                                String responseString2 = response.body().string();
+
+                                                JsonObject jsonResponse2 = JsonParser.parseString(responseString2).getAsJsonObject();
+                                                JsonObject data2 = jsonResponse2.has("data") ? jsonResponse2.get("data").getAsJsonObject() : null;
+                                                String newToken = data2.has("token") ? data2.get("token").getAsString() : "";
+
+                                                Token.refreshToken(EditCompany.this, newToken);
+                                                Log.e("TokenRefresh", "Atualizou token");
+                                            } catch (IOException ioe) {
+                                                Log.e("EditCompany", "Error processing response: " + ioe.getMessage(), ioe);
+                                                Toast.makeText(EditCompany.this, "Error processing response", Toast.LENGTH_LONG).show();
+                                            }
 
                                         } else if (response.code() == 400) {
                                             Log.e("TokenRefresh", "Deu erro");
