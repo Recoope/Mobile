@@ -1,6 +1,7 @@
 package com.example.recoope_mobile.utils;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -40,30 +41,31 @@ public class NotificationHelper {
         }
     }
 
-    public static void sendNotification(AppCompatActivity activity, String title, String message) {
-        createNotificationChannel(activity);
+    public static void sendNotification(Context context, String title, String message) {
+        createNotificationChannel(context);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-                ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS)
+                ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
                         != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(
-                    activity,
+                    (Activity) context,
                     new String[]{Manifest.permission.POST_NOTIFICATIONS},
                     100
             );
             return;
         }
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(activity, CHANNEL_ID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.iconrecoope)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(activity);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(1, builder.build());
         Log.d(LOG_TAG, "Notificação enviada: " + title + " - " + message);
     }
+
 }

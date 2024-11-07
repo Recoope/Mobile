@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    app:cardElevation="8dp">
+    app:cardElevation="8dp"
+    android:clipToPadding="false"
+    app:cardUseCompatPadding="false"> <!-- Compat padding desativado -->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/textView6"
@@ -28,16 +28,18 @@
             android:id="@+id/filterLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="20dp"
             android:orientation="vertical"
+            android:paddingVertical="20dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:paddingHorizontal="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -47,6 +49,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -56,7 +59,12 @@
                         style="@style/Theme.RecoopeMobile.FilterButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginBottom="25dp"
                         android:layout_weight="1"
+                        android:elevation="4dp"
                         android:text="Vidros" />
 
                     <Button
@@ -64,7 +72,12 @@
                         style="@style/Theme.RecoopeMobile.FilterButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginBottom="25dp"
                         android:layout_weight="1"
+                        android:elevation="4dp"
                         android:text="Metais" />
 
                     <Button
@@ -72,7 +85,12 @@
                         style="@style/Theme.RecoopeMobile.FilterButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginBottom="25dp"
                         android:layout_weight="1"
+                        android:elevation="4dp"
                         android:text="Plásticos" />
 
                     <Button
@@ -80,7 +98,12 @@
                         style="@style/Theme.RecoopeMobile.FilterButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginBottom="25dp"
                         android:layout_weight="1"
+                        android:elevation="4dp"
                         android:text="Papel" />
                 </LinearLayout>
             </LinearLayout>
@@ -88,7 +111,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:paddingHorizontal="15dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -100,21 +124,25 @@
                     android:id="@+id/etCloseAtD"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:gravity="end|center"
-                    android:paddingHorizontal="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="3"
+                    android:background="@drawable/shape_input"
+                    android:drawableEnd="@drawable/vector_calendar"
                     android:drawablePadding="10dp"
                     android:drawableTint="#A4A4A4"
-                    android:drawableEnd="@drawable/vector_calendar"
-                    android:background="@drawable/shape_input"
+                    android:elevation="5dp"
+                    android:gravity="end|center"
                     android:inputType="date"
-                    android:elevation="5dp"/>
+                    android:paddingHorizontal="10dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:paddingHorizontal="15dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -126,20 +154,24 @@
                     android:id="@+id/etMinWeightInputD"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:gravity="end|center"
-                    android:paddingHorizontal="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="3"
-                    android:hint="000kg"
-                    android:textColorHint="#A4A4A4"
                     android:background="@drawable/shape_input"
+                    android:elevation="5dp"
+                    android:gravity="end|center"
+                    android:hint="000kg"
                     android:inputType="number"
-                    android:elevation="5dp"/>
+                    android:paddingHorizontal="10dp"
+                    android:textColorHint="#A4A4A4" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:paddingHorizontal="15dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -151,14 +183,17 @@
                     android:id="@+id/etMaxWeightInputD"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:gravity="end|center"
-                    android:paddingHorizontal="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="3"
-                    android:hint="000kg"
-                    android:textColorHint="#A4A4A4"
                     android:background="@drawable/shape_input"
+                    android:elevation="5dp"
+                    android:gravity="end|center"
+                    android:hint="000kg"
                     android:inputType="number"
-                    android:elevation="5dp"/>
+                    android:paddingHorizontal="10dp"
+                    android:textColorHint="#A4A4A4" />
             </LinearLayout>
         </LinearLayout>
 

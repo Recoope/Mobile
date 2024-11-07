@@ -121,11 +121,14 @@ public class Register extends AppCompatActivity {
         finish();
     }
 
-    public void nextScreen() {
+    public void nextScreen(String cnpj, String password) {
         Intent intent = new Intent(Register.this, Login.class);
+        intent.putExtra("cnpj", cnpj);
+        intent.putExtra("password", password);
         startActivity(intent);
         finish();
     }
+
 
 
     private InvalidFormatRegister verifyReturn(String message) {
@@ -213,20 +216,20 @@ public class Register extends AppCompatActivity {
                         String message = jsonResponse.has("message") ? jsonResponse.get("message").getAsString() : "Unknown message";
                         JsonObject data = jsonResponse.has("data") ? jsonResponse.get("data").getAsJsonObject() : new JsonObject();
 
-                        if (response.code() == 200 ) {
+                        if (response.code() == 200 || response.code() == 201) {
                             NotificationHelper.sendNotification(Register.this, "Bem vindo!", "Entre diariamente, sempre há novidades!");
-                            nextScreen();
+                            nextScreen(companyCNPJ, companyPassword);
                         } else {
                             InvalidFormatRegister invalidFormatRegister = verifyReturn(message);
                             if (invalidFormatRegister != null) {
                                 matchInvalidFormat(invalidFormatRegister);
                             } else {
-                                Toast.makeText(Register.this, "Erro desconhecido.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Register.this, "Algo deu errado, volte mais tarde!.", Toast.LENGTH_LONG).show();
                             }
                         }
                     } catch (IOException e) {
                         Log.e(LOG_TAG, "Error processing response: " + e.getMessage(), e);
-                        Toast.makeText(Register.this, "Error processing response", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Register.this, "Algo deu errado, volte mais tarde!.", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     try {
@@ -239,11 +242,11 @@ public class Register extends AppCompatActivity {
                         if (invalidFormatRegister != null) {
                             matchInvalidFormat(invalidFormatRegister);
                         } else {
-                            Toast.makeText(Register.this, "Erro desconhecido.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Register.this, "Algo deu errado, volte mais tarde!.", Toast.LENGTH_LONG).show();
                         }
                     } catch (IOException e) {
                         Log.e(LOG_TAG, "Error processing error response: " + e.getMessage(), e);
-                        Toast.makeText(Register.this, "Error processing error response", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Register.this, "Algo deu errado, volte mais tarde!.", Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -251,7 +254,7 @@ public class Register extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e(LOG_TAG, "API call failed: " + t.getMessage(), t);
-                Toast.makeText(Register.this, "Falha na chamada da API", Toast.LENGTH_LONG).show();
+                Toast.makeText(Register.this, "Algo deu errado, volte mais tarde!.", Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -18,7 +18,7 @@ public class CalendarUtils {
                 (view, selectedYear, selectedMonth, selectedDay) -> {
                     selectedMonth = selectedMonth + 1;
 
-                    String selectedDate = String.format("%02d/%02d/%04d", selectedDay, selectedMonth, selectedYear);
+                    String selectedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth, selectedDay);
 
                     listener.onDateSelected(selectedDate);
                 },
@@ -26,4 +26,5 @@ public class CalendarUtils {
 
         datePickerDialog.show();
     }
+
 }

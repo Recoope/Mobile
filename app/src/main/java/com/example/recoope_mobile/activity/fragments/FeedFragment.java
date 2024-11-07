@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.LoggerClient;
@@ -107,9 +109,11 @@ public class FeedFragment extends Fragment {
                 syncFiltersBetweenFeedAndDialog(btGlassFilter, btMetalFilter, btPlasticFilter);
 
                 if (validateFilters(closeAt, minWeight, maxWeight)) {
+                    Log.e(LOG_TAG, ""+closeAt);
                     applyAdditionalFilters(closeAt, minWeight, maxWeight);
                     btClearFilters.setVisibility(View.VISIBLE);
                 } else {
+                    Log.e(LOG_TAG, ""+closeAt);
                     DialogUtils.showCustomFeedDialog(FeedFragment.this);
                 }
             }
@@ -192,11 +196,13 @@ public class FeedFragment extends Fragment {
             public void onFailure(Call<ApiDataResponse<List<Auction>>> call, Throwable t) {
                 handleAuctionFailure(t);
                 Log.e(LOG_TAG, "onFailure");
+                Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void fetchAuctionDataWithFilter(List<String> filters, String closeAt, String weightMin, String weightMax) {
+        Log.e(LOG_TAG, ""+closeAt);
         Call<ApiDataResponse<List<Auction>>> call = apiService.getFilteredAuctions(filters, closeAt, weightMin, weightMax);
         call.enqueue(new Callback<ApiDataResponse<List<Auction>>>() {
             @Override
@@ -208,6 +214,7 @@ public class FeedFragment extends Fragment {
             @Override
             public void onFailure(Call<ApiDataResponse<List<Auction>>> call, Throwable t) {
                 handleAuctionFailure(t);
+                Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -221,7 +228,9 @@ public class FeedFragment extends Fragment {
             auctionAdapter.notifyDataSetChanged();
         } else {
             if(response.code() == 500){
+                activity.hideLoading();
                 StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_SERVER_ERROR);
+                Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
             }else {
                 StatusUtils.hideStatusImage(messageStatus);
                 auctionList.clear();
@@ -235,6 +244,7 @@ public class FeedFragment extends Fragment {
         StatusUtils.hideStatusImage(messageStatus);
         Log.e("API_ERROR", "Failed to load data: " + t.getMessage(), t);
         auctionList.clear();
+        activity.hideLoading();
         StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_SERVER_ERROR);
         auctionAdapter.notifyDataSetChanged();
     }

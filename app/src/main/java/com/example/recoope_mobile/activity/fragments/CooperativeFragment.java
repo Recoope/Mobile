@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.recoope_mobile.R;
@@ -136,7 +137,9 @@ public class CooperativeFragment extends Fragment {
                     Log.d(LOG_TAG, "Company fetched successfully");
                 } else {
                     if(response.code() == 500){
+                        activity.hideLoading();
                         StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_SERVER_ERROR);
+                        Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
                     }else {
                         StatusUtils.hideStatusImage(messageStatus);
                         StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_NO_DATA);
@@ -147,6 +150,7 @@ public class CooperativeFragment extends Fragment {
             @Override
             public void onFailure(Call<ApiDataResponse<Cooperative>> call, Throwable t) {
                 Log.e(LOG_TAG, "API call failed: " + t.getMessage());
+                Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -235,6 +239,7 @@ public class CooperativeFragment extends Fragment {
             @Override
             public void onFailure(Call<ApiDataResponse<List<Auction>>> call, Throwable t) {
                 handleAuctionFailure(t);
+                Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -251,6 +256,7 @@ public class CooperativeFragment extends Fragment {
             @Override
             public void onFailure(Call<ApiDataResponse<List<Auction>>> call, Throwable t) {
                 handleAuctionFailure(t);
+                Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -264,7 +270,9 @@ public class CooperativeFragment extends Fragment {
             auctionAdapter.notifyDataSetChanged();
         } else {
             if(response.code() == 500){
+                activity.hideLoading();
                 StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_SERVER_ERROR);
+                Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
             }else {
                 StatusUtils.hideStatusImage(messageStatus);
                 auctionList.clear();
@@ -278,6 +286,7 @@ public class CooperativeFragment extends Fragment {
         StatusUtils.hideStatusImage(messageStatus);
         Log.e("API_ERROR", "Failed to load data: " + t.getMessage(), t);
         auctionList.clear();
+        activity.hideLoading();
         StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_SERVER_ERROR);
         auctionAdapter.notifyDataSetChanged();
     }

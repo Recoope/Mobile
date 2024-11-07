@@ -96,6 +96,14 @@ public interface ApiService {
             @Path("cnpj") String cnpj
     );
 
+    @POST("login/recuperar/{cnpjOuEmail}")
+    Call<ApiDataResponse> generateCodeForgotPassword(
+            @Path("cnpjOuEmail") String cnpjOuEmail
+    );
 
+    @POST("login/validarRecuperacao/{cnpj}")
+    Call<ApiDataResponse> validatedCodeForgotPassword(
+            @Path("cnpj") String cnpj, @Query("code") String code
+    );
 
 }

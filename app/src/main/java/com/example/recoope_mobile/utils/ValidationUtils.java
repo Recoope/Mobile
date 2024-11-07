@@ -10,21 +10,29 @@ import java.time.format.DateTimeParseException;
 
 public class ValidationUtils {
 
-    // Verifica se a data é maior ou igual à data atual
     public static boolean isValidDate(String dateStr) {
-        if(dateStr.isEmpty()){
+        Log.e("CardFeed", "Caiu no método de validação de data com dateStr: " + dateStr);
+
+        if (dateStr == null || dateStr.isEmpty()) {
             return true;
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Ajuste o formato da data conforme necessário
+
+        // Ajuste o formato para 'dd/MM/yyyy'
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
             LocalDate chosenDate = LocalDate.parse(dateStr, formatter);
             LocalDate currentDate = LocalDate.now();
-            return !chosenDate.isBefore(currentDate);  // Verifica se a data não é antes de hoje
+
+            Log.d("CardFeed", "Data escolhida: " + chosenDate + ", Data atual: " + currentDate);
+
+            return !chosenDate.isBefore(currentDate); // Verifica se a data não é antes de hoje
         } catch (DateTimeParseException e) {
-            System.out.println("Formato de data inválido!");
-            return false;  // Retorna falso se a data estiver em um formato inválido
+            Log.e("CardFeed", "Formato de data inválido! " + e.getMessage());
+            return false; // Retorna falso se a data estiver em um formato inválido
         }
     }
+
+
 
     // Verifica se o peso é um número positivo
     public static boolean isValidWeight(String weightStr) {

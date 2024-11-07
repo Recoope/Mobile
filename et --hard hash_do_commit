@@ -1,0 +1,66 @@
+[33mf27f039[m[33m ([m[1;36mHEAD -> [m[1;32mdev[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33m2b489bd[m HEAD@{1}: commit: deixando elementos de tela responsivos, adicionando webview, tratando excecoes, mensagens de erro/sucesso, funcao de excluir conta de empresa
+[33mf27f039[m[33m ([m[1;36mHEAD -> [m[1;32mdev[m[33m)[m HEAD@{2}: commit: implementando fluxo de edicao a alteracao de senha da empresa, ajustando responsividade do app, correcoes visuais
+[33m12d2f3b[m HEAD@{3}: commit (merge): add progress bar, filtragem no perfil da cooperativa, telas de status, foto perfil empresa, recibos, log do mongo, ajustando registro
+[33m235cae5[m HEAD@{4}: commit: add progress bar, filtragem no perfil da cooperativa, telas de status, foto perfil empresa, recibos,ajustando registro
+[33m686f320[m HEAD@{5}: pull origin feature/log: updating HEAD
+[33m686f320[m HEAD@{6}: reset: moving to HEAD
+[33m686f320[m HEAD@{7}: commit (merge): Merge branch 'feature/bid' of https://github.com/Recoope/Mobile into dev
+[33ma60966d[m HEAD@{8}: commit: progress bar, foto perfil de cooperativa...
+[33m76156db[m HEAD@{9}: commit (merge): Merge branch 'feature/bid' of https://github.com/Recoope/Mobile into dev
+[33m55a4d5d[m HEAD@{10}: commit (merge): Merge branch 'feature/coop_profile' of https://github.com/Recoope/Mobile into dev
+[33m20d6236[m HEAD@{11}: commit (merge): Merge branch 'feature/coop_profile' of https://github.com/Recoope/Mobile into dev
+[33m5f0f54f[m HEAD@{12}: merge prod: Fast-forward
+[33mbef6cae[m HEAD@{13}: checkout: moving from prod to dev
+[33m5f0f54f[m HEAD@{14}: commit: inserindo notificacoes e fixando tema claro do app
+[33mbef6cae[m HEAD@{15}: checkout: moving from dev to prod
+[33mbef6cae[m HEAD@{16}: commit (merge): Merge remote-tracking branch 'origin/feature/bid' into dev
+[33m8645b33[m HEAD@{17}: commit: Implementando fluxo de recibos
+[33m93d73f5[m HEAD@{18}: Branch: renamed refs/heads/api-leilao to refs/heads/dev
+[33m93d73f5[m HEAD@{20}: commit (merge): Merge branch 'feature/deleteItemButton' of https://github.com/Recoope/Mobile into api-leilao
+[33mcf55f37[m HEAD@{21}: commit: Finalizando fluxo de pesquisa de cooperativa
+[33m8074396[m HEAD@{22}: commit (merge): Merge remote-tracking branch 'origin/feature/details_dialog' into api-leilao
+[33m09edc67[m HEAD@{23}: commit (merge): Merge remote-tracking branch 'origin/feature/details_dialog' into api-leilao
+[33m8a7a6b5[m HEAD@{24}: merge origin/feature/coop_profile: Fast-forward
+[33m01b33b6[m HEAD@{25}: commit: corrigindo recriacao da tela de login e desenvolvendo pesquisa de cooperativa e historico no firebase
+[33md4a7395[m HEAD@{26}: merge origin/main: Fast-forward
+[33mccabe5b[m HEAD@{27}: pull origin main: Merge made by the 'ort' strategy.
+[33m9d10c21[m HEAD@{28}: commit (merge): Merge branch 'main' of https://github.com/Recoope/Mobile into api-leilao
+[33m4d83d04[m HEAD@{29}: commit (merge): Aperfeicoando filtragem dos leiloes
+[33m38580be[m HEAD@{30}: commit: fluxo de filtragem de leiloes
+[33m15ecb3f[m HEAD@{31}: checkout: moving from feature/test-v1 to api-leilao
+[33m9cd5f2e[m[33m ([m[1;31morigin/feature/test-v1[m[33m, [m[1;32mfeature/test-v1[m[33m)[m HEAD@{32}: checkout: moving from api-leilao to feature/test-v1
+[33m15ecb3f[m HEAD@{33}: commit: Aperfeicoando filtros de leilao no feed
+[33m9cd5f2e[m[33m ([m[1;31morigin/feature/test-v1[m[33m, [m[1;32mfeature/test-v1[m[33m)[m HEAD@{34}: Branch: renamed refs/heads/feature/test-v1 to refs/heads/api-leilao
+[33m9cd5f2e[m[33m ([m[1;31morigin/feature/test-v1[m[33m, [m[1;32mfeature/test-v1[m[33m)[m HEAD@{36}: Branch: renamed refs/heads/feature/api-leilao to refs/heads/feature/test-v1
+[33m9cd5f2e[m[33m ([m[1;31morigin/feature/test-v1[m[33m, [m[1;32mfeature/test-v1[m[33m)[m HEAD@{38}: commit: Aperfeicoando filtros do feed
+[33m6f0d374[m HEAD@{39}: merge origin/main: Fast-forward
+[33mff43b50[m[33m ([m[1;31morigin/feature/api-leilao[m[33m)[m HEAD@{40}: commit: Carregando leiloes com filtragem
+[33m5171595[m HEAD@{41}: commit: carregando leilões com filtragem de material
+[33m3ba0f51[m HEAD@{42}: merge origin/main: Fast-forward
+[33m24d0067[m HEAD@{43}: commit: [feature/api-leilao]: Carregando leilões no feed
+[33md8a2ec7[m HEAD@{44}: commit (merge): Merge branch 'main' of https://github.com/Recoope/Mobile into feature/api-leilao
+[33m765e5d4[m HEAD@{45}: commit: [feature/api-leilao]: Carregando leilões no feed
+[33me860249[m HEAD@{46}: commit: [feature/api-leilao]: Carregando leilões no feed
+[33m1e66606[m HEAD@{47}: commit (merge): Merge remote-tracking branch 'origin/main' into feature/api-leilao
+[33m7d11f07[m HEAD@{48}: commit: Card Feed
+[33m0730673[m HEAD@{49}: commit (merge): card feed
+[33mdde036b[m HEAD@{50}: commit: card feed
+[33m061906c[m[33m ([m[1;32mmain[m[33m)[m HEAD@{51}: checkout: moving from main to feature/api-leilao
+[33m061906c[m[33m ([m[1;32mmain[m[33m)[m HEAD@{52}: pull: Merge made by the 'ort' strategy.
+[33m4b99184[m HEAD@{53}: commit: [main/fix]: Fluxo Login
+[33m0d01ef5[m HEAD@{54}: commit: [main/fix]: Fluxo Login
+[33m20e3c45[m HEAD@{55}: merge origin/main: Fast-forward
+[33m4757914[m HEAD@{56}: checkout: moving from feature/authentication to main
+[33m59e5622[m[33m ([m[1;32mfeature/authentication[m[33m)[m HEAD@{57}: commit: [feature/authentication/fix]: Finalizando fluxo de login/registro
+[33mb53f73c[m HEAD@{58}: commit: [feature/authentication]: Fluxo de cadastro/login
+[33m6b00424[m HEAD@{59}: commit: [feature/authentication]: implementando sistema de autenticação
+[33m4757914[m HEAD@{60}: Branch: renamed refs/heads/feature/login to refs/heads/feature/authentication
+[33m4757914[m HEAD@{62}: checkout: moving from main to feature/login
+[33m4757914[m HEAD@{63}: commit: Adicionando retrofit, para registro de empresa
+[33m3206ceb[m HEAD@{64}: commit: Integração com banco de dados, criação do método de inserir empresa no banco, criação da tela de registro, criação da classe Empresa
+[33ma10fd9a[m HEAD@{65}: commit: Criação da tela de login
+[33m4e0c1a7[m HEAD@{66}: reset: moving to HEAD~1
+[33m41aa61e[m HEAD@{67}: commit: Tela de login criada
+[33m4e0c1a7[m HEAD@{68}: commit: Criação da splash screen e visual da tela de entrada
+[33m025c84e[m HEAD@{69}: clone: from https://github.com/Recoope/Mobile.git

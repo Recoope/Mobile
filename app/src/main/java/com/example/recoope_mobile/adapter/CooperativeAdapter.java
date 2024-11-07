@@ -87,7 +87,6 @@ public class CooperativeAdapter extends RecyclerView.Adapter<CooperativeAdapter.
                             .addOnSuccessListener(aVoid -> Log.e(LOG_TAG, "Histórico salvo!"))
                             .addOnFailureListener(e -> Log.e(LOG_TAG, e.getMessage()));
                     Log.d(LOG_TAG, "Cooperative " + cooperative.getName() + " saved to Firebase history.");
-                    Toast.makeText(v.getContext(), "Cooperative saved to search history", Toast.LENGTH_SHORT).show();
 
                     Bundle bundle = new Bundle();
                     bundle.putString("cnpjCooperative", cooperative.getCnpj());

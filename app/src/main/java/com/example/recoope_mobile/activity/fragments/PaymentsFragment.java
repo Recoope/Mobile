@@ -13,8 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
@@ -97,13 +97,18 @@ public class PaymentsFragment extends Fragment {
         call.enqueue(new Callback<ApiDataResponse<List<Payment>>>() {
             @Override
             public void onResponse(Call<ApiDataResponse<List<Payment>>> call, Response<ApiDataResponse<List<Payment>>> response) {
-                handlePaymentResponse(response);
-                activity.hideLoading();
+                if (isAdded()) {
+                    handlePaymentResponse(response);
+                    activity.hideLoading();
+                }
             }
 
             @Override
             public void onFailure(Call<ApiDataResponse<List<Payment>>> call, Throwable t) {
-                handlePaymentFailure(t);
+                if (isAdded()) {
+                    Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
+                    handlePaymentFailure(t);
+                }
             }
         });
     }
@@ -118,6 +123,8 @@ public class PaymentsFragment extends Fragment {
 
         } else {
             if(response.code() == 500){
+                Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
+                activity.hideLoading();
                 StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_SERVER_ERROR);
             }else {
                 StatusUtils.hideStatusImage(messageStatus);
@@ -132,6 +139,7 @@ public class PaymentsFragment extends Fragment {
         StatusUtils.hideStatusImage(messageStatus);
         Log.e("API_ERROR", "Failed to load data: " + t.getMessage(), t);
         paymentList.clear();
+        activity.hideLoading();
         StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_SERVER_ERROR);
         paymentAdapter.notifyDataSetChanged();
     }

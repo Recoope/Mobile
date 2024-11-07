@@ -24,10 +24,10 @@ public class RetrofitClient {
     //URL DE QA
 //        private static final String BASE_URL = "http://10.0.2.2:8080/";
 
-        private static final String BASE_URL = "https://recoopeapi.onrender.com/";
+//        private static final String BASE_URL = "https://recoopeapi.onrender.com/";
 
     //URL DE PROD
-//    private static final String BASE_URL = "http://ec2-3-209-22-165.compute-1.amazonaws.com:8080/";
+    private static final String BASE_URL = "http://98.84.230.85:8080/";
 
     private static Retrofit retrofit = null;
 
@@ -43,7 +43,9 @@ public class RetrofitClient {
                     .addInterceptor(chain -> {
                         SharedPreferences preferences = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
                         String token = preferences.getString("token", "");
-                        Log.i("TOKEN", token);
+                        String refreshToken = preferences.getString("refreshToken", "");
+                        Log.i("TOKEN", "Bearer Token: " + token);
+                        Log.i("TOKEN", "Refresh Token: " + refreshToken);
                         Request original = chain.request();
                         Request.Builder requestBuilder = original.newBuilder()
                                 .header("Authorization", token);

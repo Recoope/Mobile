@@ -65,14 +65,23 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-        navBar.setSelectedItemId(R.id.home_button);
+        // Define o fragmento inicial ao iniciar a Activity
+        if (savedInstanceState == null) {
+            navBar.setSelectedItemId(R.id.home_button);
+            feedFragment = new FeedFragment();
+            currentFragment = feedFragment;
+            replaceFragment(feedFragment);
+        }
     }
 
     private void replaceFragment(Fragment fragment) {
+        if (currentFragment == fragment) return;
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.mainContent, fragment);
-        fragmentTransaction.commit();
+        fragmentTransaction.addToBackStack(null); // Permite voltar ao fragmento anterior com o botão "Voltar"
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     // Método para mostrar o ProgressBar

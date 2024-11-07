@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.recoope_mobile.R;
@@ -33,10 +34,12 @@ import com.example.recoope_mobile.Retrofit.RetrofitClient;
 import com.example.recoope_mobile.activity.MainActivity;
 import com.example.recoope_mobile.activity.SuccessBid;
 import com.example.recoope_mobile.model.AuctionDetails;
+import com.example.recoope_mobile.model.Bid;
 import com.example.recoope_mobile.model.BidInfo;
 import com.example.recoope_mobile.model.LoginResponse;
 import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.DialogUtils;
+import com.example.recoope_mobile.utils.NotificationHelper;
 import com.example.recoope_mobile.utils.PtBrUtils;
 import com.example.recoope_mobile.utils.ValidationUtils;
 import com.google.android.material.navigation.NavigationBarView;
@@ -128,6 +131,7 @@ public class BidFragment extends Fragment {
                                 calculateCardWidthDp(getContext(), 0.50)
                         ));                    }
                 } else {
+                    Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
                     Log.e("BID", "Response failed: " + response.message());
                 }
             }
@@ -155,6 +159,9 @@ public class BidFragment extends Fragment {
                         activity.hideLoading();
                         Intent intent = new Intent(getActivity(), SuccessBid.class);
                         intent.putExtra("AUCTION_ID", auctionId);
+
+                        NotificationHelper.sendNotification(requireContext(), "Lance realizado!", "Que ganhe o mais ousado!");
+                        Toast.makeText(requireContext(), "Lance realizado!", Toast.LENGTH_LONG).show();
                         startActivity(intent);
 
                         new Handler().postDelayed(() -> {
@@ -179,6 +186,7 @@ public class BidFragment extends Fragment {
 
                             } catch (Exception e) {
                                 Log.e("Bid", "Error processing response: " + e.getMessage());
+                                Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
                             }
                         }
                     }

@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.LoggerClient;
@@ -116,6 +118,8 @@ public class CalendarFragment extends Fragment {
                     }
                 }else{
                     if(response.code() == 500){
+                        Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
+                        activity.hideLoading();
                         StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_SERVER_ERROR);
                     }else {
                         StatusUtils.hideStatusImage(messageStatus);
@@ -127,6 +131,8 @@ public class CalendarFragment extends Fragment {
             public void onFailure(Call<ApiDataResponse<List<ParticipatedAuction>>> call, Throwable t) {
                 StatusUtils.hideStatusImage(messageStatus);
                 Log.e("API_ERROR", "Failed to load data: " + t.getMessage(), t);
+                Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
+                activity.hideLoading();
                 StatusUtils.showStatusImage(messageStatus, StatusUtils.STATUS_SERVER_ERROR);
             }
         });
@@ -146,7 +152,9 @@ public class CalendarFragment extends Fragment {
                 updateCalendar();
             }
             @Override
-            public void onFailure(Call<ApiDataResponse<List<Date>>> call, Throwable t) {}
+            public void onFailure(Call<ApiDataResponse<List<Date>>> call, Throwable t) {
+                Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
+            }
         });
 
         return view;
@@ -252,7 +260,7 @@ public class CalendarFragment extends Fragment {
             }
             @Override
             public void onFailure(Call<ApiDataResponse<List<ParticipatedAuction>>> call, Throwable t) {
-//                 Log.e(LOG_TAG, "API call failed: " + t.getMessage());
+                Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
             }
         });
         bottomSheetDialog.show();

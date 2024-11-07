@@ -20,7 +20,7 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public class LoggerClient {
-    private static final String BASE_URL = "http://3.209.22.165:8081/";
+    private static final String BASE_URL = "http://98.84.230.85:8080/";
     private static final OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .connectTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)

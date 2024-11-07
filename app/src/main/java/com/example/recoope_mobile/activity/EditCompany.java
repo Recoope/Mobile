@@ -9,6 +9,7 @@ import static com.example.recoope_mobile.enums.InvalidFormatUpdate.PHONE_ALREADY
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -31,6 +32,7 @@ import com.example.recoope_mobile.enums.InvalidFormatUpdate;
 import com.example.recoope_mobile.model.Auction;
 import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.DialogUtils;
+import com.example.recoope_mobile.utils.NotificationHelper;
 import com.example.recoope_mobile.utils.Token;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -115,12 +117,13 @@ public class EditCompany extends AppCompatActivity {
                             if (response.code() == 200) {
 
                             } else {
+                                Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ApiDataResponse<Auction>> call, Throwable t) {
-
+                            Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -181,24 +184,31 @@ public class EditCompany extends AppCompatActivity {
                                                 JsonObject data2 = jsonResponse2.has("data") ? jsonResponse2.get("data").getAsJsonObject() : null;
                                                 String newToken = data2.has("token") ? data2.get("token").getAsString() : "";
 
+
                                                 Token.refreshToken(EditCompany.this, newToken);
                                                 Log.e("TokenRefresh", "Atualizou token");
+
+                                                Toast.makeText(EditCompany.this, "Dados alterados!", Toast.LENGTH_LONG).show();
+                                                finish();
+
                                             } catch (IOException ioe) {
                                                 Log.e("EditCompany", "Error processing response: " + ioe.getMessage(), ioe);
-                                                Toast.makeText(EditCompany.this, "Error processing response", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
                                             }
 
                                         } else if (response.code() == 400) {
                                             Log.e("TokenRefresh", "Deu erro");
+                                            Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
                                         }
                                     } else {
                                         Log.e("TokenRefresh", "Erro interno");
+                                        Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                    Toast.makeText(EditCompany.this, "Erro: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {
@@ -207,12 +217,12 @@ public class EditCompany extends AppCompatActivity {
                             if (invalidFormatEditCompany != null) {
                                 matchInvalidFormat(invalidFormatEditCompany);
                             } else {
-                                Toast.makeText(EditCompany.this, "Erro desconhecido.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     } catch (IOException e) {
                         Log.e("EditCompany", "Error processing response: " + e.getMessage(), e);
-                        Toast.makeText(EditCompany.this, "Error processing response", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     try {
@@ -225,18 +235,18 @@ public class EditCompany extends AppCompatActivity {
                         if (invalidFormatEditCompany != null) {
                             matchInvalidFormat(invalidFormatEditCompany);
                         } else {
-                            Toast.makeText(EditCompany.this, "Erro desconhecido.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_SHORT).show();
                         }
                     } catch (IOException e) {
                         Log.e("EditCompany", "Error processing error response: " + e.getMessage(), e);
-                        Toast.makeText(EditCompany.this, "Error processing error response", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(EditCompany.this, "Erro: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -281,12 +291,13 @@ public class EditCompany extends AppCompatActivity {
 
                         if (response.code() == 200 ) {
                             Toast.makeText(EditCompany.this, "Senha atualizada!", Toast.LENGTH_LONG).show();
+                            finish();
                         }else{
-                            Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde", Toast.LENGTH_LONG).show();
+                            Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
                         }
                     } catch (IOException e) {
                         Log.e("EditCompany", "Error processing response: " + e.getMessage(), e);
-                        Toast.makeText(EditCompany.this, "Error processing response", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     try {
@@ -299,18 +310,18 @@ public class EditCompany extends AppCompatActivity {
                         if (invalidFormatEditCompany != null) {
                             matchInvalidFormat(invalidFormatEditCompany);
                         } else {
-                            Toast.makeText(EditCompany.this, "Erro desconhecido.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_SHORT).show();
                         }
                     } catch (IOException e) {
                         Log.e("EditCompany", "Error processing error response: " + e.getMessage(), e);
-                        Toast.makeText(EditCompany.this, "Error processing error response", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(EditCompany.this, "Erro: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditCompany.this, "Algo deu errado, volte mais tarde!", Toast.LENGTH_SHORT).show();
             }
         });
     }

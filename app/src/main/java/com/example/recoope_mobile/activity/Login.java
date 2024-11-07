@@ -13,11 +13,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.recoope_mobile.R;
 import com.example.recoope_mobile.Retrofit.ApiService;
 import com.example.recoope_mobile.Retrofit.RetrofitClient;
+import com.example.recoope_mobile.response.ApiDataResponse;
 import com.example.recoope_mobile.utils.DialogUtils;
 import com.example.recoope_mobile.enums.InvalidFormatLogin;
 import com.example.recoope_mobile.model.LoginParams;
@@ -48,6 +50,7 @@ public class Login extends AppCompatActivity {
     private TextInputLayout documentLoginLayout;
     private EditText passwordLoginEt;
     private TextInputLayout passwordLoginLayout;
+    private TextView btForgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +63,48 @@ public class Login extends AppCompatActivity {
         passwordLoginEt = findViewById(R.id.passwordLogin);
         passwordLoginLayout = findViewById(R.id.passwordLoginLayout);
 
-        documentLoginEt.setText("18814730000191");
-        passwordLoginEt.setText("Senha12345!");
+        btForgotPassword = findViewById(R.id.btForgotPassword);
+
+        Intent intent = getIntent();
+        String cnpj = intent.getStringExtra("cnpj");
+        String password = intent.getStringExtra("password");
+
+        documentLoginEt.setText(cnpj);
+        passwordLoginEt.setText(password);
 
         ImageButton btnLogin = findViewById(R.id.btnLogin);
+
+        btForgotPassword.setOnClickListener(r -> {
+            String cnpjOrEmail = documentLoginEt.getText().toString().trim();
+
+            if (cnpjOrEmail.isEmpty()) {
+                setTextFieldError(documentLoginLayout, "Por favor, insira o CNPJ ou E-mail.");
+                return;
+            }
+
+            Call<ApiDataResponse> call = apiService.generateCodeForgotPassword(cnpjOrEmail);
+            call.enqueue(new Callback<ApiDataResponse>() {
+                @Override
+                public void onResponse(Call<ApiDataResponse> call, Response<ApiDataResponse> response) {
+                    if (response.isSuccessful()) {
+                        // Código gerado com sucesso
+                        Toast.makeText(Login.this, "Código de recuperação enviado! Verifique seu e-mail.", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(Login.this, ForgotPassword.class);
+                        intent.putExtra("cnpjOrEmail", cnpjOrEmail);
+                        startActivity(intent);
+                    } else {
+                        // Caso de erro ao gerar o código
+                        Toast.makeText(Login.this, "Algo deu errado, volte mais tarde!.", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiDataResponse> call, Throwable t) {
+                    Log.e(LOG_TAG, "Falha na chamada API: " + t.getMessage());
+                    Toast.makeText(Login.this, "Algo deu errado, volte mais tarde!.", Toast.LENGTH_LONG).show();
+                }
+            });
+        });
 
         addTextWatchers();
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +160,7 @@ public class Login extends AppCompatActivity {
 
                     } catch (Exception e) {
                         Log.e(LOG_TAG, "Error processing response: " + e.getMessage());
+                        Toast.makeText(Login.this, "Algo deu errado, volte mais tarde!.", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     try {
@@ -135,7 +177,7 @@ public class Login extends AppCompatActivity {
                         }
                     } catch (IOException e) {
                         Log.e(LOG_TAG, "Error processing error response: " + e.getMessage(), e);
-                        Toast.makeText(Login.this, "Error processing error response", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login.this, "Algo deu errado, volte mais tarde!.", Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -143,6 +185,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e(LOG_TAG, "API call failed: " + t.getMessage());
+                Toast.makeText(Login.this, "Algo deu errado, volte mais tarde!.", Toast.LENGTH_LONG).show();
             }
         });
 

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -143,6 +144,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onFailure(String errorMessage) {
+                Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -184,10 +186,12 @@ public class SearchFragment extends Fragment {
                 @Override
                 public void onFailure(Call<ApiDataResponse<List<Cooperative>>> call, Throwable t) {
                     Log.e(LOG_TAG, "API Failure: " + t.getMessage());
+                    Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
                     handleCooperativeFailure(t);
                 }
             });
         } else {
+            Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
             Log.e(LOG_TAG, "Fragment is not attached");
         }
     }

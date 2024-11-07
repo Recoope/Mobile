@@ -1,6 +1,7 @@
 package com.example.recoope_mobile.enums;
 
 public enum InvalidFormatRegister {
+    SUCCESS("Empresa cadastrada com sucesso!"),
     NULL_PARAMETERS("Não devem ser enviados parametros nulos."),
     LOGIN_SUCCESS("Login realizado com sucesso!"),
     PASSWORD_DOES_NOT_MATCH("As senhas não correspondem."),

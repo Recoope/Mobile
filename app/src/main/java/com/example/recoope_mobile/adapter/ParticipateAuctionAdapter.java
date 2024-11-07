@@ -114,10 +114,12 @@ public class ParticipateAuctionAdapter extends RecyclerView.Adapter<ParticipateA
                             public void onResponse(Call<ApiDataResponse<Auction>> call, Response<ApiDataResponse<Auction>> response) {
                                 if (response.code() == 200) {
                                     auctions.remove(position);
+                                    Toast.makeText(context, "Deletado!", Toast.LENGTH_SHORT).show();
                                     notifyDataSetChanged();
                                     dialog.dismiss();
                                 } else {
                                     Log.e(LOG_TAG, "Error deleting auction: " + response.code());
+                                    Toast.makeText(context, "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
                                 }
                             }
 

@@ -110,6 +110,9 @@ public class CompanyFragment extends Fragment {
         imagePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
+                    // Oculta o loading quando o resultado da seleção de imagem é recebido
+                    activity.hideLoading();
+
                     if (result.getResultCode() == getActivity().RESULT_OK && result.getData() != null) {
                         Uri selectedImageUri = result.getData().getData();
                         if (selectedImageUri != null) {
@@ -128,19 +131,19 @@ public class CompanyFragment extends Fragment {
                                                         // Ocultar o loading em caso de falha no carregamento da imagem
                                                         activity.hideLoading();
                                                         Toast.makeText(getContext(), "Erro ao carregar a imagem", Toast.LENGTH_SHORT).show();
-                                                        return false; // Permite que o Glide lide com o erro
+                                                        return false;
                                                     }
 
                                                     @Override
                                                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                                                         // Ocultar o loading quando a imagem for carregada com sucesso
+                                                        Toast.makeText(requireContext(), "Imagem salva!", Toast.LENGTH_LONG).show();
                                                         activity.hideLoading();
-                                                        return false; // Permite que o Glide lide com a exibição da imagem
+                                                        return false;
                                                     }
                                                 })
                                                 .into(imgCompany);
 
-                                        Toast.makeText(getContext(), "Imagem de perfil atualizada com sucesso", Toast.LENGTH_SHORT).show();
                                     },
                                     e -> {
                                         // Ocultar o loading em caso de erro ao salvar no Firebase
@@ -149,9 +152,12 @@ public class CompanyFragment extends Fragment {
                                     }
                             );
                         }
+                    }else{
+                        activity.hideLoading();
                     }
                 }
         );
+
 
 
         // Inicializar o gerenciador de permissões
@@ -172,6 +178,7 @@ public class CompanyFragment extends Fragment {
             activity.showLoading();
             Log.d(LOG_TAG, "Botão de editar foto clicado");
             if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+                activity.hideLoading();
                 Log.d(LOG_TAG, "Permissão de leitura não concedida, solicitando permissão");
                 permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES);
             } else {
@@ -183,10 +190,10 @@ public class CompanyFragment extends Fragment {
         // Carregar a imagem do Firebase
         firebase.getProfileImageUrl()
                 .addOnSuccessListener(imageUrl -> {
-                    loadCompanyImage(imageUrl);
-                    activity.hideLoading();
+                    if (getActivity() != null) loadCompanyImage(imageUrl);
                 })
                 .addOnFailureListener(e -> {
+
                     Log.e("Firebase", "Erro ao salvar a imagem de perfil", e);
                     Toast.makeText(getContext(), "Erro ao salvar a imagem. Tente novamente.", Toast.LENGTH_SHORT).show();
                 });
@@ -211,6 +218,8 @@ public class CompanyFragment extends Fragment {
                 .listener(new com.bumptech.glide.request.RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        activity.hideLoading();
+                        Toast.makeText(getContext(), "Ocorreu algum erro ao carregar sua imagem!", Toast.LENGTH_SHORT).show();
                         return false;
                     }
 
@@ -234,6 +243,7 @@ public class CompanyFragment extends Fragment {
         call.enqueue(new Callback<ApiDataResponse<CompanyProfile>>() {
             @Override
             public void onResponse(Call<ApiDataResponse<CompanyProfile>> call, Response<ApiDataResponse<CompanyProfile>> response) {
+
                 if (response.isSuccessful() && response.body() != null) {
                     try {
                         activity.hideLoading();
@@ -242,8 +252,6 @@ public class CompanyFragment extends Fragment {
                         email = apiResponse.getData().getEmail();
                         phone = apiResponse.getData().getPhone();
                         participatedAuctions = apiResponse.getData().getParticipatedAuctions();
-
-                        int screenWidthDp = ValidationUtils.getScreenWidthDp(requireContext());
 
                         textViewCnpj.setText(String.format("%s.%s.%s/%s-%s", cnpj.substring(0, 2), cnpj.substring(2, 5), cnpj.substring(5, 8), cnpj.substring(8, 12), cnpj.substring(11, 14)));
                         textViewName.setText(ValidationUtils.truncateString(requireContext(), name, calculateCardWidthDp(getContext(), 0.55)));
@@ -266,15 +274,19 @@ public class CompanyFragment extends Fragment {
                         Log.d(LOG_TAG, "Company fetched successfully");
                     } catch (Exception e) {
                         Log.e(LOG_TAG, "Erro ao processar resposta da API", e);
+                        Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     Log.e(LOG_TAG, "Response failed: " + response.message());
+                    Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
                 }
+                //
             }
 
             @Override
             public void onFailure(Call<ApiDataResponse<CompanyProfile>> call, Throwable t) {
                 Log.e(LOG_TAG, "API call failed: " + t.getMessage());
+                Toast.makeText(requireContext(), "Algo deu errado, volte mais tarde!", Toast.LENGTH_LONG).show();
             }
         });
     }
